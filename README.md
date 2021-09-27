@@ -1,4 +1,4 @@
-# Plananas
+# 🍍 Plananas 🍍
 ## About
 Plananas is a meal planner project for dealing with weekly meal planning, eat smart and reduce waste.
 
