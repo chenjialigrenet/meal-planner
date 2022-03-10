@@ -7,7 +7,7 @@ A meal planner project for dealing with weekly meal planning, eat smart and redu
 ## Prerequisites
 
 -   npm
--   Node.js (>=14)
+-   Node.js
 -   Python3
 -   Django
 -   Reactjs
@@ -16,15 +16,12 @@ A meal planner project for dealing with weekly meal planning, eat smart and redu
 ## Installation
 
 Run `npm install` to install all the dependecies.
-Create a `.env file` at the root of the project.
+Create a `.env` file at the root of the project.
 
 ## Environment variables
 
 ```javascript
-SESSION_SECRET = XXX
-MONGO_URI = XXX
-PORT = XXX
-API_KEY = XXX  # Retrieve this api key from https://api.spoonacular.com
+PORT = XXX;
 ```
 
 ## Usage
