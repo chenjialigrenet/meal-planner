@@ -5,6 +5,9 @@ A meal planner project for dealing with weekly meal planning, eat smart and redu
 ## Prerequisites
 * npm
 * Node.js (>=14)
+* Python3
+* Reactjs
+* Bootstrap5
 
 
 ## Installation
@@ -23,4 +26,4 @@ API_KEY = XXX  # Retrieve this api key from https://api.spoonacular.com
 Type `npm run dev` and the server side app will run on the port you have configured in the .env file, type `npm run start` for the client side.
 
 ## Tech Stach
-Django, React
+Django, Reactjs, Bootstrap5
