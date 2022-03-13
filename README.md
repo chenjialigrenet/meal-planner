@@ -10,6 +10,8 @@ A meal planner project for dealing with weekly meal planning, eat smart and redu
 -   Node.js
 -   Python3
 -   Django
+-   Django REST Framework
+-   Django CORS Headers
 -   Reactjs
 -   Bootstrap5
 
