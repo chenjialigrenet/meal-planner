@@ -18,5 +18,7 @@ db.sqlite3
 .env.test.local
 .env.production.local
 
-
+# Pillow created image folders
+/backend/recipe
+/backend/users
 

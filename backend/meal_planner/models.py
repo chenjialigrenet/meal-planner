@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 class User(models.Model):
     username = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
@@ -24,10 +23,10 @@ class Meal(models.Model):
     DINNER = 3
     DESSERT = 4
     MEAL_CHOICES = [
-       (BREAKFAST, ('breakfast')),
-       (LUNCH, ('lunch')),
-       (DINNER, ('dinner')),
-       (DESSERT, ('dessert/snacks')),
+       (BREAKFAST, ('Breakfast')),
+       (LUNCH, ('Lunch')),
+       (DINNER, ('Dinner')),
+       (DESSERT, ('Dessert/Snacks')),
    ]
     name = models.PositiveSmallIntegerField(
         choices=MEAL_CHOICES,
@@ -42,13 +41,13 @@ class Meal(models.Model):
     SATURDAY = 6
     SUNDAY = 7
     DAY_CHOICES = [
-        (MONDAY, ('monday')),
-        (TUESDAY, ('tuesday')),
-        (WEDNESDAY, ('wednesday')),
-        (THURSDAY, ('thursday')),
-        (FRIDAY, ('friday')),
-        (SATURDAY, ('saturday')),
-        (SUNDAY, ('sunday')),
+        (MONDAY, ('Monday')),
+        (TUESDAY, ('Tuesday')),
+        (WEDNESDAY, ('Wednesday')),
+        (THURSDAY, ('Thursday')),
+        (FRIDAY, ('Friday')),
+        (SATURDAY, ('Saturday')),
+        (SUNDAY, ('Sunday')),
     ]
     date = models.PositiveSmallIntegerField(
         choices=DAY_CHOICES,
@@ -74,11 +73,11 @@ class Recipe(models.Model):
     HARD = 4
     EXPERT = 5
     DIFFICULTY_CHOICES = [
-        (BEGINNER, ('1-beginner')),
-        (EASY, ('2-easy')),
-        (NORMAL, ('3-normal')),
-        (HARD, ('4-hard')),
-        (EXPERT, ('5-expert')),
+        (BEGINNER, ('1-Beginner')),
+        (EASY, ('2-Easy')),
+        (NORMAL, ('3-Normal')),
+        (HARD, ('4-Hard')),
+        (EXPERT, ('5-Expert')),
    ]
     difficulty = models.PositiveSmallIntegerField(
         choices=DIFFICULTY_CHOICES,
@@ -101,8 +100,10 @@ class Ingredient(models.Model):
     TBSP = 10
     FLOZ = 11
     CUP = 12
+    DR = 13
+    PN = 14
     UNIT_CHOICES = (
-        (PCS, ('pices')),
+        (PCS, ('piece')),
         (LB, ('pound')),
         (OZ, ('once')),
         (MG, ('miligramme')),
@@ -114,6 +115,8 @@ class Ingredient(models.Model):
         (TBSP, ('tablespoon')),
         (FLOZ, ('fluid once')),
         (CUP, ('cup')),
+        (DR, ('drop')),
+        (PN, ('pinch'))
     )
     unit = models.PositiveSmallIntegerField(
         choices=UNIT_CHOICES,
@@ -121,7 +124,10 @@ class Ingredient(models.Model):
     )
     
 
-
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE)
+    ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
+    quantity = models.FloatField(max_length=30, blank=True, null=True)
 
 
 
