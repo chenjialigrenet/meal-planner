@@ -13,7 +13,8 @@ A meal planner project for dealing with weekly meal planning, eat smart and redu
 -   Django REST Framework
 -   Django CORS Headers
 -   Reactjs
--   Bootstrap5
+-   Bootstrap, ReactStrap
+-   Axios
 
 ## Installation
 
