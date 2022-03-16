@@ -7,12 +7,11 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import onError from './lib/errorLib';
 import './App.css';
-// import axios from 'axios';
-// import { API_URL } from './constants/index';
 
 function App() {
 	const [isAuthenticating, setIsAuthenticating] = useState(true);
 	const [isAuthenticated, userHasAuthenticated] = useState(false);
+
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -84,7 +83,10 @@ function App() {
 				</Navbar>
 
 				<AppContext.Provider
-					value={{ isAuthenticated, userHasAuthenticated }}
+					value={{
+						isAuthenticated,
+						userHasAuthenticated,
+					}}
 				>
 					<AppRoutes />
 				</AppContext.Provider>

@@ -1,6 +1,19 @@
+import { useEffect } from 'react';
+import axiosInstance from '../axiosApi';
 import './Home.css';
 
 function Home() {
+	async function dummyLoad() {
+		try {
+			const data = await axiosInstance.get('hello/');
+			console.log(data);
+		} catch (error) {}
+	}
+
+	useEffect(() => {
+		dummyLoad();
+	});
+
 	return (
 		<div className="Home">
 			<div className="lander">

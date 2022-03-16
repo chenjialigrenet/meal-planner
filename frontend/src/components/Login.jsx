@@ -7,11 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 // import Button from 'react-bootstrap/Button';
 import './Login.css';
+import axiosInstance from '../axiosApi';
+import { API_URL } from '../constants';
 
 function Login() {
 	const navigate = useNavigate();
-	const { userHasAuthenticated } = useAppContext();
+	const { userHasAuthenticated, setTokens } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
+	const [loginFailed, setLoginFailed] = useState(false);
 
 	// const [email, setEmail] = useState('');
 	// const [password, setPassword] = useState('');
@@ -27,17 +30,30 @@ function Login() {
 	async function handleSubmit(event) {
 		event.preventDefault();
 		setIsLoading(true);
+		setLoginFailed(false);
 
 		// TODO: Add login functionality
 		try {
 			// await Auth.signIn(email, password);
 			// alert('Logged in');
+			const response = await axiosInstance.post(
+				`${API_URL}/token/obtain/`,
+				{
+					email: fields.email,
+					password: fields.password,
+				}
+			);
+			axiosInstance.defaults.headers['Authorization'] =
+				'JWT ' + response.data.access;
+			localStorage.setItem('access_token', response.data.access);
+			localStorage.setItem('refresh_token', response.data.refresh);
 			userHasAuthenticated(true);
 			// Redirect to Home on Login
 			navigate('/');
 		} catch (err) {
 			// alert(err.message);
-			onError(err);
+			// onError(err);
+			setLoginFailed(true);
 			setIsLoading(false);
 		}
 	}
@@ -71,6 +87,7 @@ function Login() {
 				>
 					Log in
 				</LoaderButton>
+				{loginFailed && <p>IT FAILED</p>}
 			</Form>
 		</div>
 	);
