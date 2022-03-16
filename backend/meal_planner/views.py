@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import *
-from .models import User, Plan, Recipe, Meal, Ingredient
+from .models import User, Plan, Recipe, Meal, Ingredient, RecipeIngredient
 
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -29,3 +29,8 @@ class MealView(viewsets.ModelViewSet):
 class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
+
+
+class RecipeIngredientView(viewsets.ModelViewSet):
+    serializer_class = RecipeIngredientSerializer
+    queryset = RecipeIngredient.objects.all()
