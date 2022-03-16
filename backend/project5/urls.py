@@ -15,17 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from meal_planner import views
-
-router = routers.DefaultRouter()
-router.register(r"users", views.UserView, 'user')
-router.register(r"plans", views.PlanView, 'plan')
-router.register(r"meals", views.MealView, 'meal')
-router.register(r"recipes", views.RecipeView, 'recipe')
-router.register(r"ingredients", views.IngredientView, 'ingredient')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls))
+    path('api/', include('meal_planner.urls'))
 ]
