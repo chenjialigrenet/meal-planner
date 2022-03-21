@@ -1,18 +1,19 @@
-import { useEffect } from 'react';
-import axiosInstance from '../axiosApi';
+// import { useEffect } from 'react';
+// import axiosInstance from '../axiosApi';
 import './Home.css';
 
 function Home() {
-	async function dummyLoad() {
-		try {
-			const data = await axiosInstance.get('hello/');
-			console.log(data);
-		} catch (error) {}
-	}
+	// async function dummyLoad() {
+	// 	try {
+	// // 		// const data = await axiosInstance.get('hello/');
+	// // 		// const data = await axiosInstance.get('/');
+	// // 		// console.log(data);
+	// 	} catch (error) {}
+	// }
 
-	useEffect(() => {
-		dummyLoad();
-	});
+	// useEffect(() => {
+	// 	dummyLoad();
+	// });
 
 	return (
 		<div className="Home">

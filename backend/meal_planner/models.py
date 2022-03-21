@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 class User(AbstractUser):
     # username = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
@@ -8,6 +9,7 @@ class User(AbstractUser):
     photo = models.ImageField(upload_to='users', null=True, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
 
 class Plan(models.Model):
     title = models.CharField(max_length=200)

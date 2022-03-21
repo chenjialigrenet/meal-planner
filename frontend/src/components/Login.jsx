@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppContext } from '../lib/contextLib';
 import LoaderButton from '../components/LoaderButton';
-import onError from '../lib/errorLib';
+// import onError from '../lib/errorLib';
 import useFormFields from '../lib/hooksLib';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
@@ -32,10 +32,7 @@ function Login() {
 		setIsLoading(true);
 		setLoginFailed(false);
 
-		// TODO: Add login functionality
 		try {
-			// await Auth.signIn(email, password);
-			// alert('Logged in');
 			const response = await axiosInstance.post(
 				`${API_URL}/token/obtain/`,
 				{
@@ -48,6 +45,7 @@ function Login() {
 			localStorage.setItem('access_token', response.data.access);
 			localStorage.setItem('refresh_token', response.data.refresh);
 			userHasAuthenticated(true);
+			alert('Logged in');
 			// Redirect to Home on Login
 			navigate('/');
 		} catch (err) {
@@ -87,7 +85,7 @@ function Login() {
 				>
 					Log in
 				</LoaderButton>
-				{loginFailed && <p>IT FAILED</p>}
+				{loginFailed ? <p>IT FAILED</p> : null}
 			</Form>
 		</div>
 	);

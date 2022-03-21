@@ -33,12 +33,10 @@ function App() {
 		setIsAuthenticating(false);
 	}
 
-	// TODO: Add logout functionality
 	function handleLogout() {
-		// await Auth.signOut();
-
+		localStorage.clear();
 		userHasAuthenticated(false);
-
+		alert('Successfully logged out!');
 		// Redirect to login after logout
 		navigate('/login');
 	}
@@ -54,7 +52,7 @@ function App() {
 				>
 					<LinkContainer to="/">
 						<Navbar.Brand className="font-weight-bold text-muted">
-							<h1>Meal Planner</h1>
+							Meal Planner
 						</Navbar.Brand>
 					</LinkContainer>
 
@@ -63,8 +61,6 @@ function App() {
 					<Navbar.Collapse className="justify-content-end">
 						<Nav>
 							{isAuthenticated ? (
-								// <LinkContainer to="/logout">
-								// </LinkContainer>
 								<Nav.Link onClick={handleLogout}>
 									Logout
 								</Nav.Link>

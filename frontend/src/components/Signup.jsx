@@ -6,6 +6,7 @@ import LoaderButton from '../components/LoaderButton';
 import useFormFields from '../lib/hooksLib';
 import onError from '../lib/errorLib';
 import './Signup.css';
+import axiosInstance from '../axiosApi';
 
 function Signup() {
 	const [fields, handleFieldChange] = useFormFields({
@@ -32,6 +33,11 @@ function Signup() {
 
 		// TODO signup functionality
 		try {
+			const response = await axiosInstance.post('/user/create/', {
+				email: fields.email,
+				password: fields.password,
+				confirmPassword: fields.confirmPassword,
+			});
 			// const newUser = await Auth.signUp({username: fields.email, password: fields.password})
 			// userHasAuthenticated(true);
 			setIsLoading(false);

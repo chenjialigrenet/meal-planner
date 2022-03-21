@@ -8,6 +8,7 @@ from rest_framework.views import APIView
 from .serializers import *
 from .models import User, Plan, Recipe, Meal, Ingredient, RecipeIngredient
 
+
 class PlanView(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
@@ -27,9 +28,11 @@ class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
 
+
 class RecipeIngredientView(viewsets.ModelViewSet):
     serializer_class = RecipeIngredientSerializer
     queryset = RecipeIngredient.objects.all()
+
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -42,6 +45,7 @@ class UserCreate(APIView):
                 json = serializer.data
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class HelloWorld(APIView):
     def get(self, request):
