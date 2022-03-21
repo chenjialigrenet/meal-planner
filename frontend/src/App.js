@@ -37,7 +37,7 @@ function App() {
 		localStorage.clear();
 		userHasAuthenticated(false);
 		alert('Successfully logged out!');
-		// Redirect to login after logout
+		// Redirect to login after logout (useNavigate is a new version of useHistory)
 		navigate('/login');
 	}
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import LoaderButton from '../components/LoaderButton';
-// import { useAppContext } from '../lib/contextLib';
+import { useAppContext } from '../lib/contextLib';
 import useFormFields from '../lib/hooksLib';
 import onError from '../lib/errorLib';
 import './Signup.css';
@@ -10,17 +10,19 @@ import axiosInstance from '../axiosApi';
 
 function Signup() {
 	const [fields, handleFieldChange] = useFormFields({
+		username: '',
 		email: '',
 		password: '',
 		confirmPassword: '',
 	});
 	const navigate = useNavigate();
 	const [newUser, setNewUser] = useState(null);
-	// const { userHasAuthenticated } = useAppContext();
+	const { userHasAuthenticated } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
 
 	function validateForm() {
 		return (
+			fields.username.length > 0 &&
 			fields.email.length > 0 &&
 			fields.password.length > 0 &&
 			fields.password === fields.confirmPassword
@@ -31,18 +33,18 @@ function Signup() {
 		event.preventDefault();
 		setIsLoading(true);
 
-		// TODO signup functionality
 		try {
-			const response = await axiosInstance.post('/user/create/', {
+			const newUser = await axiosInstance.post('/user/create/', {
+				username: fields.username,
 				email: fields.email,
 				password: fields.password,
 				confirmPassword: fields.confirmPassword,
 			});
-			// const newUser = await Auth.signUp({username: fields.email, password: fields.password})
-			// userHasAuthenticated(true);
+
 			setIsLoading(false);
-			// TODO
 			setNewUser(newUser);
+
+			userHasAuthenticated(true);
 			navigate('/');
 		} catch (err) {
 			onError(err);
@@ -53,10 +55,18 @@ function Signup() {
 	function renderForm() {
 		return (
 			<Form onSubmit={handleSubmit}>
+				<Form.Group controlId="username">
+					<Form.Label>Username</Form.Label>
+					<Form.Control
+						autoFocus
+						type="text"
+						value={fields.text}
+						onChange={handleFieldChange}
+					/>
+				</Form.Group>
 				<Form.Group controlId="email">
 					<Form.Label>Email</Form.Label>
 					<Form.Control
-						autoFocus
 						type="email"
 						value={fields.email}
 						onChange={handleFieldChange}
@@ -92,7 +102,9 @@ function Signup() {
 		);
 	}
 
-	return <div className="Signup">{newUser === null && renderForm()}</div>;
+	return (
+		<div className="Signup">{newUser === null ? renderForm() : null}</div>
+	);
 }
 
 export default Signup;

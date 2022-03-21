@@ -40,13 +40,15 @@ function Login() {
 					password: fields.password,
 				}
 			);
+
 			axiosInstance.defaults.headers['Authorization'] =
 				'JWT ' + response.data.access;
 			localStorage.setItem('access_token', response.data.access);
 			localStorage.setItem('refresh_token', response.data.refresh);
+
 			userHasAuthenticated(true);
 			alert('Logged in');
-			// Redirect to Home on Login
+			// Redirect to Home on Login (useNavigate is a new version of useHistory)
 			navigate('/');
 		} catch (err) {
 			// alert(err.message);
