@@ -5,6 +5,7 @@ from meal_planner import views
 from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
+router.register(r"users", views.UserView, 'user')
 router.register(r"plans", views.PlanView, 'plan')
 router.register(r"meals", views.MealView, 'meal')
 router.register(r"recipes", views.RecipeView, 'recipe')

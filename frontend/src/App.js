@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AppRoutes from './Routes';
 import { AppContext } from './lib/contextLib';
 import Nav from 'react-bootstrap/Nav';
@@ -61,9 +61,23 @@ function App() {
 					<Navbar.Collapse className="justify-content-end">
 						<Nav>
 							{isAuthenticated ? (
-								<Nav.Link onClick={handleLogout}>
-									Logout
-								</Nav.Link>
+								<>
+									<LinkContainer to="/plan">
+										<Nav.Link>Plan</Nav.Link>
+									</LinkContainer>
+									<LinkContainer to="/recipe">
+										<Nav.Link>Recipe</Nav.Link>
+									</LinkContainer>
+									<LinkContainer to="/user">
+										<Nav.Link>Account</Nav.Link>
+									</LinkContainer>
+
+									<LinkContainer to="/login">
+										<Nav.Link onClick={handleLogout}>
+											Logout
+										</Nav.Link>
+									</LinkContainer>
+								</>
 							) : (
 								<>
 									<LinkContainer to="/signup">

@@ -5,6 +5,7 @@ import LoaderButton from '../components/LoaderButton';
 import useFormFields from '../lib/hooksLib';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 // import Button from 'react-bootstrap/Button';
 import './Login.css';
 import axiosInstance from '../axiosApi';
@@ -87,7 +88,7 @@ function Login() {
 				>
 					Log in
 				</LoaderButton>
-				{loginFailed ? <p>IT FAILED</p> : null}
+				{loginFailed ? <Alert variant="danger">IT FAILED</Alert> : null}
 			</Form>
 		</div>
 	);

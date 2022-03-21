@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from itsdangerous import Serializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -33,6 +34,11 @@ class RecipeIngredientView(viewsets.ModelViewSet):
     serializer_class = RecipeIngredientSerializer
     queryset = RecipeIngredient.objects.all()
 
+
+class UserView(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
