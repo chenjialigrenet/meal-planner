@@ -5,44 +5,55 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from './axiosApi';
 import onError from './lib/errorLib';
 import './App.css';
 
 function App() {
-	const [isAuthenticating, setIsAuthenticating] = useState(true);
+	const [isFetchingCurrentUser, setIsFetchingCurrentUser] = useState(false);
 	const [isAuthenticated, userHasAuthenticated] = useState(false);
+	const [currentUser, setCurrentUser] = useState(null);
 
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		onLoad();
-	}, []);
+	fetchCurrentUser();
 
-	// TODO
-	async function onLoad() {
-		try {
-			//   await Auth.currentSession();
-			userHasAuthenticated(true);
-		} catch (err) {
-			if (err !== 'No current user') {
-				// alert(err);
-				onError(err);
-			}
+	useEffect(() => {
+		if (isAuthenticated) {
+			fetchCurrentUser();
+		}
+	}, [isAuthenticated]);
+
+	async function fetchCurrentUser() {
+		if (isFetchingCurrentUser || currentUser) {
+			return;
 		}
 
-		setIsAuthenticating(false);
+		const accessToken = localStorage.getItem('access_token');
+
+		if (!accessToken) {
+			return;
+		}
+
+		setIsFetchingCurrentUser(true);
+		const userId = JSON.parse(atob(accessToken.split('.')[1])).user_id;
+		const response = await axiosInstance.get(`/users/${userId}/`);
+		setCurrentUser(response.data);
+		userHasAuthenticated(true);
+		setIsFetchingCurrentUser(false);
 	}
 
 	function handleLogout() {
 		localStorage.clear();
 		userHasAuthenticated(false);
+		setCurrentUser(null);
 		alert('Successfully logged out!');
 		// Redirect to login after logout (useNavigate is a new version of useHistory)
 		navigate('/login');
 	}
 
 	return (
-		!isAuthenticating && (
+		!isFetchingCurrentUser && (
 			<div className="App container py-3">
 				<Navbar
 					collapseOnSelect
@@ -96,6 +107,8 @@ function App() {
 					value={{
 						isAuthenticated,
 						userHasAuthenticated,
+						currentUser,
+						setCurrentUser,
 					}}
 				>
 					<AppRoutes />

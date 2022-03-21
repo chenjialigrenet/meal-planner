@@ -38,11 +38,11 @@ class RecipeIngredientView(viewsets.ModelViewSet):
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    
+
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
-    authentication_classes = ()
+    # authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)

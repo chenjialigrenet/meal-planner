@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppContext } from '../lib/contextLib';
 import LoaderButton from '../components/LoaderButton';
 // import onError from '../lib/errorLib';
@@ -13,7 +13,7 @@ import { API_URL } from '../constants';
 
 function Login() {
 	const navigate = useNavigate();
-	const { userHasAuthenticated, setTokens } = useAppContext();
+	const { userHasAuthenticated, setCurrentUser } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [loginFailed, setLoginFailed] = useState(false);
 
@@ -23,6 +23,10 @@ function Login() {
 		email: '',
 		password: '',
 	});
+
+	useEffect(() => {
+		// TODO: check if user is already logged in and if so, redirect to /
+	}, []);
 
 	function validateForm() {
 		return fields.email.length > 0 && fields.password.length > 0;
