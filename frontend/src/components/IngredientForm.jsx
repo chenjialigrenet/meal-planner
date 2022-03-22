@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import useFormFields from '../lib/hooksLib';
@@ -15,11 +15,11 @@ function Ingredient() {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 
-	function validateForm() {
+	const validateForm = () => {
 		return fields.name.length > 0;
-	}
+	};
 
-	async function handleSubmit(event) {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setIsLoading(true);
 
@@ -35,11 +35,11 @@ function Ingredient() {
 			onError(err);
 			setIsLoading(false);
 		}
-	}
+	};
 
 	return (
 		<div className="Ingredient">
-			<h2>Add ingredient</h2>
+			<h3>Add ingredient</h3>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group controlId="name">
 					<Form.Label>Ingredient</Form.Label>

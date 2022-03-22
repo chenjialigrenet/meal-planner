@@ -7,8 +7,8 @@ function RecipePage() {
 		<div className="Recipe">
 			<Link to="/ingredients/create">Add Ingredient</Link>
 			<Link to="/ingredients">All Ingredients</Link>
-			<Link to="/">Create Recipe</Link>
-			<Link to="/">All Recipes</Link>
+			<Link to="/recipes/create">Create Recipe</Link>
+			<Link to="/recipes">All Recipes</Link>
 		</div>
 	);
 }

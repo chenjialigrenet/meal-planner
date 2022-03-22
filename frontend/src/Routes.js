@@ -8,6 +8,8 @@ import Plan from './components/Plan';
 import Recipe from './components/Recipe';
 import IngredientForm from './components/IngredientForm';
 import Ingredients from './components/Ingredients';
+import RecipeForm from './components/RecipeForm';
+import Recipes from './components/Recipes';
 import User from './components/User';
 
 function AppRoutes() {
@@ -24,7 +26,8 @@ function AppRoutes() {
 				element={<IngredientForm />}
 			/>
 			<Route exact path="/ingredients" element={<Ingredients />} />
-
+			<Route exact path="/recipes/create" element={<RecipeForm />} />
+			<Route exact path="/recipes" element={<Recipes />} />
 			<Route exact path="/user" element={<User />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>

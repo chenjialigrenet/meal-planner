@@ -21,6 +21,7 @@ function Ingredients() {
 	return (
 		<div>
 			<div className="Ingredients">
+				<h3>Ingredient List</h3>
 				<ul>
 					{ingredients.map((ingredient) => (
 						<li key={ingredient.id}>
