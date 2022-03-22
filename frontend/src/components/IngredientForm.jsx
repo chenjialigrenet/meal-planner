@@ -10,7 +10,7 @@ import onError from '../lib/errorLib';
 function Ingredient() {
 	const [fields, handleFieldChange] = useFormFields({
 		name: '',
-		unit: '1',
+		unit: 'piece',
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
@@ -56,20 +56,20 @@ function Ingredient() {
 						value={fields.unit}
 						onChange={handleFieldChange}
 					>
-						<option value="1">PCS - piece</option>
-						<option value="2">LB - pound</option>
-						<option value="3">OZ - once</option>
-						<option value="4">MG - miligramme</option>
-						<option value="5">G - gramme</option>
-						<option value="6">KG - kilogramme</option>
-						<option value="7">ML/CC - mililiter</option>
-						<option value="8">L - liter</option>
-						<option value="9">TSP - teaspoon</option>
-						<option value="10">TBSP - tablespoon</option>
-						<option value="11">FLOZ - fluid once</option>
-						<option value="12">CUP - cup</option>
-						<option value="13">DR - drop</option>
-						<option value="14">PN - pinch</option>
+						<option value="piece">PCS - piece</option>
+						<option value="pound">LB - pound</option>
+						<option value="once">OZ - once</option>
+						<option value="miligramme">MG - miligramme</option>
+						<option value="gramme">G - gramme</option>
+						<option value="kilogramme">KG - kilogramme</option>
+						<option value="mililiter/cc">ML/CC - mililiter</option>
+						<option value="liter">L - liter</option>
+						<option value="teaspoon">TSP - teaspoon</option>
+						<option value="tablespoon">TBSP - tablespoon</option>
+						<option value="fluid once">FLOZ - fluid once</option>
+						<option value="cup">CUP - cup</option>
+						<option value="drop">DR - drop</option>
+						<option value="pinch">PN - pinch</option>
 					</Form.Select>
 				</Form.Group>
 				<LoaderButton

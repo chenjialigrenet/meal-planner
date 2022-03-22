@@ -37,14 +37,47 @@ class RecipeSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ['id', 'title', 'summary', 'serves', 'cooking_tempreture', 'cooking_time', 'prep_time', 'ingredients', 'instructions', 'photo', 'creation_date', 'difficulty']
 
+class KeyValueField(serializers.Field):
+    """ A field that takes a field's value as the key and returns
+    the associated value for serialization """
+
+    labels = {}
+    inverted_labels = {}
+
+    def __init__(self, labels, *args, **kwargs):
+        self.labels = {}
+        # Check to make sure the labels dict is reversible, otherwise
+        # deserialization may produce unpredictable results
+        inverted = {}
+        for k,v in labels:
+            self.labels[k] = v
+            if v in inverted:
+                raise ValueError(
+                    'The field is not deserializable with the given labels.'
+                    ' Please ensure that labels map 1:1 with values'
+                )
+            inverted[v] = k
+        self.inverted_labels = inverted
+        return super(KeyValueField, self).__init__(*args, **kwargs)
+
+    def to_representation(self, obj):
+        if type(obj) is list:
+            return [self.labels.get(o, None) for o in obj]
+        else:
+            return self.labels.get(obj, None)
+
+    def to_internal_value(self, data):
+        if type(data) is list:
+            return [self.inverted_labels.get(o, None) for o in data]
+        else:
+            return self.inverted_labels.get(data, None)
 
 class IngredientSerializer(serializers.ModelSerializer):
-    # unit = serializers.ChoiceField(choices=Ingredient.UNIT_CHOICES)
+    unit = KeyValueField(labels=Ingredient.UNIT_CHOICES)
+
     class Meta:
         model = Ingredient
         fields = ['id', 'name', 'unit']
-
-
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     class Meta:
