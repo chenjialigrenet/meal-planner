@@ -8,7 +8,9 @@ function Home() {
 			// const data = await axiosInstance.get('hello/');
 			const data = await axiosInstance.get('/');
 			console.log(data);
-		} catch (error) {}
+		} catch (err) {
+			console.log(err);
+		}
 	}
 
 	useEffect(() => {

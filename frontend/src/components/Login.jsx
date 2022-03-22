@@ -52,7 +52,7 @@ function Login() {
 			localStorage.setItem('refresh_token', response.data.refresh);
 
 			userHasAuthenticated(true);
-			alert('Logged in');
+			// alert('Logged in');
 			// Redirect to Home on Login (useNavigate is a new version of useHistory)
 			navigate('/');
 		} catch (err) {

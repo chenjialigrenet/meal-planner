@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from './axiosApi';
-import onError from './lib/errorLib';
+// import onError from './lib/errorLib';
 import './App.css';
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
 		}
 
 		setIsFetchingCurrentUser(true);
+		// Extract user data from token
 		const userId = JSON.parse(atob(accessToken.split('.')[1])).user_id;
 		const response = await axiosInstance.get(`/users/${userId}/`);
 		setCurrentUser(response.data);
@@ -44,10 +45,11 @@ function App() {
 	}
 
 	function handleLogout() {
+		// TODO localStorage.removeItem('myCat'); no need to clear all
 		localStorage.clear();
 		userHasAuthenticated(false);
 		setCurrentUser(null);
-		alert('Successfully logged out!');
+		// alert('Successfully logged out!');
 		// Redirect to login after logout (useNavigate is a new version of useHistory)
 		navigate('/login');
 	}

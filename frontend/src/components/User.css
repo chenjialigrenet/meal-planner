@@ -1,0 +1,20 @@
+* {
+	text-align: left;
+}
+
+.User {
+	padding-left: 1em;
+	padding-top: 2em;
+}
+
+.User li {
+	list-style: none;
+}
+
+.flex-container {
+	display: flex;
+}
+
+.flex-container img {
+	width: 5em;
+}

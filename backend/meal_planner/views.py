@@ -34,7 +34,7 @@ class RecipeIngredientView(viewsets.ModelViewSet):
     serializer_class = RecipeIngredientSerializer
     queryset = RecipeIngredient.objects.all()
 
-
+#TODO
 class UserView(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
