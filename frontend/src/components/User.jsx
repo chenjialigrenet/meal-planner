@@ -2,6 +2,7 @@ import { useAppContext } from '../lib/contextLib';
 import './User.css';
 
 function UserPage() {
+	// TODO edit user
 	const { currentUser } = useAppContext();
 
 	const defaultProfilePhoto =

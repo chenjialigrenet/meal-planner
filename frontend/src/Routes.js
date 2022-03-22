@@ -6,6 +6,8 @@ import Login from './components/Login';
 import NotFound from './components/NotFound';
 import Plan from './components/Plan';
 import Recipe from './components/Recipe';
+import IngredientForm from './components/IngredientForm';
+import Ingredients from './components/Ingredients';
 import User from './components/User';
 
 function AppRoutes() {
@@ -16,6 +18,13 @@ function AppRoutes() {
 			<Route exact path="/login" element={<Login />} />
 			<Route exact path="/plan" element={<Plan />} />
 			<Route exact path="/recipe" element={<Recipe />} />
+			<Route
+				exact
+				path="/ingredients/create"
+				element={<IngredientForm />}
+			/>
+			<Route exact path="/ingredients" element={<Ingredients />} />
+
 			<Route exact path="/user" element={<User />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>

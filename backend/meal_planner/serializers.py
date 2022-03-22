@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Plan, Recipe, Meal, Ingredient, RecipeIngredient
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
@@ -18,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
 
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,9 +39,11 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 
 class IngredientSerializer(serializers.ModelSerializer):
+    # unit = serializers.ChoiceField(choices=Ingredient.UNIT_CHOICES)
     class Meta:
         model = Ingredient
-        fields = ['id', 'name', 'quantity', 'unit']
+        fields = ['id', 'name', 'unit']
+
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):

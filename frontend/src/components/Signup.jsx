@@ -92,7 +92,6 @@ function Signup() {
 				</Form.Group>
 				<LoaderButton
 					type="submit"
-					// variant="success"
 					isLoading={isLoading}
 					disabled={!validateForm()}
 				>

@@ -1,0 +1,6 @@
+.Recipe {
+	text-align: left;
+	padding-left: 1em;
+	display: flex;
+	flex-direction: column;
+}
