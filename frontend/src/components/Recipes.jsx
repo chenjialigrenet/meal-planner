@@ -49,6 +49,30 @@ function Recipes() {
 										</div>
 										{/* TODO */}
 										<div>Ingredients:</div>
+										<ul>
+											{recipe.recipe_ingredients.map(
+												(recipeIngredient) => {
+													return (
+														<li>
+															{
+																recipeIngredient.quantity
+															}{' '}
+															{
+																recipeIngredient
+																	.ingredient
+																	.unit
+															}{' '}
+															of{' '}
+															{
+																recipeIngredient
+																	.ingredient
+																	.name
+															}
+														</li>
+													);
+												}
+											)}
+										</ul>
 									</div>
 								</div>
 							</Card.Body>

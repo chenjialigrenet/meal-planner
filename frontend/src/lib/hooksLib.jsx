@@ -9,6 +9,9 @@ function useFormFields(initialState) {
 		(event) => {
 			setValues({ ...fields, [event.target.id]: event.target.value });
 		},
+		(field, value) => {
+			setValues({ ...fields, [field]: value });
+		},
 	];
 }
 

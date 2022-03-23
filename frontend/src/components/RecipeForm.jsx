@@ -10,6 +10,7 @@ import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/Row';
 import Select from 'react-select';
 import Table from 'react-bootstrap/Table';
+import { FaTimes } from 'react-icons/fa';
 
 // TODO
 // {
@@ -23,14 +24,14 @@ import Table from 'react-bootstrap/Table';
 //       create RecipeIngredient ingredient=ingredient, recipe=recipe, quantity=ingredient_attributes["quantity"]
 
 function RecipeForm() {
-	const [fields, handleFieldChange] = useFormFields({
+	const [fields, handleFieldChange, changeFieldValue] = useFormFields({
 		title: '',
 		summary: '',
 		serves: '',
 		cooking_temperature: '',
 		cooking_time: '',
 		prep_time: '',
-		recipe_ingredients: [{ ingredient: 1, quantity: 5 }], // ?? [{ingredient_id: 5, quantity: 3}]
+		recipe_ingredients: [], // ?? [{ingredient_id: 5, quantity: 3}]
 		instructions: '',
 		// photo: '', //TODO
 		creation_date: '',
@@ -63,11 +64,36 @@ function RecipeForm() {
 	const ingredient_options = ingredients;
 	// console.log(ingredient_options);
 
-	const [selectedIngredients, setSelectedIngredients] = useState([]);
-	const handleChange = (selectedOption) => {
-		setSelectedIngredients(selectedOption);
+	// const [selectedIngredients, setSelectedIngredients] = useState([]);
+	const handleChange = (selectedIngredient) => {
+		changeFieldValue(
+			'recipe_ingredients',
+			fields.recipe_ingredients.concat([
+				{ ingredient: selectedIngredient, quantity: 1 },
+			])
+		);
 	};
 	// console.log(selectedIngredients);
+
+	const updateRecipeIngredientQuantity = (ingredientId, newQuantity) => {
+		const recipeIngredient = fields.recipe_ingredients.find(
+			(recipeIngredient) =>
+				recipeIngredient.ingredient.id === ingredientId
+		);
+		recipeIngredient.quantity = parseInt(newQuantity);
+		changeFieldValue('recipe_ingredients', fields.recipe_ingredients);
+	};
+
+	const handleDelete = (id) => {
+		changeFieldValue(
+			'recipe_ingredients',
+			fields.recipe_ingredients.filter(
+				(recipeIngredient) => recipeIngredient.ingredient.id !== id
+			)
+		);
+		// if (window.confirm('Are you sure to delete this ingredient?')) {
+		// }
+	};
 
 	const validateForm = () => {
 		return (
@@ -94,7 +120,14 @@ function RecipeForm() {
 				cooking_temperature: fields.cooking_temperature,
 				cooking_time: fields.cooking_time,
 				prep_time: fields.prep_time,
-				recipe_ingredients: fields.recipe_ingredients, // ?? quantity
+				recipe_ingredients: fields.recipe_ingredients.map(
+					(recipeIngredient) => {
+						return {
+							ingredient: recipeIngredient.ingredient.id,
+							quantity: recipeIngredient.quantity,
+						};
+					}
+				), // ?? quantity
 				instructions: fields.instructions,
 				// photo: fields.photo, // TODO
 				creation_date: fields.creation_date,
@@ -122,7 +155,6 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
-
 				<Form.Group controlId="summary">
 					<Form.Label>Summary</Form.Label>
 					<Form.Control
@@ -132,7 +164,6 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
-
 				<Row>
 					<Form.Group as={Col} controlId="serves">
 						<Form.Label>Serves</Form.Label>
@@ -151,7 +182,6 @@ function RecipeForm() {
 						/>
 					</Form.Group>
 				</Row>
-
 				<Row>
 					<Form.Group as={Col} controlId="cooking_time">
 						<Form.Label>Cooking time (minutes)</Form.Label>
@@ -170,42 +200,67 @@ function RecipeForm() {
 						/>
 					</Form.Group>
 				</Row>
-
 				<Form.Group controlId="recipe_ingredients">
 					<Form.Label>Ingredients</Form.Label>
 					<Select
-						isMulti
 						onChange={handleChange}
 						options={ingredient_options}
-						className="basic-multi-select"
-						classNamePrefix="select"
 					/>
 				</Form.Group>
 				<br />
-				<Table responsive striped hover size="sm">
-					<thead>
-						<tr>
-							<th>Ingredient</th>
-							<th>Unit</th>
-							<th>Quantity</th>
-						</tr>
-					</thead>
-					<tbody>
-						{selectedIngredients.map((selectedIng) => (
-							<tr key={selectedIng.id}>
-								<td>{selectedIng.label}</td>
-								<td>{selectedIng.unit}</td>
-								<td>
-									<input
-										id="quantity"
-										name="quantity"
-										type="number"
-									/>
-								</td>
+				{fields.recipe_ingredients.length > 0 && (
+					<Table responsive striped hover size="sm">
+						<thead>
+							<tr>
+								<th>Ingredient</th>
+								<th>Unit</th>
+								<th>Quantity</th>
+								<th></th>
 							</tr>
-						))}
-					</tbody>
-				</Table>
+						</thead>
+						<tbody>
+							{fields.recipe_ingredients.map(
+								(recipeIngredient) => (
+									<tr key={recipeIngredient.ingredient.id}>
+										<td>
+											{recipeIngredient.ingredient.label}
+										</td>
+										<td>
+											{recipeIngredient.ingredient.unit}
+										</td>
+										<td>
+											<input
+												id="quantity"
+												name="quantity"
+												type="number"
+												onInput={(event) =>
+													updateRecipeIngredientQuantity(
+														recipeIngredient
+															.ingredient.id,
+														event.target.value
+													)
+												}
+												value={
+													recipeIngredient.quantity
+												}
+											/>
+										</td>
+										<td>
+											<FaTimes
+												onClick={() =>
+													handleDelete(
+														recipeIngredient
+															.ingredient.id
+													)
+												}
+											/>
+										</td>
+									</tr>
+								)
+							)}
+						</tbody>
+					</Table>
+				)}
 				<Form.Group controlId="instructions">
 					<Form.Label>Instructions</Form.Label>
 					<Form.Control
@@ -224,7 +279,6 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group> */}
-
 				<Form.Group controlId="difficulty">
 					<Form.Label>Difficulty</Form.Label>
 					<Form.Select
@@ -246,7 +300,6 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
-
 				<LoaderButton
 					type="submit"
 					isLoading={isLoading}

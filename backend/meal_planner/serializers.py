@@ -77,12 +77,24 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ['id', 'name', 'unit']
 
+    # From frontend to Django
+    def to_internal_value(self, data):
+        if isinstance(data, Ingredient):
+            return data 
+        else: # Default behaviour
+            return super().to_internal_value(data)
+
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
-    ingredient = IngredientSerializer
+    ingredient = IngredientSerializer()
     class Meta:
         model = RecipeIngredient
         fields = ['id', 'ingredient', 'quantity']
+    # From frontend to Django
+    def to_internal_value(self, data):
+        if data['ingredient']:
+            data['ingredient'] = Ingredient.objects.get(pk=data['ingredient'])
+        return super().to_internal_value(data) # Default behaviour
 
 
 class RecipeSerializer(serializers.ModelSerializer):
