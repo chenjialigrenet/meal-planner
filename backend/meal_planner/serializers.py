@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+import pdb
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
@@ -32,14 +33,10 @@ class MealSerializer(serializers.ModelSerializer):
         fields = ['id', 'plan', 'recipes', 'name', 'date']
 
 
-class RecipeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = ['id', 'title', 'summary', 'serves', 'cooking_tempreture', 'cooking_time', 'prep_time', 'ingredients', 'instructions', 'photo', 'creation_date', 'difficulty']
-
+# Helper method
 class KeyValueField(serializers.Field):
-    """ A field that takes a field's value as the key and returns
-    the associated value for serialization """
+    # A field that takes a field's value as the key and returns
+    # the associated value for serialization 
 
     labels = {}
     inverted_labels = {}
@@ -72,6 +69,7 @@ class KeyValueField(serializers.Field):
         else:
             return self.inverted_labels.get(data, None)
 
+
 class IngredientSerializer(serializers.ModelSerializer):
     unit = KeyValueField(labels=Ingredient.UNIT_CHOICES)
 
@@ -79,7 +77,28 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ['id', 'name', 'unit']
 
+
 class RecipeIngredientSerializer(serializers.ModelSerializer):
+    ingredient = IngredientSerializer
     class Meta:
         model = RecipeIngredient
-        fields = ['id', 'recipe', 'ingredient', 'quantity']
+        fields = ['id', 'ingredient', 'quantity']
+
+
+class RecipeSerializer(serializers.ModelSerializer):
+    recipe_ingredients = RecipeIngredientSerializer(many=True)
+    class Meta:
+        model = Recipe
+        fields = ['id', 'title', 'summary', 'serves', 'cooking_temperature', 'cooking_time', 'prep_time', 'recipe_ingredients', 'instructions', 'photo', 'creation_date', 'difficulty']
+
+    def create(self, validated_data):
+        recipe_ingredients = validated_data.pop("recipe_ingredients")
+        recipe = Recipe.objects.create(**validated_data)
+        for ingredient_attributes in recipe_ingredients:
+            RecipeIngredient.objects.create(
+                ingredient=ingredient_attributes["ingredient"], 
+                recipe=recipe, 
+                quantity=ingredient_attributes["quantity"]
+            )
+        return recipe 
+

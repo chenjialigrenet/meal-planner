@@ -25,7 +25,6 @@ function Ingredients() {
 				<ul>
 					{ingredients.map((ingredient) => (
 						<li key={ingredient.id}>
-							{/* TODO change unit into a human readable string */}
 							{ingredient.name} (unit: {ingredient.unit})
 						</li>
 					))}

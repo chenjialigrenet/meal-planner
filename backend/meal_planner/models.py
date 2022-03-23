@@ -62,12 +62,11 @@ class Recipe(models.Model):
     title = models.CharField(max_length=200)
     summary = models.CharField(max_length=600)
     serves = models.IntegerField()
-    cooking_tempreture = models.FloatField()
+    cooking_temperature = models.FloatField()
     cooking_time = models.IntegerField()
     prep_time = models.IntegerField()
-    ingredients = models.ManyToManyField('Ingredient')
     instructions = models.TextField()
-    photo = models.ImageField(upload_to='recipe')
+    photo = models.ImageField(upload_to='recipe', blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     
     BEGINNER = 1 
@@ -128,7 +127,7 @@ class Ingredient(models.Model):
     
 
 class RecipeIngredient(models.Model):
-    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE)
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, related_name="recipe_ingredients")
     ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
     quantity = models.FloatField(max_length=30, blank=True, null=True)
 

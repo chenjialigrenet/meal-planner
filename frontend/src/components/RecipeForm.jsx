@@ -8,21 +8,31 @@ import axiosInstance from '../axiosApi';
 import onError from '../lib/errorLib';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/Row';
-import InputGroup from 'react-bootstrap/InputGroup';
+
+// TODO
+// {
+//     name: "recipe",
+//     ingredients: [{ ingredient_id: 3, quantity: 5 }]
+// }
+
+// 1/ create Recipe without ingredients => recipe.id
+// 2/ for ingredient_attributes in ingredients:
+//       ingredient = find Ingredient with ingredient_attributes["ingredient_id"]
+//       create RecipeIngredient ingredient=ingredient, recipe=recipe, quantity=ingredient_attributes["quantity"]
 
 function RecipeForm() {
 	const [fields, handleFieldChange] = useFormFields({
 		title: '',
 		summary: '',
 		serves: '',
-		cooking_tempreture: '',
+		cooking_temperature: '',
 		cooking_time: '',
 		prep_time: '',
-		ingredients: [], // ?? [{ingredient_id: 5, quantity: 3}]
+		recipe_ingredients: [{ ingredient: 1, quantity: 5 }], // ?? [{ingredient_id: 5, quantity: 3}]
 		instructions: '',
-		photo: '',
+		// photo: '', //TODO
 		creation_date: '',
-		difficulty: '1',
+		difficulty: '1', //convert back to string
 	});
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +43,10 @@ function RecipeForm() {
 			fields.title.length > 0 &&
 			fields.summary.length > 0 &&
 			fields.serves.length > 0 &&
-			fields.cooking_tempreture.length > 0 &&
+			fields.cooking_temperature.length > 0 &&
 			fields.cooking_time.length > 0 &&
 			fields.prep_time.length > 0 &&
-			fields.ingredients.length > 0 &&
+			fields.recipe_ingredients.length > 0 &&
 			fields.instructions.length > 0
 		);
 	};
@@ -50,12 +60,12 @@ function RecipeForm() {
 				title: fields.title,
 				summary: fields.summary,
 				serves: fields.serves,
-				cooking_tempreture: fields.cooking_tempreture,
+				cooking_temperature: fields.cooking_temperature,
 				cooking_time: fields.cooking_time,
 				prep_time: fields.prep_time,
-				ingredients: fields.ingredients, // ?? quantity
+				recipe_ingredients: fields.recipe_ingredients, // ?? quantity
 				instructions: fields.instructions,
-				photo: fields.photo,
+				// photo: fields.photo, // TODO
 				creation_date: fields.creation_date,
 				difficulty: fields.difficulty,
 			});
@@ -81,15 +91,17 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
+
 				<Form.Group controlId="summary">
 					<Form.Label>Summary</Form.Label>
 					<Form.Control
 						as="textarea"
-						rows={3}
+						rows={2}
 						value={fields.summary}
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
+
 				<Row>
 					<Form.Group as={Col} controlId="serves">
 						<Form.Label>Serves</Form.Label>
@@ -99,19 +111,19 @@ function RecipeForm() {
 							onChange={handleFieldChange}
 						/>
 					</Form.Group>
-					<Form.Group as={Col} controlId="cooking_tempreture">
-						<Form.Label>Cooking tempreture</Form.Label>
+					<Form.Group as={Col} controlId="cooking_temperature">
+						<Form.Label>Cooking temperature (in °C) </Form.Label>
 						<Form.Control
 							type="number"
-							value={fields.cooking_tempreture}
+							value={fields.cooking_temperature}
 							onChange={handleFieldChange}
 						/>
-						{/* <InputGroup.Text id="basic-addon2">°C</InputGroup.Text> */}
 					</Form.Group>
 				</Row>
+
 				<Row>
 					<Form.Group as={Col} controlId="cooking_time">
-						<Form.Label>Cooking time</Form.Label>
+						<Form.Label>Cooking time (minutes)</Form.Label>
 						<Form.Control
 							type="number"
 							value={fields.cooking_time}
@@ -119,7 +131,7 @@ function RecipeForm() {
 						/>
 					</Form.Group>
 					<Form.Group as={Col} controlId="prep_time">
-						<Form.Label>Preparation time</Form.Label>
+						<Form.Label>Preparation time (minutes)</Form.Label>
 						<Form.Control
 							type="number"
 							value={fields.prep_time}
@@ -127,15 +139,15 @@ function RecipeForm() {
 						/>
 					</Form.Group>
 				</Row>
-
-				<Form.Group controlId="ingredients">
+				{/* TODO */}
+				{/* <Form.Group controlId="ingredients">
 					<Form.Label>Ingredients</Form.Label>
 					<Form.Control
-						type="text" //??
+						type="text" 
 						value={fields.ingredients}
 						onChange={handleFieldChange}
 					/>
-				</Form.Group>
+				</Form.Group> */}
 				<Form.Group controlId="instructions">
 					<Form.Label>Instructions</Form.Label>
 					<Form.Control
@@ -145,37 +157,37 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
-				<Form.Group controlId="photo">
+				{/* <Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
 					<Form.Control
 						type="file"
 						value={fields.photo}
 						onChange={handleFieldChange}
 					/>
+				</Form.Group> */}
+
+				<Form.Group controlId="difficulty">
+					<Form.Label>Difficulty</Form.Label>
+					<Form.Select
+						value={fields.difficulty}
+						onChange={handleFieldChange}
+					>
+						<option value="1">Beginner</option>
+						<option value="2">Easy</option>
+						<option value="3">Normal</option>
+						<option value="4">Hard</option>
+						<option value="5">Expert</option>
+					</Form.Select>
 				</Form.Group>
-				<Row>
-					<Form.Group as={Col} controlId="difficulty">
-						<Form.Label>Difficulty</Form.Label>
-						<Form.Select
-							value={fields.difficulty}
-							onChange={handleFieldChange}
-						>
-							<option value="1">Beginner</option>
-							<option value="2">Easy</option>
-							<option value="3">Normal</option>
-							<option value="4">Hard</option>
-							<option value="5">Expert</option>
-						</Form.Select>
-					</Form.Group>
-					<Form.Group as={Col} controlId="creation_date">
-						<Form.Label>Crreation date</Form.Label>
-						<Form.Control
-							type="datetime-local"
-							value={fields.creation_date}
-							onChange={handleFieldChange}
-						/>
-					</Form.Group>
-				</Row>
+				<Form.Group controlId="creation_date">
+					<Form.Label>Crreation date</Form.Label>
+					<Form.Control
+						type="datetime-local"
+						value={fields.creation_date}
+						onChange={handleFieldChange}
+					/>
+				</Form.Group>
+
 				<LoaderButton
 					type="submit"
 					isLoading={isLoading}

@@ -1,7 +1,4 @@
 .Ingredients {
 	text-align: left;
-}
-
-.Ingredients li {
-	list-style: none;
+	padding-left: 1em;
 }
