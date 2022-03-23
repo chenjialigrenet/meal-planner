@@ -40,7 +40,7 @@ function Recipes() {
 											Cooking time: {recipe.cooking_time}{' '}
 											min | Prep time: {recipe.prep_time}{' '}
 											min | Difficulty:{' '}
-											{recipe.difficulty} | Created on:{' '}
+											{recipe.difficulty}/5 | Created on:{' '}
 											{recipe.creation_date.split('T')[0]}
 										</div>
 										<br />

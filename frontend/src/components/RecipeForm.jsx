@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import useFormFields from '../lib/hooksLib';
@@ -8,6 +8,8 @@ import axiosInstance from '../axiosApi';
 import onError from '../lib/errorLib';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/Row';
+import Select from 'react-select';
+import Table from 'react-bootstrap/Table';
 
 // TODO
 // {
@@ -37,6 +39,35 @@ function RecipeForm() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
+
+	// Select2 options
+	const [ingredients, setIngredients] = useState([]);
+	const fetchAllIngredients = async () => {
+		try {
+			const response = await axiosInstance.get('/ingredients/');
+			// console.log(response.data);
+			setIngredients(response.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchAllIngredients();
+	}, []);
+
+	ingredients.map((ing) => {
+		ing.value = ing.name;
+		ing.label = ing.name[0].toUpperCase() + ing.name.substring(1);
+	});
+	const ingredient_options = ingredients;
+	// console.log(ingredient_options);
+
+	const [selectedIngredients, setSelectedIngredients] = useState([]);
+	const handleChange = (selectedOption) => {
+		setSelectedIngredients(selectedOption);
+	};
+	// console.log(selectedIngredients);
 
 	const validateForm = () => {
 		return (
@@ -139,15 +170,42 @@ function RecipeForm() {
 						/>
 					</Form.Group>
 				</Row>
-				{/* TODO */}
-				{/* <Form.Group controlId="ingredients">
+
+				<Form.Group controlId="recipe_ingredients">
 					<Form.Label>Ingredients</Form.Label>
-					<Form.Control
-						type="text" 
-						value={fields.ingredients}
-						onChange={handleFieldChange}
+					<Select
+						isMulti
+						onChange={handleChange}
+						options={ingredient_options}
+						className="basic-multi-select"
+						classNamePrefix="select"
 					/>
-				</Form.Group> */}
+				</Form.Group>
+				<br />
+				<Table responsive striped hover size="sm">
+					<thead>
+						<tr>
+							<th>Ingredient</th>
+							<th>Unit</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						{selectedIngredients.map((selectedIng) => (
+							<tr key={selectedIng.id}>
+								<td>{selectedIng.label}</td>
+								<td>{selectedIng.unit}</td>
+								<td>
+									<input
+										id="quantity"
+										name="quantity"
+										type="number"
+									/>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</Table>
 				<Form.Group controlId="instructions">
 					<Form.Label>Instructions</Form.Label>
 					<Form.Control
@@ -157,6 +215,7 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
+				{/* TODO file or image ??*/}
 				{/* <Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
 					<Form.Control
