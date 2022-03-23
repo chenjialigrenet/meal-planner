@@ -58,8 +58,10 @@ function RecipeForm() {
 	}, []);
 
 	ingredients.map((ing) => {
-		ing.value = ing.name;
-		ing.label = ing.name[0].toUpperCase() + ing.name.substring(1);
+		return (
+			(ing.value = ing.name),
+			(ing.label = ing.name[0].toUpperCase() + ing.name.substring(1))
+		);
 	});
 	const ingredient_options = ingredients;
 	// console.log(ingredient_options);

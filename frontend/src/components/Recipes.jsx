@@ -53,7 +53,11 @@ function Recipes() {
 											{recipe.recipe_ingredients.map(
 												(recipeIngredient) => {
 													return (
-														<li>
+														<li
+															key={
+																recipeIngredient.id
+															}
+														>
 															{
 																recipeIngredient.quantity
 															}{' '}
