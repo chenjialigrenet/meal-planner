@@ -21,16 +21,12 @@ function Ingredients() {
 	}, []);
 
 	// Search Ingredient
-	const [inputText, setInputText] = useState('');
-	const inputHandler = (e) => {
-		const lowerCase = e.target.value.toLowerCase();
-		setInputText(lowerCase);
-	};
+	const [searchQuery, setSearchQuery] = useState('');
 	const filteredIngredients = ingredients.filter((ing) => {
-		if (inputText === '') {
+		if (searchQuery === '') {
 			return ing;
 		} else {
-			return ing.name.toLowerCase().includes(inputText);
+			return ing.name.toLowerCase().includes(searchQuery);
 		}
 	});
 
@@ -38,15 +34,10 @@ function Ingredients() {
 		<div>
 			<div className="Ingredients">
 				<h3>Ingredient List</h3>
-				{/* <Search /> */}
-				<div className="searchField">
-					<input
-						type="text"
-						placeholder="Search"
-						value={inputText}
-						onChange={inputHandler}
-					/>
-				</div>
+				<Search
+					searchQuery={searchQuery}
+					setSearchQuery={setSearchQuery}
+				/>
 				<div>
 					<ListGroup>
 						{filteredIngredients.map((ingredient) => (

@@ -1,0 +1,20 @@
+.search {
+	position: relative;
+	font-size: 16px;
+}
+
+.search input {
+	padding-right: 20px;
+}
+
+.search__clear {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 6px;
+	color: #555;
+}
+
+.search__clear:hover {
+	color: #333;
+}

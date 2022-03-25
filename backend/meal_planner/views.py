@@ -20,6 +20,7 @@ class RecipeView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     queryset = Recipe.objects.all()
 
+    # def ????
 
 class MealView(viewsets.ModelViewSet):
     serializer_class = MealSerializer
@@ -29,7 +30,6 @@ class MealView(viewsets.ModelViewSet):
 class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
-
 
 # # Show all ingredients and create new ingredient
 # class IngredientListApiView(APIView):
