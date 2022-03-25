@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import './Ingredients.css';
-// import Search from './Search';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Search from './Search';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
@@ -38,7 +39,7 @@ function Ingredients() {
 			<div className="Ingredients">
 				<h3>Ingredient List</h3>
 				{/* <Search /> */}
-				<div>
+				<div className="searchField">
 					<input
 						type="text"
 						placeholder="Search"
@@ -47,13 +48,13 @@ function Ingredients() {
 					/>
 				</div>
 				<div>
-					<ul>
+					<ListGroup>
 						{filteredIngredients.map((ingredient) => (
-							<li key={ingredient.id}>
-								{ingredient.name} (unit: {ingredient.unit})
-							</li>
+							<ListGroup.Item key={ingredient.id}>
+								{ingredient.name} ({ingredient.unit})
+							</ListGroup.Item>
 						))}
-					</ul>
+					</ListGroup>
 				</div>
 			</div>
 		</div>

@@ -39,7 +39,7 @@ function Recipes() {
 		<div className="Recipes">
 			<h3>Recipe List</h3>
 			{/* <Search /> */}
-			<div>
+			<div className="searchField">
 				<input
 					type="text"
 					placeholder="Search"
