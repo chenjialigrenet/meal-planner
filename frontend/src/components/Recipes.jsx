@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import './Recipes.css';
 import Card from 'react-bootstrap/Card';
+// import Search from './Search';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -16,13 +17,27 @@ function Recipes() {
 		}
 	};
 
-	useEffect(() => {
+	const [inputText, setinputText] = useState('');
+	const inputHandler = (e) => {
+		const lowerCase = e.target.value.toLowerCase();
+		setinputText(lowerCase);
+	};
+	//TODO
+	const filteredRecipes = useEffect(() => {
 		fetchAllRecipes();
 	}, []);
 
 	return (
 		<div className="Recipes">
 			<h3>Recipe List</h3>
+			<div>
+				<input
+					type="text"
+					placeholder="Search"
+					value={inputText}
+					onChange={inputHandler}
+				/>
+			</div>
 			<div>
 				{recipes.map((recipe) => (
 					<div key={recipe.id}>
@@ -47,7 +62,6 @@ function Recipes() {
 										<div>
 											Instructions: {recipe.instructions}
 										</div>
-										{/* TODO */}
 										<div>Ingredients:</div>
 										<ul>
 											{recipe.recipe_ingredients.map(

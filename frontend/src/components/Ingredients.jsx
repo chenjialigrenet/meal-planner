@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import './Ingredients.css';
+// import Search from './Search';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
@@ -22,13 +23,16 @@ function Ingredients() {
 		<div>
 			<div className="Ingredients">
 				<h3>Ingredient List</h3>
-				<ul>
-					{ingredients.map((ingredient) => (
-						<li key={ingredient.id}>
-							{ingredient.name} (unit: {ingredient.unit})
-						</li>
-					))}
-				</ul>
+				{/* <Search /> */}
+				<div>
+					<ul>
+						{ingredients.map((ingredient) => (
+							<li key={ingredient.id}>
+								{ingredient.name} (unit: {ingredient.unit})
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</div>
 	);
