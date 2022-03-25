@@ -21,4 +21,5 @@ db.sqlite3
 # Pillow created image folders
 /backend/recipe
 /backend/users
+/backend/media
 

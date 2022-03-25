@@ -118,32 +118,51 @@ function RecipeForm() {
 
 		//??
 		let formData = new FormData();
-		formData.append();
+		formData.append({
+			title: fields.title,
+			summary: fields.summary,
+			serves: fields.serves,
+			cooking_temperature: fields.cooking_temperature,
+			cooking_time: fields.cooking_time,
+			prep_time: fields.prep_time,
+			recipe_ingredients: fields.recipe_ingredients.map(
+				(recipeIngredient) => {
+					return {
+						ingredient: recipeIngredient.ingredient.id,
+						quantity: recipeIngredient.quantity,
+					};
+				}
+			),
+			instructions: fields.instructions,
+			photo: fields.photo, // ??
+			creation_date: fields.creation_date,
+			difficulty: fields.difficulty,
+		});
+		// formData.append('title', fields.title);
+		// formData.append('summary', fields.summary);
+		// formData.append('serves', fields.serves);
+		// formData.append('cooking_temperature', fields.cooking_temperature);
+		// formData.append('cooking_time', fields.cooking_time);
+		// formData.append('prep_time', fields.prep_time);
+		// formData.append(
+		// 	'recipe_ingredients',
+		// 	fields.recipe_ingredients.map((recipeIngredient) => {
+		// 		return {
+		// 			ingredient: recipeIngredient.ingredient.id,
+		// 			quantity: recipeIngredient.quantity,
+		// 		};
+		// 	})
+		// );
+		// formData.append('instructions', fields.instructions);
+		// formData.append('photo', fields.photo);
+		// formData.append('creation_date', fields.creation_date);
+		// formData.append('difficulty', fields.difficulty);
 
 		try {
-			await axiosInstance.post('/recipes/', {
-				title: fields.title,
-				summary: fields.summary,
-				serves: fields.serves,
-				cooking_temperature: fields.cooking_temperature,
-				cooking_time: fields.cooking_time,
-				prep_time: fields.prep_time,
-				recipe_ingredients: fields.recipe_ingredients.map(
-					(recipeIngredient) => {
-						return {
-							ingredient: recipeIngredient.ingredient.id,
-							quantity: recipeIngredient.quantity,
-						};
-					}
-				),
-				instructions: fields.instructions,
-				photo: fields.photo, // TODO
-				creation_date: fields.creation_date,
-				difficulty: fields.difficulty,
-			});
-
+			await axiosInstance.post('/recipes/create/', formData);
 			setIsLoading(false);
 			navigate('/recipes/');
+			window.location.reload();
 		} catch (err) {
 			onError(err);
 			setIsLoading(false);
@@ -161,6 +180,7 @@ function RecipeForm() {
 						type="text"
 						value={fields.title}
 						onChange={handleFieldChange}
+						name="title"
 					/>
 				</Form.Group>
 				<Form.Group controlId="summary">
@@ -170,6 +190,7 @@ function RecipeForm() {
 						rows={2}
 						value={fields.summary}
 						onChange={handleFieldChange}
+						name="summary"
 					/>
 				</Form.Group>
 				<Row>
@@ -179,6 +200,7 @@ function RecipeForm() {
 							type="number"
 							value={fields.serves}
 							onChange={handleFieldChange}
+							name="serves"
 						/>
 					</Form.Group>
 					<Form.Group as={Col} controlId="cooking_temperature">
@@ -187,6 +209,7 @@ function RecipeForm() {
 							type="number"
 							value={fields.cooking_temperature}
 							onChange={handleFieldChange}
+							name="cooking_temperature"
 						/>
 					</Form.Group>
 				</Row>
@@ -197,6 +220,7 @@ function RecipeForm() {
 							type="number"
 							value={fields.cooking_time}
 							onChange={handleFieldChange}
+							name="cooking_time"
 						/>
 					</Form.Group>
 					<Form.Group as={Col} controlId="prep_time">
@@ -205,6 +229,7 @@ function RecipeForm() {
 							type="number"
 							value={fields.prep_time}
 							onChange={handleFieldChange}
+							name="prep_time"
 						/>
 					</Form.Group>
 				</Row>
@@ -213,6 +238,7 @@ function RecipeForm() {
 					<Select
 						onChange={handleAddIngredient}
 						options={ingredient_options}
+						name="recipe_ingredients"
 					/>
 				</Form.Group>
 				<br />
@@ -276,6 +302,7 @@ function RecipeForm() {
 						rows={3}
 						value={fields.instructions}
 						onChange={handleFieldChange}
+						name="instructions"
 					/>
 				</Form.Group>
 				{/* TODO */}
@@ -299,6 +326,7 @@ function RecipeForm() {
 					<Form.Select
 						value={fields.difficulty}
 						onChange={handleFieldChange}
+						name="difficulty"
 					>
 						<option value="1">Beginner</option>
 						<option value="2">Easy</option>
@@ -313,6 +341,7 @@ function RecipeForm() {
 						type="datetime-local"
 						value={fields.creation_date}
 						onChange={handleFieldChange}
+						name="creation_date"
 					/>
 				</Form.Group>
 				<LoaderButton

@@ -18,5 +18,6 @@ urlpatterns = router.urls + [
     # path('ingredients/<int:ingredient_id>', IngredientDetailApiView.as_view(), name="ingredient_detail"), # show, update, delete one ingredient
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('hello/', views.HelloWorld.as_view(), name="hello") # test
+    # path('hello/', views.HelloWorld.as_view(), name="hello") # test
+    path('recipes/create/', RecipePhotoUpload.as_view())
 ]

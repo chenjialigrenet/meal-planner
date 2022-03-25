@@ -7,12 +7,25 @@ function useFormFields(initialState) {
 	return [
 		fields,
 		(event) => {
-			setValues({ ...fields, [event.target.id]: event.target.value });
+			if (event.target.name === 'photo') {
+				setValues({
+					...fields,
+					[event.target.name]: event.target.files[0],
+				});
+			} else {
+				setValues({
+					...fields,
+					[event.target.name]: event.target.value.trim(),
+				});
+			}
+
+			// console.log('event.target.name: ', event.target.name);
+			// console.log('From hookslib: ', event.target.files[0]);
 		},
 		(field, value) => {
 			setValues({ ...fields, [field]: value });
 		},
-		console.log(fields),
+		// console.log(fields.photo.name),
 	];
 }
 
