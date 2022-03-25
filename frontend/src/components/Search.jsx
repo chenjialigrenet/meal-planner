@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Search() {
-	return <div>search</div>;
+	const [inputText, setinputText] = useState('');
+	const inputHandler = (e) => {
+		const lowerCase = e.target.value.toLowerCase();
+	};
+
+	return (
+		<div>
+			<input
+				type="text"
+				placeholder="Search"
+				value={inputText}
+				onChange={inputHandler}
+			/>
+		</div>
+	);
 }
 
 export default Search;

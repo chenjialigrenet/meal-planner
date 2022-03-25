@@ -19,14 +19,36 @@ function Ingredients() {
 		fetchAllIngredients();
 	}, []);
 
+	// Search Ingredient
+	const [inputText, setInputText] = useState('');
+	const inputHandler = (e) => {
+		const lowerCase = e.target.value.toLowerCase();
+		setInputText(lowerCase);
+	};
+	const filteredIngredients = ingredients.filter((ing) => {
+		if (inputText === '') {
+			return ing;
+		} else {
+			return ing.name.toLowerCase().includes(inputText);
+		}
+	});
+
 	return (
 		<div>
 			<div className="Ingredients">
 				<h3>Ingredient List</h3>
 				{/* <Search /> */}
 				<div>
+					<input
+						type="text"
+						placeholder="Search"
+						value={inputText}
+						onChange={inputHandler}
+					/>
+				</div>
+				<div>
 					<ul>
-						{ingredients.map((ingredient) => (
+						{filteredIngredients.map((ingredient) => (
 							<li key={ingredient.id}>
 								{ingredient.name} (unit: {ingredient.unit})
 							</li>

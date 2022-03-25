@@ -17,19 +17,28 @@ function Recipes() {
 		}
 	};
 
-	const [inputText, setinputText] = useState('');
-	const inputHandler = (e) => {
-		const lowerCase = e.target.value.toLowerCase();
-		setinputText(lowerCase);
-	};
-	//TODO
-	const filteredRecipes = useEffect(() => {
+	useEffect(() => {
 		fetchAllRecipes();
 	}, []);
+
+	// Search Recipe
+	const [inputText, setInputText] = useState('');
+	const inputHandler = (e) => {
+		const lowerCase = e.target.value.toLowerCase();
+		setInputText(lowerCase);
+	};
+	const filteredRecipes = recipes.filter((recipe) => {
+		if (inputText === '') {
+			return recipe;
+		} else {
+			return recipe.title.toLowerCase().includes(inputText);
+		}
+	});
 
 	return (
 		<div className="Recipes">
 			<h3>Recipe List</h3>
+			{/* <Search /> */}
 			<div>
 				<input
 					type="text"
@@ -39,7 +48,7 @@ function Recipes() {
 				/>
 			</div>
 			<div>
-				{recipes.map((recipe) => (
+				{filteredRecipes.map((recipe) => (
 					<div key={recipe.id}>
 						<Card>
 							{/* <Card.Img variant="top" src={recipe.photo} /> */}
