@@ -1,16 +1,16 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Signup from './components/Signup';
-import Login from './components/Login';
+import Home from './pages/Home';
+import Signup from './pages/Signup';
+import Login from './pages/Login';
 import NotFound from './components/NotFound';
-import Plan from './components/Plan';
-import Recipe from './components/Recipe';
+import Plan from './pages/Plan';
+import Recipe from './pages/Recipe';
 import IngredientForm from './components/IngredientForm';
 import Ingredients from './components/Ingredients';
 import RecipeForm from './components/RecipeForm';
 import Recipes from './components/Recipes';
-import User from './components/User';
+import User from './pages/User';
 
 function AppRoutes() {
 	return (
@@ -20,6 +20,7 @@ function AppRoutes() {
 			<Route exact path="/login" element={<Login />} />
 			<Route exact path="/plan" element={<Plan />} />
 			<Route exact path="/recipe" element={<Recipe />} />
+			<Route exact path="/user" element={<User />} />
 			<Route
 				exact
 				path="/ingredients/create"
@@ -28,7 +29,7 @@ function AppRoutes() {
 			<Route exact path="/ingredients" element={<Ingredients />} />
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
 			<Route exact path="/recipes" element={<Recipes />} />
-			<Route exact path="/user" element={<User />} />
+			git
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

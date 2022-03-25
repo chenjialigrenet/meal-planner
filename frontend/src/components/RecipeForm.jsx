@@ -11,8 +11,8 @@ import Row from 'react-bootstrap/Row';
 import Select from 'react-select';
 import Table from 'react-bootstrap/Table';
 import { FaTimes } from 'react-icons/fa';
+import ImageUploader from './ImageUploader';
 
-// TODO
 // {
 //     name: "recipe",
 //     ingredients: [{ ingredient_id: 3, quantity: 5 }]
@@ -31,14 +31,16 @@ function RecipeForm() {
 		cooking_temperature: '',
 		cooking_time: '',
 		prep_time: '',
-		recipe_ingredients: [], // ?? [{ingredient_id: 5, quantity: 3}]
+		recipe_ingredients: [],
 		instructions: '',
-		// photo: '', //TODO
+		photo: '', //TODO
 		creation_date: '',
 		difficulty: '1', //convert back to string
 	});
 
+	// Spinner on the submit button
 	const [isLoading, setIsLoading] = useState(false);
+	// Redirect
 	const navigate = useNavigate();
 
 	// Select2 options
@@ -67,7 +69,7 @@ function RecipeForm() {
 	// console.log(ingredient_options);
 
 	// const [selectedIngredients, setSelectedIngredients] = useState([]);
-	const handleChange = (selectedIngredient) => {
+	const handleAddIngredient = (selectedIngredient) => {
 		changeFieldValue(
 			'recipe_ingredients',
 			fields.recipe_ingredients.concat([
@@ -86,14 +88,14 @@ function RecipeForm() {
 		changeFieldValue('recipe_ingredients', fields.recipe_ingredients);
 	};
 
-	const handleDelete = (id) => {
+	const handleDeleteIngredient = (id) => {
+		// if (window.confirm('Are you sure to delete this ingredient?')) {
 		changeFieldValue(
 			'recipe_ingredients',
 			fields.recipe_ingredients.filter(
 				(recipeIngredient) => recipeIngredient.ingredient.id !== id
 			)
 		);
-		// if (window.confirm('Are you sure to delete this ingredient?')) {
 		// }
 	};
 
@@ -114,6 +116,10 @@ function RecipeForm() {
 		event.preventDefault();
 		setIsLoading(true);
 
+		//??
+		let formData = new FormData();
+		formData.append();
+
 		try {
 			await axiosInstance.post('/recipes/', {
 				title: fields.title,
@@ -129,9 +135,9 @@ function RecipeForm() {
 							quantity: recipeIngredient.quantity,
 						};
 					}
-				), // ?? quantity
+				),
 				instructions: fields.instructions,
-				// photo: fields.photo, // TODO
+				photo: fields.photo, // TODO
 				creation_date: fields.creation_date,
 				difficulty: fields.difficulty,
 			});
@@ -205,7 +211,7 @@ function RecipeForm() {
 				<Form.Group controlId="recipe_ingredients">
 					<Form.Label>Ingredients</Form.Label>
 					<Select
-						onChange={handleChange}
+						onChange={handleAddIngredient}
 						options={ingredient_options}
 					/>
 				</Form.Group>
@@ -250,7 +256,7 @@ function RecipeForm() {
 										<td>
 											<FaTimes
 												onClick={() =>
-													handleDelete(
+													handleDeleteIngredient(
 														recipeIngredient
 															.ingredient.id
 													)
@@ -272,15 +278,22 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 					/>
 				</Form.Group>
-				{/* TODO file or image ??*/}
+				{/* TODO */}
+				<ImageUploader />
 				{/* <Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
 					<Form.Control
 						type="file"
+						multiple
+						accept="image/*"
 						value={fields.photo}
-						onChange={handleFieldChange}
+						onChange={onImageChange}
 					/>
+					{imageURLs.map((imageSrc) => (
+						<img src={imageSrc} alt="recipe photos" />
+					))}
 				</Form.Group> */}
+
 				<Form.Group controlId="difficulty">
 					<Form.Label>Difficulty</Form.Label>
 					<Form.Select
