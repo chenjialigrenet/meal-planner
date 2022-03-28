@@ -12,7 +12,7 @@ function useFormFields(initialState) {
 		(field, value) => {
 			setValues({ ...fields, [field]: value });
 		},
-		console.log(fields),
+		// console.log(fields),
 	];
 }
 

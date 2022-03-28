@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import './Recipes.css';
+import Pagination from './utilities/Pagination';
 import Card from 'react-bootstrap/Card';
 import Search from './Search';
 
@@ -8,16 +9,24 @@ function Recipes() {
 	const [recipes, setRecipes] = useState([]);
 	const [isFetching, setIsFetching] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+
+	const updateQuery = function (query) {
+		setSearchQuery(query);
+		setCurrentPage(1);
+	};
 
 	useEffect(() => {
 		const fetchRecipes = async () => {
 			setIsFetching(true);
 			try {
 				const response = await axiosInstance.get(
-					`/recipes/?query=${searchQuery}`
+					`/recipes/?query=${searchQuery}&page=${currentPage}`
 				);
 				// console.log(response);
-				setRecipes(response.data);
+				setRecipes(response.data.recipes);
+				setTotalPages(response.data.total_pages);
 				setIsFetching(false);
 			} catch (err) {
 				console.log(err);
@@ -27,12 +36,12 @@ function Recipes() {
 		};
 
 		fetchRecipes();
-	}, [searchQuery]);
+	}, [searchQuery, currentPage]);
 
 	return (
 		<div className="Recipes">
 			<h3>Recipe List</h3>
-			<Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>
@@ -102,6 +111,13 @@ function Recipes() {
 							<br />
 						</div>
 					))
+				)}
+				{!isFetching && (
+					<Pagination
+						currentPage={currentPage}
+						setCurrentPage={setCurrentPage}
+						totalPages={totalPages}
+					/>
 				)}
 			</div>
 		</div>

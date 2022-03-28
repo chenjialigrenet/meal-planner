@@ -15,6 +15,7 @@ function Search({ searchQuery, setSearchQuery }) {
 				placeholder="Search"
 				value={searchQuery}
 				onChange={inputHandler}
+				name="searchQuery"
 			/>
 			{searchQuery && (
 				<span

@@ -1,26 +1,48 @@
-from functools import partial
 from django.shortcuts import render
-from itsdangerous import Serializer
-# from itsdangerous import Serializer
-from rest_framework import viewsets
+from rest_framework import viewsets, pagination
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from .serializers import *
 from .models import *
+from django.db.models import Q
+from django.core.paginator import Paginator
 
 
 class PlanView(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
 
+class CustomRecipePagination(pagination.PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+    page_query_param = 'page'
+
+    def get_paginated_response(self, data):
+        return Response({
+            'count': self.page.paginator.count,
+            'total_pages': self.page.paginator.num_pages,
+            'recipes': data
+        })
 
 class RecipeView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
-    queryset = Recipe.objects.all()
+    pagination_class = CustomRecipePagination
 
-    # def ????
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        query = self.request.query_params.get("query")
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query)|
+                Q(summary__icontains=query)|
+                Q(instructions__icontains=query)
+            ).distinct()
+        return  queryset.order_by("id")
+
 
 class MealView(viewsets.ModelViewSet):
     serializer_class = MealSerializer
