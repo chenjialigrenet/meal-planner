@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, permissions
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import *
 from .models import *
 from django.db.models import Q
@@ -42,6 +43,19 @@ class RecipeView(viewsets.ModelViewSet):
                 Q(instructions__icontains=query)
             ).distinct()
         return  queryset.order_by("id")
+
+# ??
+class RecipePhotoUpload(APIView):
+    parse_classes = [MultiPartParser, FormParser]
+
+    def post(self, request, format=None):
+        print(request.data);
+        serializer = serializer.PostSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MealView(viewsets.ModelViewSet):
@@ -150,7 +164,6 @@ class UserView(viewsets.ModelViewSet):
 
 class UserCreate(APIView):
     permission_classes = (permissions.AllowAny,)
-    # authentication_classes = ()
 
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
@@ -161,8 +174,9 @@ class UserCreate(APIView):
                 return Response(json, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 #TODO Update user
 
-class HelloWorld(APIView):
-    def get(self, request):
-        return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
+# class HelloWorld(APIView):
+#     def get(self, request):
+#         return Response(data={"hello": "world"}, status=status.HTTP_200_OK)

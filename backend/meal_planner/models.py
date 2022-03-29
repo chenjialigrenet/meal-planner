@@ -1,12 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+
+def upload_to(instance, filename):
+    return 'media/{filename}'.format(filename=filename)
 
 
 class User(AbstractUser):
     # username = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     # password = models.CharField(max_length=200)
-    photo = models.ImageField(upload_to='users', null=True, blank=True)
+    photo = models.ImageField(_("Photo"),upload_to=upload_to, null=True, blank=True, default='default_user.png')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -66,7 +71,7 @@ class Recipe(models.Model):
     cooking_time = models.IntegerField()
     prep_time = models.IntegerField()
     instructions = models.TextField()
-    photo = models.ImageField(upload_to='recipe', blank=True, null=True)
+    photo = models.ImageField(_("Photo"), upload_to=upload_to, blank=True, null=True, default='default.png')
     creation_date = models.DateTimeField(auto_now_add=True)
     
     BEGINNER = 1 
