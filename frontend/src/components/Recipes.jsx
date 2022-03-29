@@ -4,6 +4,8 @@ import './Recipes.css';
 import Pagination from './utilities/Pagination';
 import Card from 'react-bootstrap/Card';
 import Search from './Search';
+import Button from 'react-bootstrap/Button';
+import RecipeDetailsModal from './Modal';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -11,8 +13,9 @@ function Recipes() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
+	const [shownRecipe, setShownRecipe] = useState(null);
 
-	const updateQuery = function (query) {
+	const updateQuery = (query) => {
 		setSearchQuery(query);
 		setCurrentPage(1);
 	};
@@ -55,57 +58,37 @@ function Recipes() {
 									<div>
 										{recipe.summary}
 										<div>
-											<div>
-												Serves: {recipe.serves} |
-												Cooking temperature:{' '}
-												{recipe.cooking_temperature}°C |
-												Cooking time:{' '}
-												{recipe.cooking_time} min | Prep
-												time: {recipe.prep_time} min |
-												Difficulty: {recipe.difficulty}
-												/5 | Created on:{' '}
-												{
-													recipe.creation_date.split(
-														'T'
-													)[0]
-												}
-											</div>
-											<br />
-											<div>
-												Instructions:{' '}
-												{recipe.instructions}
-											</div>
-											<div>Ingredients:</div>
 											<ul>
-												{recipe.recipe_ingredients.map(
-													(recipeIngredient) => {
-														return (
-															<li
-																key={
-																	recipeIngredient.id
-																}
-															>
-																{
-																	recipeIngredient.quantity
-																}{' '}
-																{
-																	recipeIngredient
-																		.ingredient
-																		.unit
-																}{' '}
-																of{' '}
-																{
-																	recipeIngredient
-																		.ingredient
-																		.name
-																}
-															</li>
-														);
+												<li>
+													Serves: {recipe.serves} |
+													Cooking temperature:{' '}
+													{recipe.cooking_temperature}
+													°C | Cooking time:{' '}
+													{recipe.cooking_time} min |
+													Prep time:{' '}
+													{recipe.prep_time} min
+												</li>
+												<li>
+													Difficulty:{' '}
+													{recipe.difficulty}
+													/5
+												</li>
+												<li>
+													Created on:{' '}
+													{
+														recipe.creation_date.split(
+															'T'
+														)[0]
 													}
-												)}
+												</li>
 											</ul>
 										</div>
 									</div>
+									<Button
+										onClick={() => setShownRecipe(recipe)}
+									>
+										Details
+									</Button>
 								</Card.Body>
 							</Card>
 							<br />
@@ -117,6 +100,12 @@ function Recipes() {
 						currentPage={currentPage}
 						setCurrentPage={setCurrentPage}
 						totalPages={totalPages}
+					/>
+				)}
+				{shownRecipe && (
+					<RecipeDetailsModal
+						onHide={() => setShownRecipe(null)}
+						recipe={shownRecipe}
 					/>
 				)}
 			</div>
