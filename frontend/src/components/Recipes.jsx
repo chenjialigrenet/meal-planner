@@ -58,30 +58,16 @@ function Recipes() {
 									<div>
 										{recipe.summary}
 										<div>
-											<ul>
-												<li>
-													Serves: {recipe.serves} |
-													Cooking temperature:{' '}
-													{recipe.cooking_temperature}
-													°C | Cooking time:{' '}
-													{recipe.cooking_time} min |
-													Prep time:{' '}
-													{recipe.prep_time} min
-												</li>
-												<li>
-													Difficulty:{' '}
-													{recipe.difficulty}
-													/5
-												</li>
-												<li>
-													Created on:{' '}
-													{
-														recipe.creation_date.split(
-															'T'
-														)[0]
-													}
-												</li>
-											</ul>
+											Serves: {recipe.serves} | Cooking
+											temperature:{' '}
+											{recipe.cooking_temperature}
+											°C | Cooking time:{' '}
+											{recipe.cooking_time} min | Prep
+											time: {recipe.prep_time} min
+										</div>
+										<div>
+											Difficulty: {recipe.difficulty}
+											/5
 										</div>
 									</div>
 									<Button

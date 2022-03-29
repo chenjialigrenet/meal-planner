@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Recipe.css';
 import Recipes from '../components/Recipes';
-import Ingredients from '../components/Ingredients';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -10,17 +10,19 @@ function RecipePage() {
 	return (
 		<div className="Recipe">
 			<Row>
-				<Col md="8">
-					<div>
-						<Link to="/recipes/create">Create Recipe</Link>
-					</div>
+				<Col md="10">
 					<Recipes />
 				</Col>
-				<Col md="4">
+				<Col md="2">
+					<div>
+						<Link to="/ingredients">Ingredients</Link>
+					</div>
 					<div>
 						<Link to="/ingredients/create">Add Ingredient</Link>
 					</div>
-					<Ingredients />
+					<div>
+						<Link to="/recipes/create">Create Recipe</Link>
+					</div>
 				</Col>
 			</Row>
 
