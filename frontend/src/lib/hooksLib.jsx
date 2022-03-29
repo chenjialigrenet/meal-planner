@@ -18,14 +18,10 @@ function useFormFields(initialState) {
 					[event.target.name]: event.target.value.trim(),
 				});
 			}
-
-			// console.log('event.target.name: ', event.target.name);
-			// console.log('From hookslib: ', event.target.files[0]);
 		},
 		(field, value) => {
 			setValues({ ...fields, [field]: value });
 		},
-		// console.log(fields),
 	];
 }
 

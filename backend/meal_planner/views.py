@@ -8,7 +8,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import *
 from .models import *
 from django.db.models import Q
-from django.core.paginator import Paginator
 
 
 class PlanView(viewsets.ModelViewSet):
@@ -177,6 +176,7 @@ class UserCreate(APIView):
 
 #TODO Update user
 
+# Auth test
 # class HelloWorld(APIView):
 #     def get(self, request):
 #         return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
