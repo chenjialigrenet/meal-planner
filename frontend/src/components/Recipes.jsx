@@ -43,8 +43,8 @@ function Recipes() {
 
 	return (
 		<div className="Recipes">
-			<h3>Recipe List</h3>
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
+			<br />
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>

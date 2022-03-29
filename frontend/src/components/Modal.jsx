@@ -65,6 +65,8 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 				</div>
 			</Modal.Body>
 			<Modal.Footer>
+				<Button variant="success">Add to plan</Button>
+				{/* TODO */}
 				<Button onClick={onHide}>Close</Button>
 			</Modal.Footer>
 		</Modal>

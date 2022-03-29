@@ -12,7 +12,7 @@ function Search({ searchQuery, setSearchQuery }) {
 			<input
 				className="form-control"
 				type="text"
-				placeholder="Search"
+				placeholder="Search a recipe"
 				value={searchQuery}
 				onChange={inputHandler}
 				name="searchQuery"
