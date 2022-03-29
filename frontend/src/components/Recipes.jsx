@@ -45,6 +45,7 @@ function Recipes() {
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
 			<br />
+			{/* TODO update and delete a recipe */}
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>

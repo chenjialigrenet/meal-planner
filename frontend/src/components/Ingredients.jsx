@@ -38,6 +38,8 @@ function Ingredients() {
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
 				/>
+				<br />
+				{/* TODO update and delete an ingredient */}
 				<div>
 					<ListGroup>
 						{filteredIngredients.map((ingredient) => (

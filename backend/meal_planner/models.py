@@ -36,7 +36,7 @@ class Meal(models.Model):
        (DINNER, ('Dinner')),
        (DESSERT, ('Dessert/Snacks')),
    ]
-    name = models.PositiveSmallIntegerField(
+    meal = models.PositiveSmallIntegerField(
         choices=MEAL_CHOICES,
         default=BREAKFAST,
     )
@@ -57,7 +57,7 @@ class Meal(models.Model):
         (SATURDAY, ('Saturday')),
         (SUNDAY, ('Sunday')),
     ]
-    date = models.PositiveSmallIntegerField(
+    day = models.PositiveSmallIntegerField(
         choices=DAY_CHOICES,
         default=MONDAY,
     )

@@ -21,18 +21,6 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class PlanSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Plan
-        fields = ['id', 'title', 'creation_date', 'user']
-
-    
-class MealSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Meal
-        fields = ['id', 'plan', 'recipes', 'name', 'date']
-
-
 # Helper method
 class KeyValueField(serializers.Field):
     # A field that takes a field's value as the key and returns
@@ -108,9 +96,41 @@ class RecipeSerializer(serializers.ModelSerializer):
         recipe = Recipe.objects.create(**validated_data)
         for ingredient_attributes in recipe_ingredients:
             RecipeIngredient.objects.create(
-                ingredient=ingredient_attributes["ingredient"], 
-                recipe=recipe, 
-                quantity=ingredient_attributes["quantity"]
+                ingredient = ingredient_attributes["ingredient"], 
+                recipe = recipe, 
+                quantity = ingredient_attributes["quantity"]
             )
         return recipe 
 
+
+class MealSerializer(serializers.ModelSerializer):
+    recipes = RecipeSerializer(many=True)
+    class Meta:
+        model = Meal
+        fields = ['id', 'plan', 'recipes', 'day', 'meal']
+
+
+class PlanSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    meals = MealSerializer(many=True, read_only=True)
+    class Meta:
+        model = Plan
+        fields = ['id', 'title', 'creation_date', 'user', 'meals']
+
+    # TODO missing meals
+    def create(self, validated_data):
+            plan = Plan.objects.create(
+                title = validated_data["title"],
+                user = self.context['request'].user
+            )
+            for (day, day_label) in Meal.DAY_CHOICES:
+                for (meal, meal_label) in Meal.MEAL_CHOICES:
+                    recipe = Recipe.objects.order_by("?").first()
+                    meal = Meal.objects.create(
+                        plan = plan,
+                        day = day,
+                        meal = meal
+                    )
+                    meal.recipes.add(recipe)
+            return plan 
+    

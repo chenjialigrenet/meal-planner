@@ -11,6 +11,8 @@ import Ingredients from './components/Ingredients';
 import RecipeForm from './components/RecipeForm';
 import Recipes from './components/Recipes';
 import User from './pages/User';
+import PlanForm from './components/PlanForm';
+import Plans from './components/Plans';
 
 function AppRoutes() {
 	return (
@@ -29,7 +31,9 @@ function AppRoutes() {
 			<Route exact path="/ingredients" element={<Ingredients />} />
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
 			<Route exact path="/recipes" element={<Recipes />} />
-			git
+			<Route exact path="/plans/create" element={<PlanForm />} />
+			<Route exact path="/plans" element={<Plans />} />
+
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

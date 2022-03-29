@@ -19,5 +19,5 @@ urlpatterns = router.urls + [
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     # path('hello/', views.HelloWorld.as_view(), name="hello") # test
-    path('recipes/create/', RecipePhotoUpload.as_view())
+    path('recipes/create/', RecipePhotoUpload.as_view()),
 ]
