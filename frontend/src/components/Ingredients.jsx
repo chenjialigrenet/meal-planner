@@ -3,11 +3,14 @@ import axiosInstance from '../axiosApi';
 import './Ingredients.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Search from './Search';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaEdit } from 'react-icons/fa';
+import IngDetailsModal from './IngDetailsModal';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
+	const [shownIng, setShownIng] = useState(null);
 
+	// GET all ingredients
 	const fetchAllIngredients = async () => {
 		try {
 			const response = await axiosInstance.get('/ingredients/');
@@ -21,6 +24,7 @@ function Ingredients() {
 		fetchAllIngredients();
 	}, []);
 
+	// DELETE one ingredient
 	const deleteIngredient = async (id) => {
 		if (window.confirm('Are you sure to delete this ingredient?')) {
 			try {
@@ -35,8 +39,9 @@ function Ingredients() {
 		}
 	};
 
-	// {/* TODO update an ingredient */}
-	const updateIngredient = (id) => {};
+	// UPDATE one ingredient
+	// const [modalShow, setModalShow] = useState(false);
+	// const openIngModal = (id) => {};
 
 	// Search Ingredient
 	const [searchQuery, setSearchQuery] = useState('');
@@ -64,6 +69,11 @@ function Ingredients() {
 							<ListGroup.Item key={ingredient.id}>
 								{ingredient.name} ({ingredient.unit})
 								<span style={{ float: 'right' }}>
+									<FaEdit
+										style={{ marginRight: '10px' }}
+										onClick={() => setShownIng(ingredient)}
+									/>
+
 									<FaTimes
 										onClick={() =>
 											deleteIngredient(ingredient.id)
@@ -73,6 +83,12 @@ function Ingredients() {
 							</ListGroup.Item>
 						))}
 					</ListGroup>
+					{shownIng && (
+						<IngDetailsModal
+							onHide={() => setShownIng(null)}
+							ingredient={shownIng}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

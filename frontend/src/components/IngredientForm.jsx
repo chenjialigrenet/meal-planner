@@ -48,6 +48,7 @@ function Ingredient() {
 						type="text"
 						value={fields.name}
 						onChange={handleFieldChange}
+						name="name"
 					/>
 				</Form.Group>
 				<Form.Group controlId="unit">
@@ -55,6 +56,7 @@ function Ingredient() {
 					<Form.Select
 						value={fields.unit}
 						onChange={handleFieldChange}
+						name="unit"
 					>
 						<option value="piece">PCS - piece</option>
 						<option value="pound">LB - pound</option>

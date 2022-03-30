@@ -5,7 +5,7 @@ import Pagination from './utilities/Pagination';
 import Card from 'react-bootstrap/Card';
 import Search from './Search';
 import Button from 'react-bootstrap/Button';
-import RecipeDetailsModal from './Modal';
+import RecipeDetailsModal from './RecipeDetailsModal';
 import { FaTimes } from 'react-icons/fa';
 
 function Recipes() {
@@ -16,12 +16,14 @@ function Recipes() {
 	const [totalPages, setTotalPages] = useState(1);
 	const [shownRecipe, setShownRecipe] = useState(null);
 
+	// Search bar by continuous fetching using axios
 	const updateQuery = (query) => {
 		setSearchQuery(query);
 		setCurrentPage(1);
 	};
 
 	useEffect(() => {
+		// GET all recipes
 		const fetchRecipes = async () => {
 			setIsFetching(true);
 			try {
@@ -42,6 +44,7 @@ function Recipes() {
 		fetchRecipes();
 	}, [searchQuery, currentPage]);
 
+	// DELETE one recipe
 	const deleteRecipe = async (id) => {
 		if (window.confirm('Are you sure to delete this recipe?')) {
 			try {
@@ -56,8 +59,7 @@ function Recipes() {
 		}
 	};
 
-	//{/* TODO update a recipe */}
-	const updateRecipe = (id) => {};
+	//TODO update one recipe
 
 	return (
 		<div className="Recipes">
