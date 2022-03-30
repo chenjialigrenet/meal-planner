@@ -1,15 +1,16 @@
-// import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useFormFields from '../lib/hooksLib';
-// import axiosInstance from '../axiosApi';
+import axiosInstance from '../axiosApi';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './Modal.css';
 import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {
 	const [fields, handleFieldChange] = useFormFields({
-		plan: '',
+		title: '', //plan title
 		recipes: [],
 		day: 'Monday',
 		meal: 'Breakfast',
@@ -31,6 +32,30 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 			console.log(err);
 		}
 	};
+
+	// Select2 options
+	const [plans, setPlans] = useState([]);
+
+	const fetchAllPlans = async () => {
+		try {
+			const response = await axiosInstance.get('/plans/');
+			setPlans(response.data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchAllPlans();
+	}, []);
+
+	plans.map((plan) => {
+		return (
+			(plan.value = plan.title),
+			(plan.label = plan.title[0].toUpperCase() + plan.title.substring(1))
+		);
+	});
+	const plan_options = plans;
 
 	return (
 		<Modal
@@ -94,21 +119,21 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 				</div>
 				{/* TODO */}
 				<Form onSubmit={handleAddToPlan}>
+					<Form.Label>Plan</Form.Label>
 					<Form.Group controlId="title">
-						<Form.Label>Plan</Form.Label>
-						{/* TODO retrieve all plans*/}
-						<Form.Select
-							value={fields.plan.title}
+						<Select
+							options={plan_options}
 							onChange={handleFieldChange}
-						>
-							<option value=""></option>
-						</Form.Select>
+							name="title"
+						/>
 					</Form.Group>
+
 					<Form.Group controlId="day">
 						<Form.Label>Day</Form.Label>
 						<Form.Select
 							value={fields.day}
 							onChange={handleFieldChange}
+							name="day"
 						>
 							<option value="Monday">Monday</option>
 							<option value="Tuesday">Tuesday</option>
@@ -124,6 +149,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 						<Form.Select
 							value={fields.meal}
 							onChange={handleFieldChange}
+							name="meal"
 						>
 							<option value="Breakfast">Breakfast</option>
 							<option value="Lunch">Lunch</option>
