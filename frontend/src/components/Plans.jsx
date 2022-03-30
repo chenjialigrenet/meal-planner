@@ -4,6 +4,9 @@ import Select from 'react-select';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import CardHeader from 'react-bootstrap/esm/CardHeader';
+import Search from '../components/Search';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/Col';
 
 function Plans() {
 	// TODO
@@ -40,41 +43,61 @@ function Plans() {
 		// console.log(selectedPlan);
 	};
 
+	// Search bar
+	const [searchQuery, setSearchQuery] = useState('');
+	const filteredPlans = plans.filter((plan) => {
+		if (searchQuery === '') {
+			return plan;
+		} else {
+			return plan.title.toLowerCase().includes(searchQuery);
+		}
+	});
+
 	return (
 		<div>
-			<Form>
-				<Form.Label>Plan list</Form.Label>
-				<Form.Group controlId="title">
-					<Select
-						onChange={handleShowPlan}
-						options={plan_options}
-						name="title"
-					/>
-				</Form.Group>
-			</Form>
-			<br />
-			{/* <div>
-                <ul>
-                    {plans.map((plan) => (
-                        <li key={plan.id}>{plan.title}</li>
-                    ))}
-                </ul>
-			</div> */}
+			<Row>
+				<Col md="6">
+					<div>
+						<Search
+							searchQuery={searchQuery}
+							setSearchQuery={setSearchQuery}
+						/>
+						<br />
+						{filteredPlans.map((plan) => (
+							<Card key={plan.id}>
+								<Card.Body>{plan.title}</Card.Body>
+							</Card>
+						))}
+					</div>
+				</Col>
+				<Col md="6">
+					<Form>
+						<Form.Label>Plan list</Form.Label>
+						<Form.Group controlId="title">
+							<Select
+								onChange={handleShowPlan}
+								options={plan_options}
+								name="title"
+							/>
+						</Form.Group>
+					</Form>
+					<br />
+					<Card>
+						<CardHeader>Selected plan</CardHeader>
+						{selectedPlan.title && (
+							<Card.Body>
+								<Card.Title>{selectedPlan.title}</Card.Title>
 
-			<Card>
-				<CardHeader>Selected plan</CardHeader>
-				{selectedPlan.title && (
-					<Card.Body>
-						<Card.Title>{selectedPlan.title}</Card.Title>
-
-						<Card.Text>
-							Created on{' '}
-							{selectedPlan.creation_date.split('T')[0]} by user{' '}
-							{selectedPlan.user}
-						</Card.Text>
-					</Card.Body>
-				)}
-			</Card>
+								<Card.Text>
+									Created on{' '}
+									{selectedPlan.creation_date.split('T')[0]}{' '}
+									by user {selectedPlan.user}
+								</Card.Text>
+							</Card.Body>
+						)}
+					</Card>
+				</Col>
+			</Row>
 		</div>
 	);
 }

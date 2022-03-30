@@ -22,12 +22,12 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 		event.preventDefault();
 		try {
 			// await axiosInstance.post('/plans/update/', {
-			// 	plan: fields.plan,
-			// 	recipes: fields.recipes,
-			// 	day: fields.day,
-			// 	meal: fields.meal,
+			// 	title: fields.plan.title,
+			// 	recipes: fields.plan.recipes,
+			// 	day: fields.meal.day,
+			// 	meal: fields.meal.meal,
 			// });
-			navigate('/plan/');
+			navigate('/plans/');
 		} catch (err) {
 			console.log(err);
 		}
@@ -56,6 +56,11 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 		);
 	});
 	const plan_options = plans;
+	const [selectedPlan, setSelectedPlan] = useState([]);
+	const handleShowPlan = (selectedPlan) => {
+		setSelectedPlan(selectedPlan);
+		// console.log(selectedPlan);
+	};
 
 	return (
 		<Modal
@@ -123,7 +128,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 					<Form.Group controlId="title">
 						<Select
 							options={plan_options}
-							onChange={handleFieldChange}
+							onChange={handleShowPlan}
 							name="title"
 						/>
 					</Form.Group>
