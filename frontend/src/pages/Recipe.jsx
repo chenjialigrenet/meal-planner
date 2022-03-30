@@ -15,9 +15,7 @@ function RecipePage() {
 					<div>
 						<Link to="/ingredients">Ingredients</Link>
 					</div>
-					<div>
-						<Link to="/ingredients/create">Add Ingredient</Link>
-					</div>
+
 					<div>
 						<Link to="/recipes/create">Create Recipe</Link>
 					</div>

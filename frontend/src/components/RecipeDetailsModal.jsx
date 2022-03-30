@@ -1,129 +1,134 @@
-import { useState, useEffect } from 'react';
-import useFormFields from '../lib/hooksLib';
-import axiosInstance from '../axiosApi';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './RecipeDetailsModal.css';
-import { useNavigate } from 'react-router-dom';
-import Select from 'react-select';
+import { useState } from 'react';
+// import useFormFields from '../lib/hooksLib';
+// import axiosInstance from '../axiosApi';
+// import { useNavigate } from 'react-router-dom';
+// import Select from 'react-select';
+import { FaEdit } from 'react-icons/fa';
+import RecipeUpdateModal from './RecipeUpdateModal';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {
-	const [fields, handleFieldChange] = useFormFields({
-		title: '', //plan title
-		recipes: [],
-		day: 'Monday',
-		meal: 'Breakfast',
-	});
-	const navigate = useNavigate();
+	const [shownRecipe, setShownRecipe] = useState(null);
+
+	// const navigate = useNavigate();
 
 	// TODO put request to add meals into a plan
-	const handleAddToPlan = async (event) => {
-		event.preventDefault();
-		try {
-			// await axiosInstance.post('/plans/update/', {
-			// 	title: fields.plan.title,
-			// 	recipes: fields.plan.recipes,
-			// 	day: fields.meal.day,
-			// 	meal: fields.meal.meal,
-			// });
-			navigate('/plans/');
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// const handleAddToPlan = async (event) => {
+	// 	event.preventDefault();
+	// 	try {
+	// 		// await axiosInstance.post('/plans/update/', {
+	// 		// 	title: fields.plan.title,
+	// 		// 	recipes: fields.plan.recipes,
+	// 		// 	day: fields.meal.day,
+	// 		// 	meal: fields.meal.meal,
+	// 		// });
+	// 		navigate('/plans/');
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 
 	// Select2 options
-	const [plans, setPlans] = useState([]);
+	// const [plans, setPlans] = useState([]);
 
-	const fetchAllPlans = async () => {
-		try {
-			const response = await axiosInstance.get('/plans/');
-			setPlans(response.data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// const fetchAllPlans = async () => {
+	// 	try {
+	// 		const response = await axiosInstance.get('/plans/');
+	// 		setPlans(response.data);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 
-	useEffect(() => {
-		fetchAllPlans();
-	}, []);
+	// useEffect(() => {
+	// 	fetchAllPlans();
+	// }, []);
 
-	plans.map((plan) => {
-		return (
-			(plan.value = plan.title),
-			(plan.label = plan.title[0].toUpperCase() + plan.title.substring(1))
-		);
-	});
-	const plan_options = plans;
-	const [selectedPlan, setSelectedPlan] = useState([]);
-	const handleShowPlan = (selectedPlan) => {
-		setSelectedPlan(selectedPlan);
-		// console.log(selectedPlan);
-	};
+	// plans.map((plan) => {
+	// 	return (
+	// 		(plan.value = plan.title),
+	// 		(plan.label = plan.title[0].toUpperCase() + plan.title.substring(1))
+	// 	);
+	// });
+	// const plan_options = plans;
+	// const [selectedPlan, setSelectedPlan] = useState([]);
+	// const handleShowPlan = (selectedPlan) => {
+	// 	setSelectedPlan(selectedPlan);
+	// 	// console.log(selectedPlan);
+	// };
 
 	return (
-		<Modal
-			recipe={recipe}
-			onHide={onHide}
-			show
-			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
-			centered
-		>
-			<Modal.Header closeButton>
-				<Modal.Title id="contained-modal-title-vcenter">
-					{recipe.title}
-				</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<div>
-					<span className="bold">Serves: </span> {recipe.serves}
-				</div>
+		<div>
+			<Modal
+				recipe={recipe}
+				onHide={onHide}
+				show
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+			>
+				<Modal.Header closeButton>
+					<Modal.Title id="contained-modal-title-vcenter">
+						{recipe.title} (ID: {recipe.id})
+					</Modal.Title>
+					<span style={{ marginLeft: '10px' }}>
+						<FaEdit onClick={() => setShownRecipe(recipe)} />
+					</span>
+				</Modal.Header>
+				<Modal.Body>
+					<div>
+						<span className="bold">Serves: </span> {recipe.serves}
+					</div>
 
-				<div>
-					<span className="bold">Difficulty: </span>
-					{recipe.difficulty}
-					/5
-				</div>
-				<div>
-					<span className="bold">Cooking temperature: </span>
-					{recipe.cooking_temperature}
-					°C
-				</div>
-				<div>
-					<span className="bold">Cooking time: </span>
-					{recipe.cooking_time} min |{' '}
-					<span className="bold">Prep time: </span>
-					{recipe.prep_time} min
-				</div>
-				<div>
-					<span className="bold">Summary: </span>
-					{recipe.summary}
-				</div>
-				<div>
-					<span className="bold">Instructions: </span>
-					{recipe.instructions}
-				</div>
-				<div>
-					<span className="bold">Ingredients: </span>
-					<ul>
-						{recipe.recipe_ingredients.map((recipeIngredient) => {
-							return (
-								<li key={recipeIngredient.id}>
-									{recipeIngredient.quantity}{' '}
-									{recipeIngredient.ingredient.unit} of{' '}
-									{recipeIngredient.ingredient.name}
-								</li>
-							);
-						})}
-					</ul>
-				</div>
-				<div className="grey">
-					Created on {recipe.creation_date.split('T')[0]}
-				</div>
-				{/* TODO */}
-				<Form onSubmit={handleAddToPlan}>
+					<div>
+						<span className="bold">Difficulty: </span>
+						{recipe.difficulty}
+						/5
+					</div>
+					<div>
+						<span className="bold">Cooking temperature: </span>
+						{recipe.cooking_temperature}
+						°C
+					</div>
+					<div>
+						<span className="bold">Cooking time: </span>
+						{recipe.cooking_time} min |{' '}
+						<span className="bold">Prep time: </span>
+						{recipe.prep_time} min
+					</div>
+					<div>
+						<span className="bold">Summary: </span>
+						{recipe.summary}
+					</div>
+					<div>
+						<span className="bold">Instructions: </span>
+						{recipe.instructions}
+					</div>
+					<div>
+						<span className="bold">Ingredients: </span>
+						<ul>
+							{recipe.recipe_ingredients.map(
+								(recipeIngredient) => {
+									return (
+										<li key={recipeIngredient.id}>
+											{recipeIngredient.quantity}{' '}
+											{recipeIngredient.ingredient.unit}{' '}
+											of{' '}
+											{recipeIngredient.ingredient.name}
+										</li>
+									);
+								}
+							)}
+						</ul>
+					</div>
+					<div className="grey">
+						Created on {recipe.creation_date.split('T')[0]}
+					</div>
+					{/* TODO */}
+					{/* <Form>
 					<Form.Label>Plan</Form.Label>
 					<Form.Group controlId="title">
 						<Select
@@ -162,16 +167,21 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 							<option value="Dessert">Dessert</option>
 						</Form.Select>
 					</Form.Group>
-
-					<Button variant="success" type="submit">
-						Add to plan
-					</Button>
-				</Form>
-			</Modal.Body>
-			<Modal.Footer>
-				<Button onClick={onHide}>Close</Button>
-			</Modal.Footer>
-		</Modal>
+					<Button onClick={handleAddToPlan}>Add to plan</Button>
+					</Form>
+				 */}
+				</Modal.Body>
+				{/* <Modal.Footer>
+					<Button>Add to plan</Button>
+				</Modal.Footer> */}
+			</Modal>
+			{shownRecipe && (
+				<RecipeUpdateModal
+					onHide={() => setShownRecipe(null)}
+					recipe={shownRecipe}
+				/>
+			)}
+		</div>
 	);
 };
 

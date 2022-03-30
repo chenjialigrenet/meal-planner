@@ -5,6 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Search from './Search';
 import { FaTimes, FaEdit } from 'react-icons/fa';
 import IngDetailsModal from './IngDetailsModal';
+import { Link } from 'react-router-dom';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
@@ -39,10 +40,6 @@ function Ingredients() {
 		}
 	};
 
-	// UPDATE one ingredient
-	// const [modalShow, setModalShow] = useState(false);
-	// const openIngModal = (id) => {};
-
 	// Search Ingredient
 	const [searchQuery, setSearchQuery] = useState('');
 	const filteredIngredients = ingredients.filter((ing) => {
@@ -56,6 +53,9 @@ function Ingredients() {
 	return (
 		<div>
 			<div className="Ingredients">
+				<div>
+					<Link to="/ingredients/create">Add Ingredient</Link>
+				</div>
 				<h3>Ingredient List</h3>
 				<Search
 					searchQuery={searchQuery}

@@ -102,6 +102,11 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
         return recipe 
 
+    # def update(self, validated_data):
+    #     recipe = Recipe.objects.update(
+
+    #     )
+
 
 class MealSerializer(serializers.ModelSerializer):
     recipes = RecipeSerializer(many=True)
