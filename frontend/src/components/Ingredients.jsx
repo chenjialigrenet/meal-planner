@@ -3,6 +3,7 @@ import axiosInstance from '../axiosApi';
 import './Ingredients.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Search from './Search';
+import { FaTimes } from 'react-icons/fa';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
@@ -19,6 +20,23 @@ function Ingredients() {
 	useEffect(() => {
 		fetchAllIngredients();
 	}, []);
+
+	const deleteIngredient = async (id) => {
+		if (window.confirm('Are you sure to delete this ingredient?')) {
+			try {
+				await axiosInstance.delete(`/ingredients/${id}`);
+				const ingredientsLeft = ingredients.filter(
+					(ing) => id !== ing.id
+				);
+				setIngredients(ingredientsLeft);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
+	// {/* TODO update an ingredient */}
+	const updateIngredient = (id) => {};
 
 	// Search Ingredient
 	const [searchQuery, setSearchQuery] = useState('');
@@ -39,12 +57,19 @@ function Ingredients() {
 					setSearchQuery={setSearchQuery}
 				/>
 				<br />
-				{/* TODO update and delete an ingredient */}
+
 				<div>
 					<ListGroup>
 						{filteredIngredients.map((ingredient) => (
 							<ListGroup.Item key={ingredient.id}>
 								{ingredient.name} ({ingredient.unit})
+								<span style={{ float: 'right' }}>
+									<FaTimes
+										onClick={() =>
+											deleteIngredient(ingredient.id)
+										}
+									/>
+								</span>
 							</ListGroup.Item>
 						))}
 					</ListGroup>

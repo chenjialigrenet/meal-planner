@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Search from './Search';
 import Button from 'react-bootstrap/Button';
 import RecipeDetailsModal from './Modal';
+import { FaTimes } from 'react-icons/fa';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -41,11 +42,28 @@ function Recipes() {
 		fetchRecipes();
 	}, [searchQuery, currentPage]);
 
+	const deleteRecipe = async (id) => {
+		if (window.confirm('Are you sure to delete this recipe?')) {
+			try {
+				await axiosInstance.delete(`/recipes/${id}`);
+				const recipesLeft = recipes.filter(
+					(recipe) => id !== recipe.id
+				);
+				setRecipes(recipesLeft);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
+	//{/* TODO update a recipe */}
+	const updateRecipe = (id) => {};
+
 	return (
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
 			<br />
-			{/* TODO update and delete a recipe */}
+
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>
@@ -55,7 +73,15 @@ function Recipes() {
 							<Card>
 								{/* <Card.Img variant="top" src={recipe.photo} /> */}
 								<Card.Body>
+									<span style={{ float: 'right' }}>
+										<FaTimes
+											onClick={() => {
+												deleteRecipe(recipe.id);
+											}}
+										/>
+									</span>
 									<Card.Title>{recipe.title}</Card.Title>
+
 									<div>
 										{recipe.summary}
 										<div>
