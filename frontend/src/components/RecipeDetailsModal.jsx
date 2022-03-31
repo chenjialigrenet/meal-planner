@@ -5,15 +5,16 @@ import './RecipeDetailsModal.css';
 import { useState } from 'react';
 // import useFormFields from '../lib/hooksLib';
 // import axiosInstance from '../axiosApi';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import Select from 'react-select';
 import { FaEdit } from 'react-icons/fa';
-import RecipeUpdateModal from './RecipeUpdateModal';
+import RecipeUpdateForm from './RecipeUpdateForm';
+// import RecipeUpdateModal from './RecipeUpdateModal';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {
 	const [shownRecipe, setShownRecipe] = useState(null);
 
-	// const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	// TODO put request to add meals into a plan
 	// const handleAddToPlan = async (event) => {
@@ -75,7 +76,13 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 						{recipe.title} (ID: {recipe.id})
 					</Modal.Title>
 					<span style={{ marginLeft: '10px' }}>
-						<FaEdit onClick={() => setShownRecipe(recipe)} />
+						<FaEdit
+							// onClick={() => setShownRecipe(recipe)}
+							onClick={() => {
+								setShownRecipe(recipe);
+								navigate(`/recipes/${recipe.id}`);
+							}}
+						/>
 					</span>
 				</Modal.Header>
 				<Modal.Body>
@@ -175,12 +182,11 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 					<Button>Add to plan</Button>
 				</Modal.Footer> */}
 			</Modal>
-			{shownRecipe && (
-				<RecipeUpdateModal
+			{/* <RecipeUpdateModal
 					onHide={() => setShownRecipe(null)}
 					recipe={shownRecipe}
-				/>
-			)}
+				/>*/}
+			{shownRecipe && <RecipeUpdateForm recipe={shownRecipe} />}
 		</div>
 	);
 };

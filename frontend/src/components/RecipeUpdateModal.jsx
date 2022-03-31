@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -37,6 +37,7 @@ function RecipeUpdateModal({ recipe, onHide }) {
 				recipe_ingredients: fields.recipe_ingredients.map(
 					(recipeIngredient) => {
 						if (recipeIngredient._destroy) {
+							//TODO
 						} else if (recipeIngredient.id) {
 							return {
 								id: recipeIngredient.id,
@@ -44,6 +45,7 @@ function RecipeUpdateModal({ recipe, onHide }) {
 								quantity: recipeIngredient.quantity,
 							};
 						} else {
+							//TODO
 						}
 					}
 				),
@@ -53,7 +55,7 @@ function RecipeUpdateModal({ recipe, onHide }) {
 				difficulty: fields.difficulty,
 			});
 			//TODO
-			//updateRecipeInParent(newRecipeData);
+			// updateRecipeInParent(newRecipeData);
 			onHide();
 		} catch (err) {
 			console.log(err);

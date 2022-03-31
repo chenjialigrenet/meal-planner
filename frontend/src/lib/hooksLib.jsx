@@ -15,13 +15,14 @@ function useFormFields(initialState) {
 			} else {
 				setValues({
 					...fields,
-					[event.target.name]: event.target.value.trim(),
+					[event.target.name]: event.target.value,
 				});
 			}
 		},
 		(field, value) => {
 			setValues({ ...fields, [field]: value });
 		},
+		setValues,
 	];
 }
 

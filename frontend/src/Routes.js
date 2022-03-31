@@ -13,6 +13,7 @@ import Recipes from './components/Recipes';
 import User from './pages/User';
 import PlanForm from './components/PlanForm';
 import Plans from './components/Plans';
+import RecipeUpdateForm from './components/RecipeUpdateForm';
 
 function AppRoutes() {
 	return (
@@ -31,10 +32,12 @@ function AppRoutes() {
 			<Route exact path="/ingredients" element={<Ingredients />} />
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
 			<Route exact path="/recipes" element={<Recipes />} />
+			<Route path="/recipes/:recipeId" element={<RecipeUpdateForm />} />
+
 			<Route exact path="/plans/create" element={<PlanForm />} />
 			<Route exact path="/plans" element={<Plans />} />
 
-			<Route path="*" element={<NotFound />} />
+			{/* <Route path="*" element={<NotFound />} /> */}
 		</Routes>
 	);
 }

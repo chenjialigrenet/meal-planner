@@ -7,6 +7,7 @@ import Search from './Search';
 import Button from 'react-bootstrap/Button';
 import RecipeDetailsModal from './RecipeDetailsModal';
 import { FaTimes } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -59,8 +60,6 @@ function Recipes() {
 		}
 	};
 
-	//TODO update one recipe
-
 	return (
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
@@ -70,45 +69,54 @@ function Recipes() {
 				{isFetching ? (
 					<div>Please wait...</div>
 				) : (
-					recipes.map((recipe) => (
-						<div key={recipe.id}>
-							<Card>
-								{/* <Card.Img variant="top" src={recipe.photo} /> */}
-								<Card.Body>
-									<span style={{ float: 'right' }}>
-										<FaTimes
-											onClick={() => {
-												deleteRecipe(recipe.id);
-											}}
-										/>
-									</span>
-									<Card.Title>{recipe.title}</Card.Title>
+					<AnimatePresence>
+						{recipes.map((recipe) => (
+							<motion.div
+								key={recipe.id}
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+							>
+								<Card>
+									{/* <Card.Img variant="top" src={recipe.photo} /> */}
+									<Card.Body>
+										<span style={{ float: 'right' }}>
+											<FaTimes
+												onClick={() => {
+													deleteRecipe(recipe.id);
+												}}
+											/>
+										</span>
+										<Card.Title>{recipe.title}</Card.Title>
 
-									<div>
-										{recipe.summary}
 										<div>
-											Serves: {recipe.serves} | Cooking
-											temperature:{' '}
-											{recipe.cooking_temperature}
-											°C | Cooking time:{' '}
-											{recipe.cooking_time} min | Prep
-											time: {recipe.prep_time} min
+											{recipe.summary}
+											<div>
+												Serves: {recipe.serves} |
+												Cooking temperature:{' '}
+												{recipe.cooking_temperature}
+												°C | Cooking time:{' '}
+												{recipe.cooking_time} min | Prep
+												time: {recipe.prep_time} min
+											</div>
+											<div>
+												Difficulty: {recipe.difficulty}
+												/5
+											</div>
 										</div>
-										<div>
-											Difficulty: {recipe.difficulty}
-											/5
-										</div>
-									</div>
-									<Button
-										onClick={() => setShownRecipe(recipe)}
-									>
-										Details
-									</Button>
-								</Card.Body>
-							</Card>
-							<br />
-						</div>
-					))
+										<Button
+											onClick={() =>
+												setShownRecipe(recipe)
+											}
+										>
+											Details
+										</Button>
+									</Card.Body>
+								</Card>
+								<br />
+							</motion.div>
+						))}
+					</AnimatePresence>
 				)}
 				{!isFetching && (
 					<Pagination

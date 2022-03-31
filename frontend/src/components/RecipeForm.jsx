@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Select from 'react-select';
 import Table from 'react-bootstrap/Table';
 import { FaTimes } from 'react-icons/fa';
-import ImageUploader from './ImageUploader';
+// import ImageUploader from './ImageUploader';
 
 // {
 //     name: "recipe",
@@ -33,7 +33,7 @@ function RecipeForm() {
 		prep_time: '',
 		recipe_ingredients: [],
 		instructions: '',
-		// photo: '', //TODO
+		//photo: '', //TODO
 		creation_date: '',
 		difficulty: '1', //convert back to string
 	});
@@ -99,18 +99,18 @@ function RecipeForm() {
 		// }
 	};
 
-	const validateForm = () => {
-		return (
-			fields.title.length > 0 &&
-			fields.summary.length > 0 &&
-			fields.serves.length > 0 &&
-			fields.cooking_temperature.length > 0 &&
-			fields.cooking_time.length > 0 &&
-			fields.prep_time.length > 0 &&
-			fields.recipe_ingredients.length > 0 &&
-			fields.instructions.length > 0
-		);
-	};
+	// const validateForm = () => {
+	// 	return (
+	// 		fields.title.length > 0 &&
+	// 		fields.summary.length > 0 &&
+	// 		fields.serves.length > 0 &&
+	// 		fields.cooking_temperature.length > 0 &&
+	// 		fields.cooking_time.length > 0 &&
+	// 		fields.prep_time.length > 0 &&
+	// 		fields.recipe_ingredients.length > 0 &&
+	// 		fields.instructions.length > 0
+	// 	);
+	// };
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -118,45 +118,45 @@ function RecipeForm() {
 
 		//??
 		let formData = new FormData();
-		// formData.append({
-		// 	title: fields.title,
-		// 	summary: fields.summary,
-		// 	serves: fields.serves,
-		// 	cooking_temperature: fields.cooking_temperature,
-		// 	cooking_time: fields.cooking_time,
-		// 	prep_time: fields.prep_time,
-		// 	recipe_ingredients: fields.recipe_ingredients.map(
-		// 		(recipeIngredient) => {
-		// 			return {
-		// 				ingredient: recipeIngredient.ingredient.id,
-		// 				quantity: recipeIngredient.quantity,
-		// 			};
-		// 		}
-		// 	),
-		// 	instructions: fields.instructions,
-		// 	photo: fields.photo, // ??
-		// 	creation_date: fields.creation_date,
-		// 	difficulty: fields.difficulty,
-		// });
-		formData.append('title', fields.title);
-		formData.append('summary', fields.summary);
-		formData.append('serves', fields.serves);
-		formData.append('cooking_temperature', fields.cooking_temperature);
-		formData.append('cooking_time', fields.cooking_time);
-		formData.append('prep_time', fields.prep_time);
-		formData.append(
-			'recipe_ingredients',
-			fields.recipe_ingredients.map((recipeIngredient) => {
-				return {
-					ingredient: recipeIngredient.ingredient.id,
-					quantity: recipeIngredient.quantity,
-				};
-			})
-		);
-		formData.append('instructions', fields.instructions);
-		// formData.append('photo', fields.photo);
-		formData.append('creation_date', fields.creation_date);
-		formData.append('difficulty', fields.difficulty);
+		formData.append({
+			title: fields.title,
+			summary: fields.summary,
+			serves: fields.serves,
+			cooking_temperature: fields.cooking_temperature,
+			cooking_time: fields.cooking_time,
+			prep_time: fields.prep_time,
+			recipe_ingredients: fields.recipe_ingredients.map(
+				(recipeIngredient) => {
+					return {
+						ingredient: recipeIngredient.ingredient.id,
+						quantity: recipeIngredient.quantity,
+					};
+				}
+			),
+			instructions: fields.instructions,
+			photo: fields.photo, // ??
+			creation_date: fields.creation_date,
+			difficulty: fields.difficulty,
+		});
+		// formData.append('title', fields.title);
+		// formData.append('summary', fields.summary);
+		// formData.append('serves', fields.serves);
+		// formData.append('cooking_temperature', fields.cooking_temperature);
+		// formData.append('cooking_time', fields.cooking_time);
+		// formData.append('prep_time', fields.prep_time);
+		// formData.append(
+		// 	'recipe_ingredients',
+		// 	fields.recipe_ingredients.map((recipeIngredient) => {
+		// 		return {
+		// 			ingredient: recipeIngredient.ingredient.id,
+		// 			quantity: recipeIngredient.quantity,
+		// 		};
+		// 	})
+		// );
+		// formData.append('instructions', fields.instructions);
+		// // formData.append('photo', fields.photo);
+		// formData.append('creation_date', fields.creation_date);
+		// formData.append('difficulty', fields.difficulty);
 
 		try {
 			await axiosInstance.post('/recipes/create/', formData);
@@ -336,7 +336,7 @@ function RecipeForm() {
 						<option value="5">Expert</option>
 					</Form.Select>
 				</Form.Group>
-				<Form.Group controlId="creation_date">
+				{/* <Form.Group controlId="creation_date">
 					<Form.Label>Crreation date</Form.Label>
 					<Form.Control
 						type="datetime-local"
@@ -344,11 +344,11 @@ function RecipeForm() {
 						onChange={handleFieldChange}
 						name="creation_date"
 					/>
-				</Form.Group>
+				</Form.Group> */}
 				<LoaderButton
 					type="submit"
 					isLoading={isLoading}
-					disabled={!validateForm()}
+					// disabled={!validateForm()}
 				>
 					Create
 				</LoaderButton>

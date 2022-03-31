@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
 import { FaTimes, FaEdit } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Plans() {
 	const [plans, setPlans] = useState([]);
@@ -77,20 +78,39 @@ function Plans() {
 							setSearchQuery={setSearchQuery}
 						/>
 						<br />
-						{filteredPlans.map((plan) => (
-							<Card key={plan.id}>
-								<Card.Body>
-									{plan.title}
-									<span style={{ float: 'right' }}>
-										<FaTimes
-											onClick={() => {
-												deletePlan(plan.id);
-											}}
-										/>
-									</span>
-								</Card.Body>
-							</Card>
-						))}
+						<AnimatePresence>
+							{filteredPlans.map((plan) => (
+								<motion.div
+									key={plan.id}
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+								>
+									<Card>
+										<Card.Body
+											style={{ position: 'relative' }}
+										>
+											<span>{plan.title}</span>
+											<span
+												style={{
+													position: 'absolute',
+													right: '40px',
+												}}
+											>
+												<FaEdit />
+											</span>
+											<span style={{ float: 'right' }}>
+												<FaTimes
+													onClick={() => {
+														deletePlan(plan.id);
+													}}
+												/>
+											</span>
+										</Card.Body>
+									</Card>
+								</motion.div>
+							))}
+						</AnimatePresence>
 					</div>
 				</Col>
 				<Col md="6">
@@ -109,8 +129,16 @@ function Plans() {
 						<CardHeader>Selected plan</CardHeader>
 						{selectedPlan.title && (
 							<Card.Body>
-								<Card.Title>
-									{selectedPlan.title}
+								<Card.Title style={{ position: 'relative' }}>
+									<span>{selectedPlan.title}</span>
+									<span
+										style={{
+											position: 'absolute',
+											right: '30px',
+										}}
+									>
+										<FaEdit />
+									</span>
 									<span style={{ float: 'right' }}>
 										<FaTimes
 											onClick={() => {
