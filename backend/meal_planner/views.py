@@ -10,9 +10,30 @@ from .models import *
 from django.db.models import Q
 
 
+class CustomPlanPagination(pagination.PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+    page_query_param = 'page'
+
+    def get_paginated_response(self, data):
+        return Response({
+            'count': self.page.paginator.count,
+            'total_pages': self.page.paginator.num_pages,
+            'plans': data
+        })
+
+
 class PlanView(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
-    queryset = Plan.objects.all()
+    pagination_class = CustomPlanPagination
+
+    def get_queryset(self):
+        queryset = Plan.objects.all()
+        query = self.request.query_params.get('query')
+        if query:
+            queryset = queryset.filter(title__icontains=query).distinct()
+        return queryset.order_by('id')
 
 
 class CustomRecipePagination(pagination.PageNumberPagination):

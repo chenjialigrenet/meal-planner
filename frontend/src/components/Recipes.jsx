@@ -38,7 +38,7 @@ function Recipes() {
 			} catch (err) {
 				console.log(err);
 				setIsFetching(false);
-				//TODO setHasFetchError(true)
+				//TODO ?? setHasFetchError(true)
 			}
 		};
 
@@ -64,7 +64,6 @@ function Recipes() {
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
 			<br />
-
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>

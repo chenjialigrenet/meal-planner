@@ -183,6 +183,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 				</Modal.Footer> */}
 			</Modal>
 			{/* <RecipeUpdateModal
+			        setShownRecipe={setShownRecipe}
 					onHide={() => setShownRecipe(null)}
 					recipe={shownRecipe}
 				/>*/}

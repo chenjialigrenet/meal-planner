@@ -116,28 +116,59 @@ function RecipeForm() {
 		event.preventDefault();
 		setIsLoading(true);
 
+		try {
+			await axiosInstance.post('/recipes/', {
+				title: fields.title,
+				summary: fields.summary,
+				serves: fields.serves,
+				cooking_temperature: fields.cooking_temperature,
+				cooking_time: fields.cooking_time,
+				prep_time: fields.prep_time,
+				recipe_ingredients: fields.recipe_ingredients.map(
+					(recipeIngredient) => {
+						return {
+							ingredient: recipeIngredient.ingredient.id,
+							quantity: recipeIngredient.quantity,
+						};
+					}
+				),
+				instructions: fields.instructions,
+				photo: fields.photo, // ??
+				creation_date: fields.creation_date,
+				difficulty: fields.difficulty,
+			});
+
+			setIsLoading(false);
+			navigate('/recipes', { replace: true });
+			// window.location.reload();
+		} catch (err) {
+			onError(err);
+			setIsLoading(false);
+		}
+
 		//??
-		let formData = new FormData();
-		formData.append({
-			title: fields.title,
-			summary: fields.summary,
-			serves: fields.serves,
-			cooking_temperature: fields.cooking_temperature,
-			cooking_time: fields.cooking_time,
-			prep_time: fields.prep_time,
-			recipe_ingredients: fields.recipe_ingredients.map(
-				(recipeIngredient) => {
-					return {
-						ingredient: recipeIngredient.ingredient.id,
-						quantity: recipeIngredient.quantity,
-					};
-				}
-			),
-			instructions: fields.instructions,
-			photo: fields.photo, // ??
-			creation_date: fields.creation_date,
-			difficulty: fields.difficulty,
-		});
+		// let formData = new FormData();
+		// formData.append({
+		// 	title: fields.title,
+		// 	summary: fields.summary,
+		// 	serves: fields.serves,
+		// 	cooking_temperature: fields.cooking_temperature,
+		// 	cooking_time: fields.cooking_time,
+		// 	prep_time: fields.prep_time,
+		// 	recipe_ingredients: fields.recipe_ingredients.map(
+		// 		(recipeIngredient) => {
+		// 			return {
+		// 				ingredient: recipeIngredient.ingredient.id,
+		// 				quantity: recipeIngredient.quantity,
+		// 			};
+		// 		}
+		// 	),
+		// 	instructions: fields.instructions,
+		// 	photo: fields.photo, // ??
+		// 	creation_date: fields.creation_date,
+		// 	difficulty: fields.difficulty,
+		// });
+
 		// formData.append('title', fields.title);
 		// formData.append('summary', fields.summary);
 		// formData.append('serves', fields.serves);
@@ -158,15 +189,15 @@ function RecipeForm() {
 		// formData.append('creation_date', fields.creation_date);
 		// formData.append('difficulty', fields.difficulty);
 
-		try {
-			await axiosInstance.post('/recipes/create/', formData);
-			setIsLoading(false);
-			navigate('/recipes/');
-			window.location.reload();
-		} catch (err) {
-			onError(err);
-			setIsLoading(false);
-		}
+		// try {
+		// 	await axiosInstance.post('/recipes/create/', formData);
+		// 	setIsLoading(false);
+		// 	navigate('/recipes/');
+		// 	window.location.reload();
+		// } catch (err) {
+		// 	onError(err);
+		// 	setIsLoading(false);
+		// }
 	};
 
 	return (

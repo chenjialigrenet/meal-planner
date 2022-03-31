@@ -23,7 +23,7 @@ class Plan(models.Model):
 
 
 class Meal(models.Model):
-    plan = models.ForeignKey('Plan', on_delete=models.CASCADE)
+    plan = models.ForeignKey('Plan', on_delete=models.CASCADE, related_name='meals')
     recipes = models.ManyToManyField('Recipe')
 
     BREAKFAST = 1

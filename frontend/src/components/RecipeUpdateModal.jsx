@@ -7,7 +7,7 @@ import axiosInstance from '../axiosApi';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-function RecipeUpdateModal({ recipe, onHide }) {
+function RecipeUpdateModal({ recipe, onHide, setShownRecipe }) {
 	const [fields, handleFieldChange, changeFieldValue] = useFormFields({
 		title: recipe.title,
 		summary: recipe.summary,
@@ -54,8 +54,8 @@ function RecipeUpdateModal({ recipe, onHide }) {
 				creation_date: fields.creation_date,
 				difficulty: fields.difficulty,
 			});
-			//TODO
-			// updateRecipeInParent(newRecipeData);
+			// ??
+			setShownRecipe(newRecipeData);
 			onHide();
 		} catch (err) {
 			console.log(err);

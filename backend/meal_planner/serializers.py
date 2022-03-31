@@ -80,15 +80,15 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         fields = ['id', 'ingredient', 'quantity']
     # From frontend to Django
     def to_internal_value(self, data):
-        if data["id"]:
+        if "id" in data:
             recipe_ingredient = RecipeIngredient.objects.get(pk=data["id"])
         else:
             recipe_ingredient = RecipeIngredient() # If no data, create an empty instance
         
-        if data["ingredient"]: # Prepare ingredient attribute without saving
+        if "ingredient" in data: # Prepare ingredient attribute without saving
             recipe_ingredient.ingredient =  Ingredient.objects.get(pk=data['ingredient'])
         
-        if data["quantity"]: # Prepare quantity attribut without saving
+        if "quantity" in data: # Prepare quantity attribut without saving
             recipe_ingredient.quantity = data["quantity"]
 
         return recipe_ingredient
