@@ -7,15 +7,28 @@ import CardHeader from 'react-bootstrap/esm/CardHeader';
 import Search from '../components/Search';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/Col';
+import { FaTimes, FaEdit } from 'react-icons/fa';
 
 function Plans() {
-	// TODO
-	// put request to update a plan (add, change or remove meals)
-	// delete request to remove a plan
-
-	// Select2 options
 	const [plans, setPlans] = useState([]);
 
+	// TODO
+	// UPDATE one plan
+
+	// DELETE one plan
+	const deletePlan = async (id) => {
+		if (window.confirm('Are you sure to delete this plan?')) {
+			try {
+				await axiosInstance.delete(`/plans/${id}`);
+				const plansLeft = plans.filter((plan) => id !== plan.id);
+				setPlans(plansLeft);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
+	// Select2 options
 	const fetchAllPlans = async () => {
 		try {
 			const response = await axiosInstance.get('/plans/');
@@ -65,7 +78,16 @@ function Plans() {
 						<br />
 						{filteredPlans.map((plan) => (
 							<Card key={plan.id}>
-								<Card.Body>{plan.title}</Card.Body>
+								<Card.Body>
+									{plan.title}
+									<span style={{ float: 'right' }}>
+										<FaTimes
+											onClick={() => {
+												deletePlan(plan.id);
+											}}
+										/>
+									</span>
+								</Card.Body>
 							</Card>
 						))}
 					</div>
@@ -86,7 +108,16 @@ function Plans() {
 						<CardHeader>Selected plan</CardHeader>
 						{selectedPlan.title && (
 							<Card.Body>
-								<Card.Title>{selectedPlan.title}</Card.Title>
+								<Card.Title>
+									{selectedPlan.title}
+									<span style={{ float: 'right' }}>
+										<FaTimes
+											onClick={() => {
+												deletePlan(selectedPlan.id);
+											}}
+										/>
+									</span>
+								</Card.Title>
 
 								<Card.Text>
 									Created on{' '}

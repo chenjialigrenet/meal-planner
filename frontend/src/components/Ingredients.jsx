@@ -39,10 +39,6 @@ function Ingredients() {
 		}
 	};
 
-	// UPDATE one ingredient
-	// const [modalShow, setModalShow] = useState(false);
-	// const openIngModal = (id) => {};
-
 	// Search Ingredient
 	const [searchQuery, setSearchQuery] = useState('');
 	const filteredIngredients = ingredients.filter((ing) => {
