@@ -6,6 +6,7 @@ import Search from './Search';
 import { FaTimes, FaEdit } from 'react-icons/fa';
 import IngDetailsModal from './IngDetailsModal';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Ingredients() {
 	const [ingredients, setIngredients] = useState([]);
@@ -64,25 +65,36 @@ function Ingredients() {
 				<br />
 
 				<div>
-					<ListGroup>
+					{/* <ListGroup> */}
+					<AnimatePresence>
 						{filteredIngredients.map((ingredient) => (
-							<ListGroup.Item key={ingredient.id}>
-								{ingredient.name} ({ingredient.unit})
-								<span style={{ float: 'right' }}>
-									<FaEdit
-										style={{ marginRight: '10px' }}
-										onClick={() => setShownIng(ingredient)}
-									/>
+							<motion.div
+								key={ingredient.id}
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+							>
+								<ListGroup.Item>
+									{ingredient.name} ({ingredient.unit})
+									<span style={{ float: 'right' }}>
+										<FaEdit
+											style={{ marginRight: '10px' }}
+											onClick={() =>
+												setShownIng(ingredient)
+											}
+										/>
 
-									<FaTimes
-										onClick={() =>
-											deleteIngredient(ingredient.id)
-										}
-									/>
-								</span>
-							</ListGroup.Item>
+										<FaTimes
+											onClick={() =>
+												deleteIngredient(ingredient.id)
+											}
+										/>
+									</span>
+								</ListGroup.Item>
+							</motion.div>
 						))}
-					</ListGroup>
+					</AnimatePresence>
+					{/* </ListGroup> */}
 					{shownIng && (
 						<IngDetailsModal
 							onHide={() => setShownIng(null)}

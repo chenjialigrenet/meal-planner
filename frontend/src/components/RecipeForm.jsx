@@ -33,7 +33,7 @@ function RecipeForm() {
 		prep_time: '',
 		recipe_ingredients: [],
 		instructions: '',
-		photo: '', //TODO
+		// photo: '', //TODO
 		creation_date: '',
 		difficulty: '1', //convert back to string
 	});
@@ -118,45 +118,45 @@ function RecipeForm() {
 
 		//??
 		let formData = new FormData();
-		formData.append({
-			title: fields.title,
-			summary: fields.summary,
-			serves: fields.serves,
-			cooking_temperature: fields.cooking_temperature,
-			cooking_time: fields.cooking_time,
-			prep_time: fields.prep_time,
-			recipe_ingredients: fields.recipe_ingredients.map(
-				(recipeIngredient) => {
-					return {
-						ingredient: recipeIngredient.ingredient.id,
-						quantity: recipeIngredient.quantity,
-					};
-				}
-			),
-			instructions: fields.instructions,
-			photo: fields.photo, // ??
-			creation_date: fields.creation_date,
-			difficulty: fields.difficulty,
-		});
-		// formData.append('title', fields.title);
-		// formData.append('summary', fields.summary);
-		// formData.append('serves', fields.serves);
-		// formData.append('cooking_temperature', fields.cooking_temperature);
-		// formData.append('cooking_time', fields.cooking_time);
-		// formData.append('prep_time', fields.prep_time);
-		// formData.append(
-		// 	'recipe_ingredients',
-		// 	fields.recipe_ingredients.map((recipeIngredient) => {
-		// 		return {
-		// 			ingredient: recipeIngredient.ingredient.id,
-		// 			quantity: recipeIngredient.quantity,
-		// 		};
-		// 	})
-		// );
-		// formData.append('instructions', fields.instructions);
+		// formData.append({
+		// 	title: fields.title,
+		// 	summary: fields.summary,
+		// 	serves: fields.serves,
+		// 	cooking_temperature: fields.cooking_temperature,
+		// 	cooking_time: fields.cooking_time,
+		// 	prep_time: fields.prep_time,
+		// 	recipe_ingredients: fields.recipe_ingredients.map(
+		// 		(recipeIngredient) => {
+		// 			return {
+		// 				ingredient: recipeIngredient.ingredient.id,
+		// 				quantity: recipeIngredient.quantity,
+		// 			};
+		// 		}
+		// 	),
+		// 	instructions: fields.instructions,
+		// 	photo: fields.photo, // ??
+		// 	creation_date: fields.creation_date,
+		// 	difficulty: fields.difficulty,
+		// });
+		formData.append('title', fields.title);
+		formData.append('summary', fields.summary);
+		formData.append('serves', fields.serves);
+		formData.append('cooking_temperature', fields.cooking_temperature);
+		formData.append('cooking_time', fields.cooking_time);
+		formData.append('prep_time', fields.prep_time);
+		formData.append(
+			'recipe_ingredients',
+			fields.recipe_ingredients.map((recipeIngredient) => {
+				return {
+					ingredient: recipeIngredient.ingredient.id,
+					quantity: recipeIngredient.quantity,
+				};
+			})
+		);
+		formData.append('instructions', fields.instructions);
 		// formData.append('photo', fields.photo);
-		// formData.append('creation_date', fields.creation_date);
-		// formData.append('difficulty', fields.difficulty);
+		formData.append('creation_date', fields.creation_date);
+		formData.append('difficulty', fields.difficulty);
 
 		try {
 			await axiosInstance.post('/recipes/create/', formData);
@@ -306,7 +306,8 @@ function RecipeForm() {
 					/>
 				</Form.Group>
 				{/* TODO */}
-				<ImageUploader />
+				{/* <ImageUploader /> */}
+
 				{/* <Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
 					<Form.Control

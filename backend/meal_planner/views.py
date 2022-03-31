@@ -14,6 +14,7 @@ class PlanView(viewsets.ModelViewSet):
     serializer_class = PlanSerializer
     queryset = Plan.objects.all()
 
+
 class CustomRecipePagination(pagination.PageNumberPagination):
     page_size = 5
     page_size_query_param = 'page_size'
@@ -27,10 +28,10 @@ class CustomRecipePagination(pagination.PageNumberPagination):
             'recipes': data
         })
 
+
 class RecipeView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     pagination_class = CustomRecipePagination
-
 
     def get_queryset(self):
         queryset = Recipe.objects.all()
@@ -44,17 +45,17 @@ class RecipeView(viewsets.ModelViewSet):
         return  queryset.order_by("id")
 
 # ??
-class RecipePhotoUpload(APIView):
-    parse_classes = [MultiPartParser, FormParser]
+# class RecipePhotoUpload(APIView):
+#     parse_classes = [MultiPartParser, FormParser]
 
-    def post(self, request, format=None):
-        print(request.data);
-        serializer = serializer.PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request, format=None):
+#         # print(request.data);
+#         serializer = serializer.PostSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MealView(viewsets.ModelViewSet):

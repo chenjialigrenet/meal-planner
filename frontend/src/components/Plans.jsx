@@ -7,6 +7,7 @@ import CardHeader from 'react-bootstrap/esm/CardHeader';
 import Search from '../components/Search';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
 
 function Plans() {
 	// TODO
@@ -96,6 +97,10 @@ function Plans() {
 							</Card.Body>
 						)}
 					</Card>
+					<br />
+					<div>
+						<Link to="/plans/create">Create a plan</Link>
+					</div>
 				</Col>
 			</Row>
 		</div>

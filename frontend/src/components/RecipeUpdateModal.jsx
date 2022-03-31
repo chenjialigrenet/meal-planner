@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -7,14 +8,16 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 function RecipeUpdateModal({ recipe, onHide }) {
-	const [fields, handleFieldChange] = useFormFields({
+	const [fields, handleFieldChange, changeFieldValue] = useFormFields({
 		title: recipe.title,
 		summary: recipe.summary,
 		serves: recipe.serves,
 		cooking_temperature: recipe.cooking_temperature,
 		cooking_time: recipe.cooking_time,
 		prep_time: recipe.prep_time,
-		recipe_ingredients: recipe.recipe_ingredients,
+		recipe_ingredients: JSON.parse(
+			JSON.stringify(recipe.recipe_ingredients)
+		),
 		instructions: recipe.instructions,
 		// photo: recipe.photo,//TODO
 		creation_date: recipe.creation_date,
@@ -24,24 +27,52 @@ function RecipeUpdateModal({ recipe, onHide }) {
 	// UPDATE one recipe
 	const updateRecipe = async (id) => {
 		try {
-			await axiosInstance.put(`/recipes/${id}/`, {
+			const newRecipeData = await axiosInstance.put(`/recipes/${id}/`, {
 				title: fields.title,
 				summary: fields.summary,
 				serves: fields.serves,
 				cooking_temperature: fields.cooking_temperature,
 				cooking_time: fields.cooking_time,
 				prep_time: fields.prep_time,
-				recipe_ingredients: fields.recipe_ingredients,
+				recipe_ingredients: fields.recipe_ingredients.map(
+					(recipeIngredient) => {
+						if (recipeIngredient._destroy) {
+						} else if (recipeIngredient.id) {
+							return {
+								id: recipeIngredient.id,
+								ingredient: recipeIngredient.ingredient.id,
+								quantity: recipeIngredient.quantity,
+							};
+						} else {
+						}
+					}
+				),
 				instructions: fields.instructions,
 				// photo: fields.photo,//TODO
 				creation_date: fields.creation_date,
 				difficulty: fields.difficulty,
 			});
-
-			window.location.reload();
+			//TODO
+			//updateRecipeInParent(newRecipeData);
+			onHide();
 		} catch (err) {
 			console.log(err);
 		}
+	};
+
+	const updateRecipeIngredientQuantity = (
+		recipeIngredientId,
+		newQuantity
+	) => {
+		const recipeIngredient = fields.recipe_ingredients.find(
+			(recipeIngredient) => recipeIngredient.id === recipeIngredientId
+		);
+		console.log(newQuantity);
+		recipeIngredient.quantity = parseInt(newQuantity);
+		if (isNaN(recipeIngredient.quantity)) {
+			recipeIngredient.quantity = '';
+		}
+		changeFieldValue('recipe_ingredients', fields.recipe_ingredients);
 	};
 
 	return (
@@ -147,36 +178,26 @@ function RecipeUpdateModal({ recipe, onHide }) {
 														value={
 															recipeIngredient.quantity
 														}
-														onChange={
-															handleFieldChange
+														onChange={(event) =>
+															updateRecipeIngredientQuantity(
+																recipeIngredient.id,
+																event.target
+																	.value
+															)
 														}
 														name="quantity"
 													/>
 												</Col>
 												<Col>
-													<Form.Control
-														value={
-															recipeIngredient
-																.ingredient.unit
-														}
-														onChange={
-															handleFieldChange
-														}
-														name="unit"
-													/>
-												</Col>
-												of
-												<Col>
-													<Form.Control
-														value={
-															recipeIngredient
-																.ingredient.name
-														}
-														onChange={
-															handleFieldChange
-														}
-														name="name"
-													/>
+													{
+														recipeIngredient
+															.ingredient.unit
+													}{' '}
+													of{' '}
+													{
+														recipeIngredient
+															.ingredient.name
+													}
 												</Col>
 											</Row>
 										</li>

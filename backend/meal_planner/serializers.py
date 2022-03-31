@@ -80,9 +80,18 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         fields = ['id', 'ingredient', 'quantity']
     # From frontend to Django
     def to_internal_value(self, data):
-        if data['ingredient']:
-            data['ingredient'] = Ingredient.objects.get(pk=data['ingredient'])
-        return super().to_internal_value(data) # Default behaviour
+        if data["id"]:
+            recipe_ingredient = RecipeIngredient.objects.get(pk=data["id"])
+        else:
+            recipe_ingredient = RecipeIngredient() # If no data, create an empty instance
+        
+        if data["ingredient"]: # Prepare ingredient attribute without saving
+            recipe_ingredient.ingredient =  Ingredient.objects.get(pk=data['ingredient'])
+        
+        if data["quantity"]: # Prepare quantity attribut without saving
+            recipe_ingredient.quantity = data["quantity"]
+
+        return recipe_ingredient
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -94,18 +103,25 @@ class RecipeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         recipe_ingredients = validated_data.pop("recipe_ingredients")
         recipe = Recipe.objects.create(**validated_data)
-        for ingredient_attributes in recipe_ingredients:
-            RecipeIngredient.objects.create(
-                ingredient = ingredient_attributes["ingredient"], 
-                recipe = recipe, 
-                quantity = ingredient_attributes["quantity"]
-            )
+        for recipe_ingredient in recipe_ingredients:
+            recipe_ingredient.recipe = recipe 
+            recipe_ingredient.save()
         return recipe 
 
-    # def update(self, validated_data):
-    #     recipe = Recipe.objects.update(
+    def update(self, instance, validated_data):
+        recipe_ingredients = validated_data.pop("recipe_ingredients")
+        if recipe_ingredients:
+            for recipe_ingredient in recipe_ingredients:
+                if recipe_ingredient.id:
+                    recipe_ingredient.save()
+                else:
+                    recipe_ingredient.recipe = instance 
+                    recipe_ingredient.save()
+        for name, value in validated_data.items():
+            setattr(instance, name, value)
+        instance.save()
 
-    #     )
+        return instance 
 
 
 class MealSerializer(serializers.ModelSerializer):
