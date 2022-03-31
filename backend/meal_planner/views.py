@@ -53,6 +53,7 @@ class CustomRecipePagination(pagination.PageNumberPagination):
 class RecipeView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     pagination_class = CustomRecipePagination
+    parse_classes = [MultiPartParser, FormParser]
 
     def get_queryset(self):
         queryset = Recipe.objects.all()

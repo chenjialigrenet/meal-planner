@@ -33,7 +33,7 @@ function RecipeForm() {
 		prep_time: '',
 		recipe_ingredients: [],
 		instructions: '',
-		//photo: '', //TODO
+		photo: '',
 		creation_date: '',
 		difficulty: '1', //convert back to string
 	});
@@ -117,25 +117,43 @@ function RecipeForm() {
 		setIsLoading(true);
 
 		try {
-			await axiosInstance.post('/recipes/', {
-				title: fields.title,
-				summary: fields.summary,
-				serves: fields.serves,
-				cooking_temperature: fields.cooking_temperature,
-				cooking_time: fields.cooking_time,
-				prep_time: fields.prep_time,
-				recipe_ingredients: fields.recipe_ingredients.map(
-					(recipeIngredient) => {
+			const formData = new FormData();
+
+			formData.append('title', fields.title);
+			formData.append('summary', fields.summary);
+			formData.append('serves', fields.serves);
+			formData.append('cooking_temperature', fields.cooking_temperature);
+			formData.append('cooking_time', fields.cooking_time);
+			formData.append('prep_time', fields.prep_time);
+			// fields.recipe_ingredients.forEach((recipeIngredient, index) => {
+			// 	formData.append(
+			// 		`recipe_ingredients[${index}][ingredient]`,
+			// 		recipeIngredient.ingredient.id
+			// 	);
+			// 	formData.append(
+			// 		`recipe_ingredients[${index}][quantity]`,
+			// 		recipeIngredient.quantity
+			// 	);
+			// });
+			formData.append(
+				'recipe_ingredients',
+				JSON.stringify(
+					fields.recipe_ingredients.map((recipeIngredient) => {
 						return {
 							ingredient: recipeIngredient.ingredient.id,
 							quantity: recipeIngredient.quantity,
 						};
-					}
-				),
-				instructions: fields.instructions,
-				photo: fields.photo, // ??
-				creation_date: fields.creation_date,
-				difficulty: fields.difficulty,
+					})
+				)
+			);
+			formData.append('instructions', fields.instructions);
+			formData.append('photo', fields.photo, fields.photo.name);
+			formData.append('difficulty', fields.difficulty);
+
+			await axiosInstance.post('/recipes/', formData, {
+				headers: {
+					'content-type': 'multipart/form-data',
+				},
 			});
 
 			setIsLoading(false);
@@ -155,39 +173,12 @@ function RecipeForm() {
 		// 	cooking_temperature: fields.cooking_temperature,
 		// 	cooking_time: fields.cooking_time,
 		// 	prep_time: fields.prep_time,
-		// 	recipe_ingredients: fields.recipe_ingredients.map(
-		// 		(recipeIngredient) => {
-		// 			return {
-		// 				ingredient: recipeIngredient.ingredient.id,
-		// 				quantity: recipeIngredient.quantity,
-		// 			};
-		// 		}
-		// 	),
+
 		// 	instructions: fields.instructions,
 		// 	photo: fields.photo, // ??
 		// 	creation_date: fields.creation_date,
 		// 	difficulty: fields.difficulty,
 		// });
-
-		// formData.append('title', fields.title);
-		// formData.append('summary', fields.summary);
-		// formData.append('serves', fields.serves);
-		// formData.append('cooking_temperature', fields.cooking_temperature);
-		// formData.append('cooking_time', fields.cooking_time);
-		// formData.append('prep_time', fields.prep_time);
-		// formData.append(
-		// 	'recipe_ingredients',
-		// 	fields.recipe_ingredients.map((recipeIngredient) => {
-		// 		return {
-		// 			ingredient: recipeIngredient.ingredient.id,
-		// 			quantity: recipeIngredient.quantity,
-		// 		};
-		// 	})
-		// );
-		// formData.append('instructions', fields.instructions);
-		// // formData.append('photo', fields.photo);
-		// formData.append('creation_date', fields.creation_date);
-		// formData.append('difficulty', fields.difficulty);
 
 		// try {
 		// 	await axiosInstance.post('/recipes/create/', formData);
@@ -339,19 +330,23 @@ function RecipeForm() {
 				{/* TODO */}
 				{/* <ImageUploader /> */}
 
-				{/* <Form.Group controlId="photo">
+				<Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
-					<Form.Control
+					{/* <Form.Control
 						type="file"
-						multiple
 						accept="image/*"
 						value={fields.photo}
-						onChange={onImageChange}
-					/>
-					{imageURLs.map((imageSrc) => (
-						<img src={imageSrc} alt="recipe photos" />
-					))}
-				</Form.Group> */}
+						name="photo"
+						onChange={handleFieldChange}
+					/> */}
+					<input
+						type="file"
+						name="photo"
+						accept="image/*"
+						className="form-control"
+						onChange={handleFieldChange}
+					></input>
+				</Form.Group>
 
 				<Form.Group controlId="difficulty">
 					<Form.Label>Difficulty</Form.Label>

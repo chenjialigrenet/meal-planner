@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+import json
 import pdb
 
 class UserSerializer(serializers.ModelSerializer):
@@ -99,6 +100,11 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ['id', 'title', 'summary', 'serves', 'cooking_temperature', 'cooking_time', 'prep_time', 'recipe_ingredients', 'instructions', 'photo', 'creation_date', 'difficulty']
+
+    def to_internal_value(self, data):
+        if "recipe_ingredients"  in data and isinstance(data["recipe_ingredients"], str):
+            data["recipe_ingredients"] = json.loads(data["recipe_ingredients"])
+        return super().to_internal_value(data.dict())
 
     def create(self, validated_data):
         recipe_ingredients = validated_data.pop("recipe_ingredients")

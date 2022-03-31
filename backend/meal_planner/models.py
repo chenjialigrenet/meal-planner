@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
-
+import hashlib
+import pdb
 
 def upload_to(instance, filename):
-    return 'media/{filename}'.format(filename=filename)
-
+    md5 = hashlib.md5(str(instance.title).encode('utf-8')).hexdigest()[0:5]
+    return '{md5}/{filename}'.format(filename=filename,md5=md5)
 
 class User(AbstractUser):
     # username = models.CharField(max_length=200)

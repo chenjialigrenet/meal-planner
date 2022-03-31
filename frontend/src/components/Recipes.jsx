@@ -77,7 +77,10 @@ function Recipes() {
 								exit={{ opacity: 0 }}
 							>
 								<Card>
-									{/* <Card.Img variant="top" src={recipe.photo} /> */}
+									<Card.Img
+										variant="top"
+										src={recipe.photo}
+									/>
 									<Card.Body>
 										<span style={{ float: 'right' }}>
 											<FaTimes

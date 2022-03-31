@@ -51,7 +51,7 @@ function Pagination({ currentPage, totalPages, setCurrentPage }) {
 		</BsPagination.Item>
 	);
 
-	if (currentPage + 1 < totalPages) {
+	if (currentPage + 1 <= totalPages) {
 		items.push(
 			<BsPagination.Item
 				key={currentPage + 1}
@@ -62,7 +62,7 @@ function Pagination({ currentPage, totalPages, setCurrentPage }) {
 		);
 	}
 
-	if (currentPage + 2 < totalPages) {
+	if (currentPage + 2 <= totalPages) {
 		items.push(
 			<BsPagination.Item
 				key={currentPage + 2}
