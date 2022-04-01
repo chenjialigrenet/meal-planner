@@ -1,3 +1,15 @@
 .Plans {
 	text-align: left;
 }
+
+.plan-list-container {
+	margin-top: 1em;
+}
+
+.plan-card {
+	margin-bottom: 1em;
+}
+
+.plan-link {
+	text-decoration: none;
+}

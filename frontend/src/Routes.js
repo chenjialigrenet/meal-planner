@@ -42,7 +42,7 @@ function AppRoutes() {
 			<Route exact path="/plans/create" element={<PlanForm />} />
 			<Route exact path="/plans" element={<Plans />} />
 			<Route path="/plans/:planId" element={<PlanDetails />} />
-
+			<Route path="/plans/update/:planId" element={<PlanForm />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

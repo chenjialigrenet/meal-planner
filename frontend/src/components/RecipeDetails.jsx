@@ -55,7 +55,6 @@ function RecipeDetails() {
 				{fields.title} (ID: {params.recipeId})
 				<span style={{ marginLeft: '10px' }}>
 					<FaEdit
-						// onClick={() => setShownRecipe(recipe)}
 						onClick={() => {
 							navigate(`/recipes/update/${params.recipeId}`);
 						}}

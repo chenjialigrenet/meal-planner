@@ -23,9 +23,6 @@ function PlanForm() {
 	});
 
 	const navigate = useNavigate();
-	// const showRecipes = () => {
-	// 	navigate('/recipe');
-	// };
 
 	const handlePlanCreate = async (event) => {
 		event.preventDefault();
@@ -39,8 +36,6 @@ function PlanForm() {
 		}
 	};
 
-	// TODO get meals => render in a cell
-
 	return (
 		<div>
 			<Form onSubmit={handlePlanCreate}>
@@ -53,7 +48,7 @@ function PlanForm() {
 						name="title"
 					/>
 				</Form.Group>
-				<br />
+
 				{/* <Table bordered>
 					<thead>
 						<tr>

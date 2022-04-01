@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
-// import Select from 'react-select';
-// import Form from 'react-bootstrap/Form';
-// import CardHeader from 'react-bootstrap/esm/CardHeader';
 import Card from 'react-bootstrap/Card';
 import Search from '../components/Search';
 import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Pagination from './utilities/Pagination';
 import './Plans.css';
+import { Link } from 'react-router-dom';
 
 function Plans() {
 	const [plans, setPlans] = useState([]);
@@ -41,7 +39,7 @@ function Plans() {
 				const response = await axiosInstance.get(
 					`/plans/?query=${searchQuery}&page=${currentPage}`
 				);
-				console.log(response.data);
+				// console.log(response.data);
 				setPlans(response.data.plans);
 				setTotalPages(response.data.total_pages);
 				setIsFetching(false);
@@ -76,8 +74,8 @@ function Plans() {
 	return (
 		<div className="Plans">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
-			<br />
-			<div>
+
+			<div className="plan-list-container">
 				{isFetching ? (
 					<div>Please wait...</div>
 				) : (
@@ -89,9 +87,14 @@ function Plans() {
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
 							>
-								<Card>
+								<Card className="plan-card">
 									<Card.Body style={{ position: 'relative' }}>
-										<span>{plan.title}</span>
+										<Link
+											to={`/plans/${plan.id}`}
+											className="plan-link"
+										>
+											{plan.title}
+										</Link>
 										<span style={{ float: 'right' }}>
 											<FaTimes
 												onClick={() => {
@@ -101,7 +104,6 @@ function Plans() {
 										</span>
 									</Card.Body>
 								</Card>
-								<br />
 							</motion.div>
 						))}
 					</AnimatePresence>
