@@ -8,6 +8,9 @@ import Button from 'react-bootstrap/Button';
 import RecipeDetailsModal from './RecipeDetailsModal';
 import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import { useNavigate } from 'react-router-dom';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);
@@ -16,6 +19,7 @@ function Recipes() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [shownRecipe, setShownRecipe] = useState(null);
+	const navigate = useNavigate();
 
 	// Search bar by continuous fetching using axios
 	const updateQuery = (query) => {
@@ -63,7 +67,7 @@ function Recipes() {
 	return (
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
-			<br />
+
 			<div>
 				{isFetching ? (
 					<div>Please wait...</div>
@@ -76,46 +80,77 @@ function Recipes() {
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
 							>
-								<Card>
-									<Card.Img
-										variant="top"
-										src={recipe.photo}
-									/>
-									<Card.Body>
-										<span style={{ float: 'right' }}>
-											<FaTimes
-												onClick={() => {
-													deleteRecipe(recipe.id);
-												}}
-											/>
-										</span>
-										<Card.Title>{recipe.title}</Card.Title>
+								<Card className="recipe-card">
+									<Row>
+										<Col className="recipe-left" md="2">
+											<div className="recipe-photo">
+												<img
+													className="recipe-photo"
+													src={recipe.photo}
+													alt={recipe.id}
+												/>
+											</div>
+										</Col>
+										<Col md="10">
+											<div className="recipe-info">
+												<span className="btn-close-recipe">
+													<FaTimes
+														onClick={() => {
+															deleteRecipe(
+																recipe.id
+															);
+														}}
+													/>
+												</span>
+												<Card.Title>
+													{recipe.title}
+												</Card.Title>
 
-										<div>
-											{recipe.summary}
-											<div>
-												Serves: {recipe.serves} |
-												Cooking temperature:{' '}
-												{recipe.cooking_temperature}
-												°C | Cooking time:{' '}
-												{recipe.cooking_time} min | Prep
-												time: {recipe.prep_time} min
+												<div>
+													{recipe.summary}
+													<div>
+														Serves: {recipe.serves}{' '}
+														| Cooking temperature:{' '}
+														{
+															recipe.cooking_temperature
+														}
+														°C | Cooking time:{' '}
+														{recipe.cooking_time}{' '}
+														min | Prep time:{' '}
+														{recipe.prep_time} min
+													</div>
+													<div>
+														Difficulty:{' '}
+														{recipe.difficulty}
+														/5
+													</div>
+												</div>
+												<Button
+													size="sm"
+													className="btn-recipe-preview"
+													onClick={() =>
+														setShownRecipe(recipe)
+													}
+												>
+													Preview
+												</Button>
+												<Button
+													size="sm"
+													variant="success"
+													className="btn-recipe-details"
+													onClick={() => {
+														setShownRecipe(recipe);
+														navigate(
+															`/recipes/${recipe.id}`
+														);
+													}}
+												>
+													Details
+												</Button>
 											</div>
-											<div>
-												Difficulty: {recipe.difficulty}
-												/5
-											</div>
-										</div>
-										<Button
-											onClick={() =>
-												setShownRecipe(recipe)
-											}
-										>
-											Details
-										</Button>
-									</Card.Body>
+										</Col>
+									</Row>
 								</Card>
-								<br />
 							</motion.div>
 						))}
 					</AnimatePresence>

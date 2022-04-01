@@ -34,7 +34,6 @@ function RecipeForm() {
 		recipe_ingredients: [],
 		instructions: '',
 		photo: '',
-		creation_date: '',
 		difficulty: '1', //convert back to string
 	});
 
@@ -157,38 +156,12 @@ function RecipeForm() {
 			});
 
 			setIsLoading(false);
-			navigate('/recipes', { replace: true });
+			navigate('/recipe');
 			// window.location.reload();
 		} catch (err) {
 			onError(err);
 			setIsLoading(false);
 		}
-
-		//??
-		// let formData = new FormData();
-		// formData.append({
-		// 	title: fields.title,
-		// 	summary: fields.summary,
-		// 	serves: fields.serves,
-		// 	cooking_temperature: fields.cooking_temperature,
-		// 	cooking_time: fields.cooking_time,
-		// 	prep_time: fields.prep_time,
-
-		// 	instructions: fields.instructions,
-		// 	photo: fields.photo, // ??
-		// 	creation_date: fields.creation_date,
-		// 	difficulty: fields.difficulty,
-		// });
-
-		// try {
-		// 	await axiosInstance.post('/recipes/create/', formData);
-		// 	setIsLoading(false);
-		// 	navigate('/recipes/');
-		// 	window.location.reload();
-		// } catch (err) {
-		// 	onError(err);
-		// 	setIsLoading(false);
-		// }
 	};
 
 	return (
@@ -332,13 +305,6 @@ function RecipeForm() {
 
 				<Form.Group controlId="photo">
 					<Form.Label>Image</Form.Label>
-					{/* <Form.Control
-						type="file"
-						accept="image/*"
-						value={fields.photo}
-						name="photo"
-						onChange={handleFieldChange}
-					/> */}
 					<input
 						type="file"
 						name="photo"
@@ -362,15 +328,7 @@ function RecipeForm() {
 						<option value="5">Expert</option>
 					</Form.Select>
 				</Form.Group>
-				{/* <Form.Group controlId="creation_date">
-					<Form.Label>Crreation date</Form.Label>
-					<Form.Control
-						type="datetime-local"
-						value={fields.creation_date}
-						onChange={handleFieldChange}
-						name="creation_date"
-					/>
-				</Form.Group> */}
+
 				<LoaderButton
 					type="submit"
 					isLoading={isLoading}

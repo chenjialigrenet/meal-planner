@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 // import Select from 'react-select';
 import { FaEdit } from 'react-icons/fa';
 import RecipeUpdateForm from './RecipeUpdateForm';
+import Button from 'react-bootstrap/esm/Button';
 // import RecipeUpdateModal from './RecipeUpdateModal';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {
@@ -75,15 +76,25 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 					<Modal.Title id="contained-modal-title-vcenter">
 						{recipe.title} (ID: {recipe.id})
 					</Modal.Title>
-					<span style={{ marginLeft: '10px' }}>
+					<span style={{ marginLeft: '10px', marginRight: '10px' }}>
 						<FaEdit
 							// onClick={() => setShownRecipe(recipe)}
 							onClick={() => {
 								setShownRecipe(recipe);
-								navigate(`/recipes/${recipe.id}`);
+								navigate(`/recipes/update/${recipe.id}`);
 							}}
 						/>
 					</span>
+					<Button
+						size="sm"
+						variant="success"
+						onClick={() => {
+							setShownRecipe(recipe);
+							navigate(`/recipes/${recipe.id}`);
+						}}
+					>
+						Details
+					</Button>
 				</Modal.Header>
 				<Modal.Body>
 					<div>
@@ -183,7 +194,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 				</Modal.Footer> */}
 			</Modal>
 			{/* <RecipeUpdateModal
-			        setShownRecipe={setShownRecipe}
+			        setShownRecipe={}
 					onHide={() => setShownRecipe(null)}
 					recipe={shownRecipe}
 				/>*/}

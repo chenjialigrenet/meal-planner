@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -19,8 +18,7 @@ function RecipeUpdateModal({ recipe, onHide, setShownRecipe }) {
 			JSON.stringify(recipe.recipe_ingredients)
 		),
 		instructions: recipe.instructions,
-		// photo: recipe.photo,//TODO
-		creation_date: recipe.creation_date,
+		photo: recipe.photo,
 		difficulty: recipe.difficulty,
 	});
 
@@ -50,8 +48,7 @@ function RecipeUpdateModal({ recipe, onHide, setShownRecipe }) {
 					}
 				),
 				instructions: fields.instructions,
-				// photo: fields.photo,//TODO
-				creation_date: fields.creation_date,
+				photo: fields.photo,
 				difficulty: fields.difficulty,
 			});
 			// ??

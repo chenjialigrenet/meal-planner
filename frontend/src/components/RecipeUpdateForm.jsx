@@ -11,7 +11,6 @@ import './RecipeUpdateForm.css';
 
 function RecipeUpdateForm() {
 	const params = useParams();
-
 	const navigate = useNavigate();
 	// Axios fetching recipe data
 	const [isFetching, setIsFetching] = useState(true);
@@ -51,7 +50,7 @@ function RecipeUpdateForm() {
 			prep_time: '',
 			recipe_ingredients: [],
 			instructions: '',
-			photo: '', //TODO
+			photo: '',
 			creation_date: '',
 			difficulty: '',
 		});
@@ -96,12 +95,12 @@ function RecipeUpdateForm() {
 					}
 				),
 				instructions: fields.instructions,
-				// photo: fields.photo,//TODO
+				photo: fields.photo,
 				creation_date: fields.creation_date,
 				difficulty: fields.difficulty,
 			});
 			setIsLoading(false);
-			navigate('/recipe', { replace: true });
+			navigate('/recipes/:recipeId', { replace: true });
 			// window.location.href = '/recipe';
 		} catch (err) {
 			console.log(err);
@@ -243,19 +242,17 @@ function RecipeUpdateForm() {
 					{/* TODO */}
 					{/* <ImageUploader /> */}
 
-					{/* <Form.Group controlId="photo">
-					<Form.Label>Image</Form.Label>
-					<Form.Control
-						type="file"
-						multiple
-						accept="image/*"
-						value={fields.photo}
-						onChange={onImageChange}
-					/>
-					{imageURLs.map((imageSrc) => (
-						<img src={imageSrc} alt="recipe photos" />
-					))}
-				</Form.Group> */}
+					<Form.Group controlId="photo">
+						<Form.Label>Image</Form.Label>
+						<input
+							type="file"
+							name="photo"
+							accept="image/*"
+							className="form-control"
+							value={fields.photo}
+							onChange={handleFieldChange}
+						></input>
+					</Form.Group>
 					<Form.Group controlId="difficulty">
 						<Form.Label>Difficulty</Form.Label>
 						<Form.Select

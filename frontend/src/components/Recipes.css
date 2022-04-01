@@ -1,3 +1,32 @@
 .Recipes {
 	text-align: left;
 }
+
+.recipe-card {
+	display: flex;
+	padding: 1em 2em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.recipe-left {
+	background-color: lightgray;
+}
+
+.recipe-photo {
+	margin-left: auto;
+	margin-right: auto;
+	width: 10em;
+}
+
+.recipe-info {
+	margin-left: 2em;
+}
+
+.btn-close-recipe {
+	float: right;
+}
+
+.btn-recipe-preview {
+	margin-right: 1em;
+}
