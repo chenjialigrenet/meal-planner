@@ -25,9 +25,7 @@ function RecipeUpdateForm() {
 				`/recipes/${params.recipeId}/`
 			);
 			const recipeData = response.data;
-
 			setFieldsValues(recipeData);
-
 			setIsFetching(false);
 		} catch (err) {
 			console.log(err);
@@ -68,7 +66,7 @@ function RecipeUpdateForm() {
 	// };
 
 	// UPDATE one recipe
-	const updateRecipe = async (e) => {
+	const handleUpdateRecipe = async (e) => {
 		e.preventDefault();
 		setIsLoading(true);
 		try {
@@ -127,7 +125,7 @@ function RecipeUpdateForm() {
 		<div className="RecipeUpdateForm">
 			<h3>Update Recipe (ID: {params.recipeId})</h3>
 			{!isFetching && (
-				<Form onSubmit={updateRecipe}>
+				<Form onSubmit={handleUpdateRecipe}>
 					<Form.Group controlId="title">
 						<Form.Label>Title</Form.Label>
 						<Form.Control

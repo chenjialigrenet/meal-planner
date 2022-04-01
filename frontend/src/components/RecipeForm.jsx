@@ -111,7 +111,7 @@ function RecipeForm() {
 	// 	);
 	// };
 
-	const handleSubmit = async (event) => {
+	const handleCreateRecipe = async (event) => {
 		event.preventDefault();
 		setIsLoading(true);
 
@@ -167,7 +167,7 @@ function RecipeForm() {
 	return (
 		<div className="RecipeForm">
 			<h3>Create Recipe</h3>
-			<Form onSubmit={handleSubmit}>
+			<Form onSubmit={handleCreateRecipe}>
 				<Form.Group controlId="title">
 					<Form.Label>Title</Form.Label>
 					<Form.Control

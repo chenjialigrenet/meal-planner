@@ -3,7 +3,7 @@ import './PlanForm.css';
 // import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../lib/hooksLib';
 import axiosInstance from '../axiosApi';
 
@@ -20,8 +20,12 @@ function PlanForm() {
 
 	const [fields, handleFieldChange] = useFormFields({
 		title: '',
+		// meals: [],
+		// day: '',
+		// meal: '',
+		// user: '',
 	});
-
+	const params = useParams();
 	const navigate = useNavigate();
 
 	const handlePlanCreate = async (event) => {
@@ -29,8 +33,22 @@ function PlanForm() {
 		try {
 			await axiosInstance.post('/plans/', {
 				title: fields.title,
+				// meals: fields.meals.map((meal) => {
+				// 	return {
+				// 		id: meal.id,
+				// 		plan: meal.plan,
+				// 		day: meal.day,
+				// 		meal: meal.meal,
+				// 		recipes: meal.recipes.map((recipe) => {
+				// 			return {
+				// 				id: recipe.id,
+				// 				title: recipe.title,
+				// 			};
+				// 		}),
+				// 	};
+				// }),
 			});
-			navigate('/plans');
+			navigate('/plan');
 		} catch (err) {
 			console.log(err);
 		}
