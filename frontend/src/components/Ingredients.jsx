@@ -4,7 +4,7 @@ import './Ingredients.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Search from './utilities/Search';
 import { FaTimes, FaEdit } from 'react-icons/fa';
-import IngDetailsModal from './IngDetailsModal';
+import IngDetailsModal from './modals/IngDetailsModal';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 

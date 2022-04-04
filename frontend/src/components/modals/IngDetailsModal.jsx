@@ -1,6 +1,6 @@
 import { Modal, Button, Form } from 'react-bootstrap';
-import useFormFields from '../lib/hooksLib';
-import axiosInstance from '../axiosApi';
+import useFormFields from '../../lib/hooksLib';
+import axiosInstance from '../../axiosApi';
 
 function IngDetailsModal({ ingredient, onHide }) {
 	const [fields, handleFieldChange] = useFormFields({

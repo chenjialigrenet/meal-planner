@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Select from 'react-select';
 import { FaEdit } from 'react-icons/fa';
-import RecipeForm from './RecipeForm';
+import RecipeForm from '../forms/RecipeForm';
 // import RecipeUpdateModal from './RecipeUpdateModal';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {

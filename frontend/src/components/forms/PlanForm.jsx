@@ -1,10 +1,10 @@
 import './PlanForm.css';
 import { Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import useFormFields from '../lib/hooksLib';
+import useFormFields from '../../lib/hooksLib';
 import { useState, useEffect } from 'react';
-import LoaderButton from '../components/utilities/LoaderButton';
-import axiosInstance from '../axiosApi';
+import LoaderButton from '../utilities/LoaderButton';
+import axiosInstance from '../../axiosApi';
 import Select from 'react-select';
 
 function PlanForm() {

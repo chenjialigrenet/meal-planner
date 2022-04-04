@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import useFormFields from '../lib/hooksLib';
-import LoaderButton from './utilities/LoaderButton';
+import useFormFields from '../../lib/hooksLib';
+import LoaderButton from '../utilities/LoaderButton';
 import './RecipeForm.css';
-import axiosInstance from '../axiosApi';
-import onError from '../lib/errorLib';
+import axiosInstance from '../../axiosApi';
+import onError from '../../lib/errorLib';
 import { Col, Row, Table, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { FaTimes } from 'react-icons/fa';

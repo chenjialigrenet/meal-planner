@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import useFormFields from '../lib/hooksLib';
-import LoaderButton from './utilities/LoaderButton';
+import useFormFields from '../../lib/hooksLib';
+import LoaderButton from '../utilities/LoaderButton';
+import axiosInstance from '../../axiosApi';
+import onError from '../../lib/errorLib';
 import './IngredientForm.css';
-import axiosInstance from '../axiosApi';
-import onError from '../lib/errorLib';
 
 function Ingredient() {
 	const [fields, handleFieldChange] = useFormFields({
