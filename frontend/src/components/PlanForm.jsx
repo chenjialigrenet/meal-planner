@@ -1,9 +1,11 @@
-// import { useState } from 'react';
 import './PlanForm.css';
-import { Form, Button, Table } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../lib/hooksLib';
+import { useState, useEffect } from 'react';
+import LoaderButton from '../components/utilities/LoaderButton';
 import axiosInstance from '../axiosApi';
+import Select from 'react-select';
 
 function PlanForm() {
 	// const daysOfWeek = [
@@ -16,17 +18,78 @@ function PlanForm() {
 	// 	'Sunday',
 	// ];
 
-	const [fields, handleFieldChange] = useFormFields({
-		title: '',
-		// meals: [],
-		// day: '',
-		// meal: '',
-		// user: '',
-	});
 	const params = useParams();
+	const isCreate = !params.planId;
+
+	// Axios fetching recipe data
+	const [isFetching, setIsFetching] = useState(true);
+	// Spinner on the submit button
+	const [isLoading, setIsLoading] = useState(false);
+	// Redirect
 	const navigate = useNavigate();
 
-	const handlePlanCreate = async (event) => {
+	// GET all recipes
+	const [recipes, setRecipes] = useState([]);
+	const fetchAllRecipes = async () => {
+		setIsFetching(true);
+		try {
+			const response = await axiosInstance.get('/recipes/');
+			setRecipes(response.data);
+			setIsFetching(false);
+		} catch (err) {
+			console.log(err);
+			setIsFetching(false);
+		}
+	};
+
+	// GET one plan
+	const fetchPlan = async () => {
+		setIsFetching(true);
+		try {
+			const response = await axiosInstance.get(
+				`/plans/${params.planId}/`
+			);
+			const planData = response.data;
+			setFieldsValues(planData);
+			setIsFetching(false);
+		} catch (err) {
+			console.log(err);
+			setIsFetching(false);
+		}
+	};
+
+	useEffect(() => {
+		fetchPlan();
+	}, []);
+
+	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] =
+		useFormFields({
+			title: '',
+			// id: null,
+			// meals: [],
+		});
+
+	// TODO
+	// React Select
+	recipes.map((recipe) => {
+		return (
+			(recipe.value = recipe.name),
+			(recipe.label =
+				recipe.name[0].toUpperCase() + recipe.name.substring(1))
+		);
+	});
+	const recipe_options = recipes;
+	console.log(recipe_options);
+
+	const handleAddRecipe = (selectedRecipe) => {
+		changeFieldValue(
+			'meals',
+			fields.recipe_options.concat([{ recipe: selectedRecipe }])
+		);
+	};
+
+	// CREATE one plan
+	const handleCreatePlan = async (event) => {
 		event.preventDefault();
 		try {
 			await axiosInstance.post('/plans/', {
@@ -52,20 +115,82 @@ function PlanForm() {
 		}
 	};
 
+	// UPDATE one plan
+	const handleUpdatePlan = async (e) => {
+		e.preventDefault();
+		setIsLoading(true);
+		try {
+			await axiosInstance.put(`/plans/${params.planId}/`, {
+				title: fields.title,
+				meals: fields.meals.map((meal) => {
+					if (meal.id) {
+						return {
+							id: meal.id,
+							day: meal.day,
+							meal: meal.meal,
+							recipes: meal.recipes.map((recipe) => {
+								return { id: recipe.id, title: recipe.title };
+							}),
+						};
+					}
+				}),
+			});
+			setIsLoading(false);
+			navigate('/plans/:planId', { replace: true });
+		} catch (err) {
+			console.log(err);
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div>
-			<Form onSubmit={handlePlanCreate}>
-				<Form.Group controlId="title">
-					<Form.Label>Plan title</Form.Label>
-					<Form.Control
-						type="text"
-						value={fields.title}
-						onChange={handleFieldChange}
-						name="title"
-					/>
-				</Form.Group>
+			<h3>
+				{isCreate
+					? 'Create Plan'
+					: `Update Plan (ID: ${params.planId})`}
+			</h3>
+			{!isFetching && (
+				<Form onSubmit={isCreate ? handleCreatePlan : handleUpdatePlan}>
+					<Form.Group controlId="title">
+						<Form.Label>Plan title</Form.Label>
+						<Form.Control
+							type="text"
+							value={fields.title}
+							onChange={handleFieldChange}
+							name="title"
+						/>
+					</Form.Group>
 
-				{/* <Table bordered>
+					<Form.Group controlId="meals">
+						<Form.Label>Meals</Form.Label>
+						{isCreate === false ? (
+							<ul>
+								{fields.meals.map((meal) => {
+									return (
+										<li key={meal.id}>
+											Day {meal.day} | Meal {meal.meal}
+											{/* <Form.Select>
+											{fields.recipes.map((recipe) => {
+												<option value={recipe.id}>
+													{recipe.title}
+												</option>;
+											})}
+										</Form.Select> */}
+										</li>
+									);
+								})}
+							</ul>
+						) : (
+							<Select
+								onChange={handleAddRecipe}
+								options={recipe_options}
+								name="meals"
+							/>
+						)}
+					</Form.Group>
+
+					{/* <Table bordered>
 					<thead>
 						<tr>
 							<th>#</th>
@@ -119,8 +244,15 @@ function PlanForm() {
 						})}
 					</tbody>
 				</Table> */}
-				<Button type="submit">Save</Button>
-			</Form>
+					<LoaderButton
+						type="submit"
+						isLoading={isLoading}
+						// disabled={!validateForm()}
+					>
+						{isCreate ? 'Create' : 'Update'}
+					</LoaderButton>
+				</Form>
+			)}
 		</div>
 	);
 }

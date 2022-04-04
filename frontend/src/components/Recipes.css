@@ -25,6 +25,7 @@
 
 .btn-close-recipe {
 	float: right;
+	cursor: pointer;
 }
 
 .btn-recipe-preview {

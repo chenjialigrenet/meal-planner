@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../axiosApi';
 import useFormFields from '../lib/hooksLib';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTimes } from 'react-icons/fa';
 import './RecipeDetails.css';
 
 function RecipeDetails() {
@@ -49,14 +49,34 @@ function RecipeDetails() {
 			difficulty: '',
 		});
 
+	// DELETE one recipe
+	const deleteRecipe = async (id) => {
+		if (window.confirm('Are you sure to delete this recipe?')) {
+			try {
+				await axiosInstance.delete(`/recipes/${id}`);
+				navigate('/recipe');
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
 	return (
 		<div className="RecipeDetails">
 			<h4 className="recipe recipe-title">
 				{fields.title} (ID: {params.recipeId})
-				<span style={{ marginLeft: '10px' }}>
+				<span style={{ marginLeft: '10px', cursor: 'pointer' }}>
 					<FaEdit
 						onClick={() => {
 							navigate(`/recipes/update/${params.recipeId}`);
+						}}
+					/>
+				</span>
+				<span>
+					<FaTimes
+						style={{ marginLeft: '10px', cursor: 'pointer' }}
+						onClick={() => {
+							deleteRecipe(params.recipeId);
 						}}
 					/>
 				</span>

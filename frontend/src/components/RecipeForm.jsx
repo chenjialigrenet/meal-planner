@@ -44,7 +44,7 @@ function RecipeForm() {
 	// Redirect
 	const navigate = useNavigate();
 
-	// GET all ingredients + Select2 options
+	// GET all ingredients + React Select options
 	const [ingredients, setIngredients] = useState([]);
 	const fetchAllIngredients = async () => {
 		setIsFetching(true);
@@ -100,6 +100,7 @@ function RecipeForm() {
 			difficulty: '1',
 		});
 
+	// React Select
 	ingredients.map((ing) => {
 		return (
 			(ing.value = ing.name),

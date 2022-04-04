@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../axiosApi';
 import useFormFields from '../lib/hooksLib';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaTimes } from 'react-icons/fa';
 import './PlanDetails.css';
 
 function PlanDetails() {
@@ -39,14 +39,34 @@ function PlanDetails() {
 			meals: [],
 		});
 
+	// DELETE one plan
+	const deletePlan = async (id) => {
+		if (window.confirm('Are you sure to delete this plan?')) {
+			try {
+				await axiosInstance.delete(`/plans/${id}`);
+				navigate('/plan');
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	};
+
 	return (
 		<div className="PlanDetails">
 			<h4>
 				{fields.title} (ID: {params.planId})
-				<span style={{ marginLeft: '10px' }}>
+				<span style={{ marginLeft: '10px', cursor: 'pointer' }}>
 					<FaEdit
 						onClick={() => {
 							navigate(`/plans/update/${params.planId}`);
+						}}
+					/>
+				</span>
+				<span>
+					<FaTimes
+						style={{ marginLeft: '10px', cursor: 'pointer' }}
+						onClick={() => {
+							deletePlan(params.planId);
 						}}
 					/>
 				</span>

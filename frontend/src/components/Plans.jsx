@@ -53,11 +53,6 @@ function Plans() {
 		fetchAllPlans();
 	}, [searchQuery, currentPage]);
 
-	// TODO
-	// GET one plan
-
-	// UPDATE one plan
-
 	// DELETE one plan
 	const deletePlan = async (id) => {
 		if (window.confirm('Are you sure to delete this plan?')) {
@@ -95,7 +90,12 @@ function Plans() {
 										>
 											{plan.title}
 										</Link>
-										<span style={{ float: 'right' }}>
+										<span
+											style={{
+												float: 'right',
+												cursor: 'pointer',
+											}}
+										>
 											<FaTimes
 												onClick={() => {
 													deletePlan(plan.id);
