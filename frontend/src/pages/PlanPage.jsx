@@ -1,4 +1,4 @@
-import './Plan.css';
+import './PlanPage.css';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Plans from '../components/Plans';

@@ -5,7 +5,7 @@ import LoaderButton from '../components/utilities/LoaderButton';
 import useFormFields from '../lib/hooksLib';
 import { useNavigate } from 'react-router-dom';
 import { Form, Alert } from 'react-bootstrap';
-import './Login.css';
+import './LoginPage.css';
 import axiosInstance from '../axiosApi';
 import { API_URL } from '../constants';
 

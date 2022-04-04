@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './Recipe.css';
+import './RecipePage.css';
 import Recipes from '../components/Recipes';
 import { Row, Col } from 'react-bootstrap';
 

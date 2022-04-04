@@ -5,7 +5,7 @@ import LoaderButton from '../components/utilities/LoaderButton';
 import { useAppContext } from '../lib/contextLib';
 import useFormFields from '../lib/hooksLib';
 import onError from '../lib/errorLib';
-import './Signup.css';
+import './SignupPage.css';
 import axiosInstance from '../axiosApi';
 
 function Signup() {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import axiosInstance from '../axiosApi';
-import './Home.css';
+import './HomePage.css';
 
 function Home() {
 	async function dummyLoad() {

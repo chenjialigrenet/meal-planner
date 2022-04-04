@@ -1,5 +1,5 @@
 import { useAppContext } from '../lib/contextLib';
-import './User.css';
+import './UserPage.css';
 
 function UserPage() {
 	// TODO edit user
