@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
-import useFormFields from '../lib/hooksLib';
+import useFormFields from '../../lib/hooksLib';
 
 function ImageUploader() {
 	const [fields, handleFieldChange] = useFormFields({ photo: '' });

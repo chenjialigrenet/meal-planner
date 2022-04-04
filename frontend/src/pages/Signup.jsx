@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import LoaderButton from '../components/LoaderButton';
+import LoaderButton from '../components/utilities/LoaderButton';
 import { useAppContext } from '../lib/contextLib';
 import useFormFields from '../lib/hooksLib';
 import onError from '../lib/errorLib';

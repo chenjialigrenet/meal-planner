@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import NotFound from './components/NotFound';
+import NotFound from './components/utilities/NotFound';
 import Plan from './pages/Plan';
 import Recipe from './pages/Recipe';
 import IngredientForm from './components/IngredientForm';
@@ -16,7 +16,6 @@ import Plans from './components/Plans';
 import PlanDetails from './components/PlanDetails';
 // import PlanUpdateForm from './components/PlanUpdateForm';
 import RecipeDetails from './components/RecipeDetails';
-// import RecipeUpdateForm from './components/RecipeUpdateForm';
 
 function AppRoutes() {
 	return (

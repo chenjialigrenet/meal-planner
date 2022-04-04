@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../lib/hooksLib';
-import LoaderButton from '../components/LoaderButton';
+import LoaderButton from './utilities/LoaderButton';
 import './RecipeForm.css';
 import axiosInstance from '../axiosApi';
 import onError from '../lib/errorLib';
