@@ -14,9 +14,9 @@ import User from './pages/User';
 import PlanForm from './components/PlanForm';
 import Plans from './components/Plans';
 import PlanDetails from './components/PlanDetails';
-import PlanUpdateForm from './components/PlanUpdateForm';
+// import PlanUpdateForm from './components/PlanUpdateForm';
 import RecipeDetails from './components/RecipeDetails';
-import RecipeUpdateForm from './components/RecipeUpdateForm';
+// import RecipeUpdateForm from './components/RecipeUpdateForm';
 
 function AppRoutes() {
 	return (
@@ -36,14 +36,11 @@ function AppRoutes() {
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
 			<Route exact path="/recipes" element={<Recipes />} />
 			<Route path="/recipes/:recipeId" element={<RecipeDetails />} />
-			<Route
-				path="/recipes/update/:recipeId"
-				element={<RecipeUpdateForm />}
-			/>
+			<Route path="/recipes/update/:recipeId" element={<RecipeForm />} />
 			<Route exact path="/plans/create" element={<PlanForm />} />
 			<Route exact path="/plans" element={<Plans />} />
 			<Route path="/plans/:planId" element={<PlanDetails />} />
-			<Route path="/plans/update/:planId" element={<PlanUpdateForm />} />
+			<Route path="/plans/update/:planId" element={<PlanForm />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

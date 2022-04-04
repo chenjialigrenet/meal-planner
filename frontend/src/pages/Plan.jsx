@@ -1,7 +1,6 @@
 import './Plan.css';
 import { Link } from 'react-router-dom';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col } from 'react-bootstrap';
 import Plans from '../components/Plans';
 
 function PlanPage() {

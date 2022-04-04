@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import LoaderButton from '../components/LoaderButton';
 import axiosInstance from '../axiosApi';
 import useFormFields from '../lib/hooksLib';
-import { FaNotEqual } from 'react-icons/fa';
 
 function PlanUpdateForm() {
 	const params = useParams();
@@ -13,6 +12,10 @@ function PlanUpdateForm() {
 	const [isFetching, setIsFetching] = useState(true);
 	// Spinner on the submit button
 	const [isLoading, setIsLoading] = useState(false);
+
+	// TODO
+	//fetch recipies
+	// react select
 
 	// GET one plan
 	const fetchPlan = async () => {

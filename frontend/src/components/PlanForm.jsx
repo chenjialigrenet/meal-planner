@@ -1,8 +1,6 @@
 // import { useState } from 'react';
 import './PlanForm.css';
-// import Table from 'react-bootstrap/Table';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Form, Button, Table } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../lib/hooksLib';
 import axiosInstance from '../axiosApi';

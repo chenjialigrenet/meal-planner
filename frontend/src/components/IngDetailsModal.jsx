@@ -1,6 +1,4 @@
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { Modal, Button, Form } from 'react-bootstrap';
 import useFormFields from '../lib/hooksLib';
 import axiosInstance from '../axiosApi';
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import './Ingredients.css';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Search from './Search';
+import Search from './utilities/Search';
 import { FaTimes, FaEdit } from 'react-icons/fa';
 import IngDetailsModal from './IngDetailsModal';
 import { Link } from 'react-router-dom';

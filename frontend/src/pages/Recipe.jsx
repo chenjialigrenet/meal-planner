@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom';
 import './Recipe.css';
 import Recipes from '../components/Recipes';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col } from 'react-bootstrap';
 
 function RecipePage() {
 	return (

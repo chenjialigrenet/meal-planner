@@ -103,8 +103,12 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         if "recipe_ingredients"  in data and isinstance(data["recipe_ingredients"], str):
+            data._mutable = True 
             data["recipe_ingredients"] = json.loads(data["recipe_ingredients"])
-        return super().to_internal_value(data.dict())
+            data._mutable = False
+        if hasattr(data, 'dict'):
+            data = data.dict()
+        return super().to_internal_value(data)
 
     def create(self, validated_data):
         recipe_ingredients = validated_data.pop("recipe_ingredients")

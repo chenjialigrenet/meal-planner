@@ -1,6 +1,4 @@
-import Modal from 'react-bootstrap/Modal';
-// import Button from 'react-bootstrap/Button';
-// import Form from 'react-bootstrap/Form';
+import { Modal, Button } from 'react-bootstrap';
 import './RecipeDetailsModal.css';
 import { useState } from 'react';
 // import useFormFields from '../lib/hooksLib';
@@ -8,8 +6,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Select from 'react-select';
 import { FaEdit } from 'react-icons/fa';
-import RecipeUpdateForm from './RecipeUpdateForm';
-import Button from 'react-bootstrap/esm/Button';
+import RecipeForm from './RecipeForm';
 // import RecipeUpdateModal from './RecipeUpdateModal';
 
 const RecipeDetailsModal = ({ recipe, onHide }) => {
@@ -198,7 +195,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 					onHide={() => setShownRecipe(null)}
 					recipe={shownRecipe}
 				/>*/}
-			{shownRecipe && <RecipeUpdateForm recipe={shownRecipe} />}
+			{shownRecipe && <RecipeForm recipe={shownRecipe} />}
 		</div>
 	);
 };

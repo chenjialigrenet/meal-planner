@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
 import Card from 'react-bootstrap/Card';
-import Search from '../components/Search';
+import Search from '../components/utilities/Search';
+import Pagination from './utilities/Pagination';
 import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import Pagination from './utilities/Pagination';
-import './Plans.css';
 import { Link } from 'react-router-dom';
+import './Plans.css';
 
 function Plans() {
 	const [plans, setPlans] = useState([]);
