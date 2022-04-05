@@ -140,15 +140,31 @@ class MealSerializer(serializers.ModelSerializer):
         model = Meal
         fields = ['id', 'plan', 'recipes', 'day', 'meal']
 
+    def to_internal_value(self, data):
+        if 'id' in data:
+            instance = Meal.objects.get(pk=data['id'])
+            if 'recipes' in data:
+                recipes = [Recipe.objects.get(pk=recipe['id']) for recipe in data['recipes']]
+                instance.recipes.set(recipes) 
+                return instance
+
+
 
 class PlanSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    meals = MealSerializer(many=True, read_only=True)
+    meals = MealSerializer(many=True)
     class Meta:
         model = Plan
         fields = ['id', 'title', 'creation_date', 'user', 'meals']
 
-    # TODO missing meals
+    def update(self, instance, validated_data):
+        if 'meals' in validated_data:
+            instance.meals.set(validated_data["meals"])
+        if 'title' in validated_data:
+            instance.title = validated_data['title']
+        instance.save()
+        return instance
+
     def create(self, validated_data):
             plan = Plan.objects.create(
                 title = validated_data["title"],

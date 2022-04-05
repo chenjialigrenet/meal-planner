@@ -1,23 +1,13 @@
 import './PlanForm.css';
-import { Form } from 'react-bootstrap';
+import { Form, Table } from 'react-bootstrap';
+import { AsyncPaginate } from 'react-select-async-paginate';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../../lib/hooksLib';
 import { useState, useEffect } from 'react';
 import LoaderButton from '../utilities/LoaderButton';
 import axiosInstance from '../../axiosApi';
-import Select from 'react-select';
 
 function PlanForm() {
-	// const daysOfWeek = [
-	// 	'Monday',
-	// 	'Tuesday',
-	// 	'Wednesday',
-	// 	'Thursday',
-	// 	'Friday',
-	// 	'Saturday',
-	// 	'Sunday',
-	// ];
-
 	const params = useParams();
 	const isCreate = !params.planId;
 
@@ -28,20 +18,6 @@ function PlanForm() {
 	// Redirect
 	const navigate = useNavigate();
 
-	// GET all recipes
-	const [recipes, setRecipes] = useState([]);
-	const fetchAllRecipes = async () => {
-		setIsFetching(true);
-		try {
-			const response = await axiosInstance.get('/recipes/');
-			setRecipes(response.data);
-			setIsFetching(false);
-		} catch (err) {
-			console.log(err);
-			setIsFetching(false);
-		}
-	};
-
 	// GET one plan
 	const fetchPlan = async () => {
 		setIsFetching(true);
@@ -49,8 +25,11 @@ function PlanForm() {
 			const response = await axiosInstance.get(
 				`/plans/${params.planId}/`
 			);
-			const planData = response.data;
-			setFieldsValues(planData);
+			setFieldsValues(response.data);
+
+			console.log('PLAN DATA', response.data);
+			console.log('MEALS', response.data.meals);
+
 			setIsFetching(false);
 		} catch (err) {
 			console.log(err);
@@ -59,33 +38,48 @@ function PlanForm() {
 	};
 
 	useEffect(() => {
-		fetchPlan();
+		if (!isCreate) {
+			fetchPlan();
+		}
 	}, []);
 
 	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] =
 		useFormFields({
 			title: '',
-			// id: null,
-			// meals: [],
+			id: null,
+			meals: [],
 		});
 
-	// TODO
-	// React Select
-	recipes.map((recipe) => {
-		return (
-			(recipe.value = recipe.name),
-			(recipe.label =
-				recipe.name[0].toUpperCase() + recipe.name.substring(1))
-		);
-	});
-	const recipe_options = recipes;
-	console.log(recipe_options);
+	// React Select with AsyncPagination
+	const prepareRecipeValue = (recipe) => {
+		if (!recipe) {
+			return null;
+		}
 
-	const handleAddRecipe = (selectedRecipe) => {
-		changeFieldValue(
-			'meals',
-			fields.recipe_options.concat([{ recipe: selectedRecipe }])
+		recipe.value = recipe.title;
+		recipe.label =
+			recipe.title[0].toUpperCase() + recipe.title.substring(1);
+
+		return recipe;
+	};
+
+	async function loadRecipeOptions(searchQuery, loadedOptions) {
+		console.log('LOADED', loadedOptions);
+		const page = Math.floor(loadedOptions.length / 5) + 1;
+		const response = await axiosInstance.get(
+			`/recipes/?query=${searchQuery}&page=${page}`
 		);
+		const recipeOptions = response.data.recipes;
+		recipeOptions.forEach(prepareRecipeValue);
+		return {
+			options: recipeOptions,
+			hasMore: page < response.data.total_pages,
+		};
+	}
+
+	const handleUpdateRecipe = (meal, selectedRecipe) => {
+		meal.recipes = [selectedRecipe];
+		setFieldsValues(JSON.parse(JSON.stringify(fields)));
 	};
 
 	// CREATE one plan
@@ -94,20 +88,6 @@ function PlanForm() {
 		try {
 			await axiosInstance.post('/plans/', {
 				title: fields.title,
-				// meals: fields.meals.map((meal) => {
-				// 	return {
-				// 		id: meal.id,
-				// 		plan: meal.plan,
-				// 		day: meal.day,
-				// 		meal: meal.meal,
-				// 		recipes: meal.recipes.map((recipe) => {
-				// 			return {
-				// 				id: recipe.id,
-				// 				title: recipe.title,
-				// 			};
-				// 		}),
-				// 	};
-				// }),
 			});
 			navigate('/plan');
 		} catch (err) {
@@ -136,12 +116,34 @@ function PlanForm() {
 				}),
 			});
 			setIsLoading(false);
-			navigate('/plans/:planId', { replace: true });
+			navigate(`/plans/${params.planId}`);
 		} catch (err) {
 			console.log(err);
 			setIsLoading(false);
 		}
 	};
+
+	// TODO data transform, group by day
+	// 	const plan = [{day: 1, meal: 1}, { day: 1, meal: 2}, { day: 2, meal: 1}, { day: 2, meal: 2}]
+	const daysOfWeek = [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday',
+	];
+
+	const groupedMeals = {};
+	fields.meals.forEach((planDay) => {
+		if (!groupedMeals[planDay.day]) {
+			groupedMeals[planDay.day] = [];
+		}
+		groupedMeals[planDay.day].push(planDay);
+	});
+	const groupedMealsArray = Object.values(groupedMeals);
+	console.log('GROUPED MEALS', groupedMeals);
 
 	return (
 		<div>
@@ -162,88 +164,63 @@ function PlanForm() {
 						/>
 					</Form.Group>
 
-					<Form.Group controlId="meals">
-						<Form.Label>Meals</Form.Label>
-						{isCreate === false ? (
+					{isCreate === false ? (
+						<Form.Group controlId="meals">
+							<Form.Label>Meals</Form.Label>
+							{/* <Table bordered>
+								<thead style={{ backgroundColor: 'lightgrey' }}>
+									<tr>
+										<th>Day</th>
+										<th>Breakfast</th>
+										<th>Lunch</th>
+										<th>Dinner</th>
+										<th>Dessert</th>
+									</tr>
+								</thead>
+								<tbody>
+									{groupedMealsArray.map(
+										(dayMeals, index) => {
+											console.log(dayMeals);
+											return (
+												<tr key={index}>
+													<td>{index + 1}</td>
+													<td>
+														{
+															dayMeals[0]
+																.recipes[0]
+																.title
+														}
+													</td>
+												</tr>
+											);
+										}
+									)}
+								</tbody>
+							</Table> */}
 							<ul>
 								{fields.meals.map((meal) => {
 									return (
 										<li key={meal.id}>
 											Day {meal.day} | Meal {meal.meal}
-											{/* <Form.Select>
-											{fields.recipes.map((recipe) => {
-												<option value={recipe.id}>
-													{recipe.title}
-												</option>;
-											})}
-										</Form.Select> */}
+											<AsyncPaginate
+												value={prepareRecipeValue(
+													meal.recipes[0]
+												)}
+												loadOptions={loadRecipeOptions}
+												onChange={(recipe) =>
+													handleUpdateRecipe(
+														meal,
+														recipe
+													)
+												}
+											/>
 										</li>
 									);
 								})}
 							</ul>
-						) : (
-							<Select
-								onChange={handleAddRecipe}
-								options={recipe_options}
-								name="meals"
-							/>
-						)}
-					</Form.Group>
+						</Form.Group>
+					) : null}
 
-					{/* <Table bordered>
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Breakfast</th>
-							<th>Lunch</th>
-							<th>Dinner</th>
-							<th>Dessert</th>
-						</tr>
-					</thead>
-					<tbody>
-						{daysOfWeek.map((day) => {
-							return (
-								<tr key={day}>
-									<td>
-										<span className="bold">{day}</span>
-									</td>
-									<td>
-										<Button
-											id="breakfast"
-											onClick={showRecipes}
-										>
-											+
-										</Button>
-									</td>
-									<td>
-										<Button
-											id="lunch"
-											onClick={showRecipes}
-										>
-											+
-										</Button>
-									</td>
-									<td>
-										<Button
-											id="diner"
-											onClick={showRecipes}
-										>
-											+
-										</Button>
-									</td>
-									<td>
-										<Button
-											id="dessert"
-											onClick={showRecipes}
-										>
-											+
-										</Button>
-									</td>
-								</tr>
-							);
-						})}
-					</tbody>
-				</Table> */}
 					<LoaderButton
 						type="submit"
 						isLoading={isLoading}

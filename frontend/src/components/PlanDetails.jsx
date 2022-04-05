@@ -3,7 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axiosInstance from '../axiosApi';
 import useFormFields from '../lib/hooksLib';
 import { FaEdit, FaTimes } from 'react-icons/fa';
+import { Table } from 'react-bootstrap';
 import './PlanDetails.css';
+import { v4 as uuidv4 } from 'uuid';
 
 function PlanDetails() {
 	const params = useParams();
@@ -19,7 +21,7 @@ function PlanDetails() {
 				`/plans/${params.planId}/`
 			);
 			const planData = response.data;
-			console.log(planData);
+			// console.log('PLAN DATA', planData);
 			setFieldsValues(planData);
 			setIsFetching(false);
 		} catch (err) {
@@ -51,6 +53,26 @@ function PlanDetails() {
 		}
 	};
 
+	// Transform data, group plan meals data by day
+	const groupedMeals = {};
+	fields.meals.forEach((planDay) => {
+		if (!groupedMeals[planDay.day]) {
+			groupedMeals[planDay.day] = [];
+		}
+		groupedMeals[planDay.day].push(planDay);
+	});
+	const groupedMealsArray = Object.values(groupedMeals);
+	// console.log('GROUPED MEALS ARR', groupedMealsArray);
+	const daysOfWeek = [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday',
+	];
+
 	return (
 		<div className="PlanDetails">
 			<h4>
@@ -77,23 +99,39 @@ function PlanDetails() {
 						Created on {fields.creation_date.split('T')[0]}
 					</span>
 					<div>
-						<span className="bold">Meals: </span>
-						<ul>
-							{fields.meals.map((meal) => {
-								return (
-									<li key={meal.id}>
-										Day: {meal.day} | Meal: {meal.meal} |{' '}
-										{meal.recipes.map((recipe) => {
-											return (
-												<span key={recipe.id}>
-													{recipe.title}
-												</span>
-											);
-										})}
-									</li>
-								);
-							})}
-						</ul>
+						{/* <span className="bold">Meals: </span> */}
+						<Table bordered>
+							<thead style={{ backgroundColor: 'lightgrey' }}>
+								<tr>
+									<th>Day</th>
+									<th>Breakfast</th>
+									<th>Lunch</th>
+									<th>Dinner</th>
+									<th>Dessert</th>
+								</tr>
+							</thead>
+							<tbody>
+								{groupedMealsArray.map((row, index) => {
+									return (
+										<tr key={daysOfWeek[index]}>
+											<td style={{ fontWeight: 'bold' }}>
+												{daysOfWeek[index]}
+											</td>
+											{row.map((meal) => {
+												return meal.recipes[0] ===
+													undefined ? (
+													<td key={uuidv4()}></td>
+												) : (
+													<td key={uuidv4()}>
+														{meal.recipes[0].title}
+													</td>
+												);
+											})}
+										</tr>
+									);
+								})}
+							</tbody>
+						</Table>
 					</div>
 				</div>
 			)}

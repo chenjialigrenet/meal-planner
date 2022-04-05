@@ -21,19 +21,6 @@ import { FaTimes } from 'react-icons/fa';
 //       create RecipeIngredient ingredient=ingredient, recipe=recipe, quantity=ingredient_attributes["quantity"]
 
 function RecipeForm() {
-	// const [fields, handleFieldChange, changeFieldValue] = useFormFields({
-	// 	title: '',
-	// 	summary: '',
-	// 	serves: '',
-	// 	cooking_temperature: '',
-	// 	cooking_time: '',
-	// 	prep_time: '',
-	// 	recipe_ingredients: [],
-	// 	instructions: '',
-	// 	photo: '',
-	// 	difficulty: '1', //convert back to string
-	// });
-
 	const params = useParams();
 	const isCreate = !params.recipeId;
 
