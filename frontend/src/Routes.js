@@ -11,6 +11,7 @@ import Ingredients from './components/Ingredients';
 import RecipeForm from './components/forms/RecipeForm';
 // import Recipes from './components/Recipes';
 import UserPage from './pages/UserPage';
+import UserForm from './components/forms/UserForm';
 import PlanForm from './components/forms/PlanForm';
 // import Plans from './components/Plans';
 import PlanDetails from './components/PlanDetails';
@@ -25,6 +26,7 @@ function AppRoutes() {
 			<Route exact path="/plan" element={<PlanPage />} />
 			<Route exact path="/recipe" element={<RecipePage />} />
 			<Route exact path="/user" element={<UserPage />} />
+			<Route exact path="/users/:userId/update" element={<UserForm />} />
 			<Route
 				exact
 				path="/ingredients/create"
@@ -35,12 +37,12 @@ function AppRoutes() {
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
 			{/* <Route exact path="/recipes" element={<Recipes />} /> */}
 			<Route path="/recipes/:recipeId" element={<RecipeDetails />} />
-			<Route path="/recipes/update/:recipeId" element={<RecipeForm />} />
+			<Route path="/recipes/:recipeId/update" element={<RecipeForm />} />
 
 			<Route exact path="/plans/create" element={<PlanForm />} />
 			{/* <Route exact path="/plans" element={<Plans />} /> */}
 			<Route path="/plans/:planId" element={<PlanDetails />} />
-			<Route path="/plans/update/:planId" element={<PlanForm />} />
+			<Route path="/plans/:planId/update" element={<PlanForm />} />
 			<Route path="*" element={<NotFound />} />
 		</Routes>
 	);

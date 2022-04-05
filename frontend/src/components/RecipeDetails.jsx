@@ -68,7 +68,7 @@ function RecipeDetails() {
 				<span style={{ marginLeft: '10px', cursor: 'pointer' }}>
 					<FaEdit
 						onClick={() => {
-							navigate(`/recipes/update/${params.recipeId}`);
+							navigate(`/recipes/${params.recipeId}/update`);
 						}}
 					/>
 				</span>

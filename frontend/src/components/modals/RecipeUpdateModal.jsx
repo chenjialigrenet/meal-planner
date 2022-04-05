@@ -1,10 +1,6 @@
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import useFormFields from '../lib/hooksLib';
 import axiosInstance from '../axiosApi';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Row, Col, Form, Button, Modal } from 'react-bootstrap';
 
 function RecipeUpdateModal({ recipe, onHide, setShownRecipe }) {
 	const [fields, handleFieldChange, changeFieldValue] = useFormFields({

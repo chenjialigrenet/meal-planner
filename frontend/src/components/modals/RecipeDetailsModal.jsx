@@ -78,7 +78,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 							// onClick={() => setShownRecipe(recipe)}
 							onClick={() => {
 								setShownRecipe(recipe);
-								navigate(`/recipes/update/${recipe.id}`);
+								navigate(`/recipes/${recipe.id}/update`);
 							}}
 						/>
 					</span>

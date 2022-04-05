@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFormFields from '../../lib/hooksLib';
 import LoaderButton from '../utilities/LoaderButton';
-import './RecipeForm.css';
 import axiosInstance from '../../axiosApi';
 import onError from '../../lib/errorLib';
 import { Col, Row, Table, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { FaTimes } from 'react-icons/fa';
+import './RecipeForm.css';
 // import ImageUploader from './ImageUploader';
 
 // {
@@ -126,14 +126,14 @@ function RecipeForm() {
 	};
 
 	const handleDeleteIngredient = (id) => {
-		// if (window.confirm('Are you sure to delete this ingredient?')) {
-		changeFieldValue(
-			'recipe_ingredients',
-			fields.recipe_ingredients.filter(
-				(recipeIngredient) => recipeIngredient.ingredient.id !== id
-			)
-		);
-		// }
+		if (window.confirm('Are you sure to delete this ingredient?')) {
+			changeFieldValue(
+				'recipe_ingredients',
+				fields.recipe_ingredients.filter(
+					(recipeIngredient) => recipeIngredient.ingredient.id !== id
+				)
+			);
+		}
 	};
 
 	// const validateForm = () => {

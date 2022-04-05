@@ -19,7 +19,7 @@ function Ingredient() {
 		return fields.name.length > 0;
 	};
 
-	const handleSubmit = async (event) => {
+	const handleCreateIngredient = async (event) => {
 		event.preventDefault();
 		setIsLoading(true);
 
@@ -40,7 +40,7 @@ function Ingredient() {
 	return (
 		<div className="Ingredient">
 			<h3>Add ingredient</h3>
-			<Form onSubmit={handleSubmit}>
+			<Form onSubmit={handleCreateIngredient}>
 				<Form.Group controlId="name">
 					<Form.Label>Ingredient</Form.Label>
 					<Form.Control

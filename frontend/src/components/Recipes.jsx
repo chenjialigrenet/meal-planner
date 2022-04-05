@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import axiosInstance from '../axiosApi';
-import './Recipes.css';
 import Pagination from './utilities/Pagination';
 import Search from './utilities/Search';
 import RecipeDetailsModal from './modals/RecipeDetailsModal';
@@ -8,6 +7,7 @@ import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './Recipes.css';
 
 function Recipes() {
 	const [recipes, setRecipes] = useState([]);

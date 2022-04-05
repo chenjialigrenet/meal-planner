@@ -145,13 +145,13 @@ function PlanForm() {
 			<h3>
 				{isCreate
 					? 'Create Plan'
-					: `Update Plan (ID: ${params.planId} | ${fields.title})`}
+					: `Update Plan (ID: ${params.planId} )`}
 			</h3>
 			{
 				<Form onSubmit={isCreate ? handleCreatePlan : handleUpdatePlan}>
 					{isCreate ? (
 						<Form.Group controlId="title">
-							<Form.Label>Plan title</Form.Label>
+							<Form.Label>Plan Title</Form.Label>
 							<Form.Control
 								type="text"
 								value={fields.title}
@@ -160,82 +160,90 @@ function PlanForm() {
 							/>
 						</Form.Group>
 					) : (
-						<Form.Group controlId="meals">
-							{/* <Form.Label>Meals</Form.Label> */}
-							<Table bordered>
-								<thead
-									style={{
-										backgroundColor: 'lightgrey',
-										textAlign: 'center',
-									}}
-								>
-									<tr>
-										<th>Day</th>
-										<th>Breakfast</th>
-										<th>Lunch</th>
-										<th>Dinner</th>
-										<th>Dessert</th>
-									</tr>
-								</thead>
-								<tbody>
-									{groupedMealsArray.map((row, index) => {
-										return (
-											<tr key={daysOfWeek[index]}>
-												<td>{daysOfWeek[index]}</td>
-												{row.map((meal) => {
-													return meal.recipes[0] ===
-														undefined ? (
-														<td key={uuidv4()}>
-															<AsyncPaginate
-																value={prepareRecipeValue(
-																	meal
-																		.recipes[0]
-																)}
-																loadOptions={
-																	loadRecipeOptions
-																}
-																onChange={(
-																	recipe
-																) =>
-																	handleUpdateRecipe(
-																		meal,
+						<>
+							<Form.Group>
+								<Form.Label>Plan Title</Form.Label>
+								<Form.Control
+									type="text"
+									value={fields.title}
+									onChange={handleFieldChange}
+									name="title"
+								/>
+							</Form.Group>
+							<br />
+							<Form.Group controlId="meals">
+								<Table bordered>
+									<thead
+										style={{
+											backgroundColor: 'lightgrey',
+											textAlign: 'center',
+										}}
+									>
+										<tr>
+											<th>Day</th>
+											<th>Breakfast</th>
+											<th>Lunch</th>
+											<th>Dinner</th>
+											<th>Dessert</th>
+										</tr>
+									</thead>
+									<tbody>
+										{groupedMealsArray.map((row, index) => {
+											return (
+												<tr key={daysOfWeek[index]}>
+													<td>{daysOfWeek[index]}</td>
+													{row.map((meal) => {
+														return meal
+															.recipes[0] ===
+															undefined ? (
+															<td key={uuidv4()}>
+																<AsyncPaginate
+																	value={prepareRecipeValue(
+																		meal
+																			.recipes[0]
+																	)}
+																	loadOptions={
+																		loadRecipeOptions
+																	}
+																	onChange={(
 																		recipe
-																	)
-																}
-															/>
-														</td>
-													) : (
-														<td key={uuidv4()}>
-															<AsyncPaginate
-																value={prepareRecipeValue(
-																	meal
-																		.recipes[0]
-																)}
-																loadOptions={
-																	loadRecipeOptions
-																}
-																onChange={(
-																	recipe
-																) =>
-																	handleUpdateRecipe(
-																		meal,
+																	) =>
+																		handleUpdateRecipe(
+																			meal,
+																			recipe
+																		)
+																	}
+																/>
+															</td>
+														) : (
+															<td key={uuidv4()}>
+																<AsyncPaginate
+																	value={prepareRecipeValue(
+																		meal
+																			.recipes[0]
+																	)}
+																	loadOptions={
+																		loadRecipeOptions
+																	}
+																	onChange={(
 																		recipe
-																	)
-																}
-															/>
-															{/* {
-																meal.recipes[0]
-																	.title
-															} */}
-														</td>
-													);
-												})}
-											</tr>
-										);
-									})}
-								</tbody>
-							</Table>
-						</Form.Group>
+																	) =>
+																		handleUpdateRecipe(
+																			meal,
+																			recipe
+																		)
+																	}
+																/>
+															</td>
+														);
+													})}
+												</tr>
+											);
+										})}
+									</tbody>
+								</Table>
+							</Form.Group>
+						</>
 					)}
 					<LoaderButton
 						type="submit"

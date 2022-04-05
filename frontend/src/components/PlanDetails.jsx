@@ -81,7 +81,7 @@ function PlanDetails() {
 				<span style={{ marginLeft: '10px', cursor: 'pointer' }}>
 					<FaEdit
 						onClick={() => {
-							navigate(`/plans/update/${params.planId}`);
+							navigate(`/plans/${params.planId}/update`);
 						}}
 					/>
 				</span>
@@ -100,7 +100,6 @@ function PlanDetails() {
 						Created on {fields.creation_date.split('T')[0]}
 					</span>
 					<div>
-						{/* <span className="bold">Meals: </span> */}
 						<Table bordered>
 							<thead
 								style={{
