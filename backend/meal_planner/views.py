@@ -29,7 +29,7 @@ class PlanView(viewsets.ModelViewSet):
     pagination_class = CustomPlanPagination
 
     def get_queryset(self):
-        queryset = Plan.objects.all()
+        queryset = Plan.objects.all().filter(user=self.request.user)
         query = self.request.query_params.get('query')
         if query:
             queryset = queryset.filter(title__icontains=query).distinct()
@@ -66,19 +66,6 @@ class RecipeView(viewsets.ModelViewSet):
             ).distinct()
         return  queryset.order_by("id")
 
-# ??
-# class RecipePhotoUpload(APIView):
-#     parse_classes = [MultiPartParser, FormParser]
-
-#     def post(self, request, format=None):
-#         # print(request.data);
-#         serializer = serializer.PostSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class MealView(viewsets.ModelViewSet):
     serializer_class = MealSerializer
@@ -89,6 +76,7 @@ class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()
 
+# CRUD example
 # # Show all ingredients and create new ingredient
 # class IngredientListApiView(APIView):
 #     # add permission to check if user is authenticated
@@ -197,7 +185,17 @@ class UserCreate(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#TODO Update user
+class UserUpdate(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(instance=user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+       
 
 # Auth test
 # class HelloWorld(APIView):

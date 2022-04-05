@@ -1,3 +1,4 @@
+from turtle import pd
 from rest_framework import serializers
 from .models import *
 import json
@@ -7,17 +8,35 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
+    photo = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password', 'photo', 'date_joined']
         extra_kwargs = {'password': {'write_only': True}}
     
+    def get_photo(self, instance):
+        if instance.photo:
+            return "http://localhost:8000" + instance.photo.url
+        else:
+            return None 
+
     def create(self, validated_data):
         password = validated_data.pop('password', None)
         instance = self.Meta.model(**validated_data)  # as long as the fields are the same, we can just use this
         if password is not None:
             instance.set_password(password)
+        instance.save()
+        return instance
+
+    def update(self, instance, validated_data):   
+        if 'username' in validated_data:
+            instance.username = validated_data['username']
+        if 'email' in validated_data:
+            instance.email = validated_data['email']
+        if 'photo' in validated_data:
+            instance.photo = validated_data['photo']
+            
         instance.save()
         return instance
 
@@ -147,7 +166,6 @@ class MealSerializer(serializers.ModelSerializer):
                 recipes = [Recipe.objects.get(pk=recipe['id']) for recipe in data['recipes']]
                 instance.recipes.set(recipes) 
                 return instance
-
 
 
 class PlanSerializer(serializers.ModelSerializer):

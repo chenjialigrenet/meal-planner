@@ -26,7 +26,7 @@ function AppRoutes() {
 			<Route exact path="/plan" element={<PlanPage />} />
 			<Route exact path="/recipe" element={<RecipePage />} />
 			<Route exact path="/user" element={<UserPage />} />
-			<Route exact path="/users/:userId/update" element={<UserForm />} />
+			<Route exact path="/user/update" element={<UserForm />} />
 			<Route
 				exact
 				path="/ingredients/create"

@@ -5,8 +5,9 @@ import hashlib
 import pdb
 
 def upload_to(instance, filename):
-    md5 = hashlib.md5(str(instance.title).encode('utf-8')).hexdigest()[0:5]
+    md5 = hashlib.md5(str(instance.photo_hash).encode('utf-8')).hexdigest()[0:5]
     return '{md5}/{filename}'.format(filename=filename,md5=md5)
+
 
 class User(AbstractUser):
     # username = models.CharField(max_length=200)
@@ -15,6 +16,9 @@ class User(AbstractUser):
     photo = models.ImageField(_("Photo"),upload_to=upload_to, null=True, blank=True, default='default_user.png')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    def photo_hash(self):
+        return self.username
 
 
 class Plan(models.Model):
@@ -91,6 +95,9 @@ class Recipe(models.Model):
         choices=DIFFICULTY_CHOICES,
         default=BEGINNER,
     )
+
+    def photo_hash(self):
+        return self.title
 
 
 class Ingredient(models.Model):
