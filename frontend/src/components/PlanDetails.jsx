@@ -4,12 +4,13 @@ import axiosInstance from '../axiosApi';
 import useFormFields from '../lib/hooksLib';
 import { FaEdit, FaTimes } from 'react-icons/fa';
 import { Table } from 'react-bootstrap';
-import './PlanDetails.css';
 import { v4 as uuidv4 } from 'uuid';
+import './PlanDetails.css';
 
 function PlanDetails() {
 	const params = useParams();
 	const navigate = useNavigate();
+
 	// Axios fetching recipe data
 	const [isFetching, setIsFetching] = useState(true);
 
@@ -101,7 +102,12 @@ function PlanDetails() {
 					<div>
 						{/* <span className="bold">Meals: </span> */}
 						<Table bordered>
-							<thead style={{ backgroundColor: 'lightgrey' }}>
+							<thead
+								style={{
+									backgroundColor: 'lightgrey',
+									textAlign: 'center',
+								}}
+							>
 								<tr>
 									<th>Day</th>
 									<th>Breakfast</th>
@@ -114,9 +120,7 @@ function PlanDetails() {
 								{groupedMealsArray.map((row, index) => {
 									return (
 										<tr key={daysOfWeek[index]}>
-											<td style={{ fontWeight: 'bold' }}>
-												{daysOfWeek[index]}
-											</td>
+											<td>{daysOfWeek[index]}</td>
 											{row.map((meal) => {
 												return meal.recipes[0] ===
 													undefined ? (

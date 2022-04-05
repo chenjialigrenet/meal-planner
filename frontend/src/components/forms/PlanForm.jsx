@@ -1,4 +1,3 @@
-import './PlanForm.css';
 import { Form, Table } from 'react-bootstrap';
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,13 +5,13 @@ import useFormFields from '../../lib/hooksLib';
 import { useState, useEffect } from 'react';
 import LoaderButton from '../utilities/LoaderButton';
 import axiosInstance from '../../axiosApi';
+import { v4 as uuidv4 } from 'uuid';
+import './PlanForm.css';
 
 function PlanForm() {
 	const params = useParams();
 	const isCreate = !params.planId;
 
-	// Axios fetching recipe data
-	const [isFetching, setIsFetching] = useState(true);
 	// Spinner on the submit button
 	const [isLoading, setIsLoading] = useState(false);
 	// Redirect
@@ -20,20 +19,17 @@ function PlanForm() {
 
 	// GET one plan
 	const fetchPlan = async () => {
-		setIsFetching(true);
 		try {
 			const response = await axiosInstance.get(
 				`/plans/${params.planId}/`
 			);
-			setFieldsValues(response.data);
 
-			console.log('PLAN DATA', response.data);
-			console.log('MEALS', response.data.meals);
-
-			setIsFetching(false);
+			const planData = response.data;
+			setFieldsValues(planData);
+			console.log('PLAN DATA', planData);
+			// console.log('MEALS', response.data.meals);
 		} catch (err) {
 			console.log(err);
-			setIsFetching(false);
 		}
 	};
 
@@ -123,8 +119,17 @@ function PlanForm() {
 		}
 	};
 
-	// TODO data transform, group by day
-	// 	const plan = [{day: 1, meal: 1}, { day: 1, meal: 2}, { day: 2, meal: 1}, { day: 2, meal: 2}]
+	// Transform, group meals by day
+	const groupedMeals = {};
+	fields.meals.forEach((planDay) => {
+		if (!groupedMeals[planDay.day]) {
+			groupedMeals[planDay.day] = [];
+		}
+		groupedMeals[planDay.day].push(planDay);
+	});
+	const groupedMealsArray = Object.values(groupedMeals);
+	// console.log('GROUPED MEALS', groupedMeals);
+
 	const daysOfWeek = [
 		'Monday',
 		'Tuesday',
@@ -135,40 +140,35 @@ function PlanForm() {
 		'Sunday',
 	];
 
-	const groupedMeals = {};
-	fields.meals.forEach((planDay) => {
-		if (!groupedMeals[planDay.day]) {
-			groupedMeals[planDay.day] = [];
-		}
-		groupedMeals[planDay.day].push(planDay);
-	});
-	const groupedMealsArray = Object.values(groupedMeals);
-	console.log('GROUPED MEALS', groupedMeals);
-
 	return (
-		<div>
+		<div className="PlanForm">
 			<h3>
 				{isCreate
 					? 'Create Plan'
-					: `Update Plan (ID: ${params.planId})`}
+					: `Update Plan (ID: ${params.planId} | ${fields.title})`}
 			</h3>
-			{!isFetching && (
+			{
 				<Form onSubmit={isCreate ? handleCreatePlan : handleUpdatePlan}>
-					<Form.Group controlId="title">
-						<Form.Label>Plan title</Form.Label>
-						<Form.Control
-							type="text"
-							value={fields.title}
-							onChange={handleFieldChange}
-							name="title"
-						/>
-					</Form.Group>
-
-					{isCreate === false ? (
+					{isCreate ? (
+						<Form.Group controlId="title">
+							<Form.Label>Plan title</Form.Label>
+							<Form.Control
+								type="text"
+								value={fields.title}
+								onChange={handleFieldChange}
+								name="title"
+							/>
+						</Form.Group>
+					) : (
 						<Form.Group controlId="meals">
-							<Form.Label>Meals</Form.Label>
-							{/* <Table bordered>
-								<thead style={{ backgroundColor: 'lightgrey' }}>
+							{/* <Form.Label>Meals</Form.Label> */}
+							<Table bordered>
+								<thead
+									style={{
+										backgroundColor: 'lightgrey',
+										textAlign: 'center',
+									}}
+								>
 									<tr>
 										<th>Day</th>
 										<th>Breakfast</th>
@@ -178,49 +178,65 @@ function PlanForm() {
 									</tr>
 								</thead>
 								<tbody>
-									{groupedMealsArray.map(
-										(dayMeals, index) => {
-											console.log(dayMeals);
-											return (
-												<tr key={index}>
-													<td>{index + 1}</td>
-													<td>
-														{
-															dayMeals[0]
-																.recipes[0]
-																.title
-														}
-													</td>
-												</tr>
-											);
-										}
-									)}
+									{groupedMealsArray.map((row, index) => {
+										return (
+											<tr key={daysOfWeek[index]}>
+												<td>{daysOfWeek[index]}</td>
+												{row.map((meal) => {
+													return meal.recipes[0] ===
+														undefined ? (
+														<td key={uuidv4()}>
+															<AsyncPaginate
+																value={prepareRecipeValue(
+																	meal
+																		.recipes[0]
+																)}
+																loadOptions={
+																	loadRecipeOptions
+																}
+																onChange={(
+																	recipe
+																) =>
+																	handleUpdateRecipe(
+																		meal,
+																		recipe
+																	)
+																}
+															/>
+														</td>
+													) : (
+														<td key={uuidv4()}>
+															<AsyncPaginate
+																value={prepareRecipeValue(
+																	meal
+																		.recipes[0]
+																)}
+																loadOptions={
+																	loadRecipeOptions
+																}
+																onChange={(
+																	recipe
+																) =>
+																	handleUpdateRecipe(
+																		meal,
+																		recipe
+																	)
+																}
+															/>
+															{/* {
+																meal.recipes[0]
+																	.title
+															} */}
+														</td>
+													);
+												})}
+											</tr>
+										);
+									})}
 								</tbody>
-							</Table> */}
-							<ul>
-								{fields.meals.map((meal) => {
-									return (
-										<li key={meal.id}>
-											Day {meal.day} | Meal {meal.meal}
-											<AsyncPaginate
-												value={prepareRecipeValue(
-													meal.recipes[0]
-												)}
-												loadOptions={loadRecipeOptions}
-												onChange={(recipe) =>
-													handleUpdateRecipe(
-														meal,
-														recipe
-													)
-												}
-											/>
-										</li>
-									);
-								})}
-							</ul>
+							</Table>
 						</Form.Group>
-					) : null}
-
+					)}
 					<LoaderButton
 						type="submit"
 						isLoading={isLoading}
@@ -229,7 +245,7 @@ function PlanForm() {
 						{isCreate ? 'Create' : 'Update'}
 					</LoaderButton>
 				</Form>
-			)}
+			}
 		</div>
 	);
 }
