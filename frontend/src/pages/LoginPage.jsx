@@ -5,9 +5,9 @@ import LoaderButton from '../components/utilities/LoaderButton';
 import useFormFields from '../lib/hooksLib';
 import { useNavigate } from 'react-router-dom';
 import { Form, Alert } from 'react-bootstrap';
-import './LoginPage.css';
 import axiosInstance from '../axiosApi';
 import { API_URL } from '../constants';
+import './LoginPage.css';
 
 function Login() {
 	const navigate = useNavigate();
@@ -72,6 +72,7 @@ function Login() {
 						value={fields.email}
 						// onChange={(e) => setEmail(e.target.value)}
 						onChange={handleFieldChange}
+						name="email"
 					/>
 				</Form.Group>
 				<Form.Group controlId="password">
@@ -81,6 +82,7 @@ function Login() {
 						value={fields.password}
 						// onChange={(e) => setPassword(e.target.value)}
 						onChange={handleFieldChange}
+						name="password"
 					/>
 				</Form.Group>
 				<LoaderButton

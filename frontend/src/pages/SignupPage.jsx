@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import LoaderButton from '../components/utilities/LoaderButton';
 import { useAppContext } from '../lib/contextLib';
 import useFormFields from '../lib/hooksLib';
 import onError from '../lib/errorLib';
-import './SignupPage.css';
 import axiosInstance from '../axiosApi';
+import './SignupPage.css';
 
 function Signup() {
 	const [fields, handleFieldChange] = useFormFields({
@@ -62,6 +62,7 @@ function Signup() {
 						type="text"
 						value={fields.text}
 						onChange={handleFieldChange}
+						name="username"
 					/>
 				</Form.Group>
 				<Form.Group controlId="email">
@@ -70,6 +71,7 @@ function Signup() {
 						type="email"
 						value={fields.email}
 						onChange={handleFieldChange}
+						name="email"
 					/>
 				</Form.Group>
 				<Form.Group controlId="password">
@@ -79,6 +81,7 @@ function Signup() {
 						type="password"
 						value={fields.password}
 						onChange={handleFieldChange}
+						name="password"
 					/>
 				</Form.Group>
 				<Form.Group controlId="confirmPassword">
@@ -88,6 +91,7 @@ function Signup() {
 						type="password"
 						value={fields.confirmPassword}
 						onChange={handleFieldChange}
+						name="confirmPassword"
 					/>
 				</Form.Group>
 				<LoaderButton
