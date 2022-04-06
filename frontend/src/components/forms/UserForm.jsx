@@ -13,9 +13,8 @@ function UserForm() {
 		username: currentUser.username,
 		email: currentUser.email,
 		photo: '',
-		password: currentUser.password,
 	});
-	console.log(currentUser);
+	// console.log(currentUser);
 
 	const handleUpdateUser = async (e) => {
 		e.preventDefault();
@@ -55,6 +54,7 @@ function UserForm() {
 						name="username"
 					/>
 				</Form.Group>
+
 				<Form.Group controlId="email">
 					<Form.Label>Email</Form.Label>
 					<Form.Control
@@ -64,15 +64,7 @@ function UserForm() {
 						name="email"
 					/>
 				</Form.Group>
-				{/* <Form.Group controlId="password">
-					<Form.Label>Password</Form.Label>
-					<Form.Control
-						type="password"
-						value={fields.password}
-						onChange={handleFieldChange}
-						name="password"
-					/>
-				</Form.Group> */}
+
 				<Form.Group controlId="photo">
 					<Form.Label>Photo</Form.Label>
 					<input
@@ -82,6 +74,17 @@ function UserForm() {
 						className="form-control"
 						onChange={handleFieldChange}
 					></input>
+					{(fields.photo || currentUser.photo_url) && (
+						<img
+							src={
+								fields.photo
+									? URL.createObjectURL(fields.photo)
+									: currentUser.photo_url
+							}
+							alt="user-avatar"
+							style={{ marginTop: '1em', width: '5em' }}
+						/>
+					)}
 				</Form.Group>
 
 				<Button type="submit">Save</Button>

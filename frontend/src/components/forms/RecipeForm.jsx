@@ -54,6 +54,7 @@ function RecipeForm() {
 				`/recipes/${params.recipeId}/`
 			);
 			const recipeData = response.data;
+			// Prepare a current photo backup for later file upload current photo preview
 			recipeData.photo_current = recipeData.photo;
 			recipeData.photo = '';
 			setFieldsValues(recipeData);
@@ -463,6 +464,17 @@ function RecipeForm() {
 							className="form-control"
 							onChange={handleFieldChange}
 						></input>
+						{(fields.photo || fields.photo_current) && (
+							<img
+								src={
+									fields.photo
+										? URL.createObjectURL(fields.photo)
+										: fields.photo_current
+								}
+								alt="recipe"
+								style={{ marginTop: '1em', width: '5em' }}
+							/>
+						)}
 					</Form.Group>
 
 					<Form.Group controlId="difficulty">

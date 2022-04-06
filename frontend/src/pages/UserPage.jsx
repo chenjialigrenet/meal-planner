@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import './UserPage.css';
 
 function UserPage() {
-	// TODO edit user
 	const { currentUser } = useAppContext();
 	const navigate = useNavigate();
 
@@ -18,9 +17,9 @@ function UserPage() {
 			<div className="flex-container">
 				<img
 					src={
-						currentUser.photo === null
+						currentUser.photo_url === null
 							? defaultProfilePhoto
-							: currentUser.photo
+							: currentUser.photo_url
 					}
 					alt="profile_photo"
 				/>
