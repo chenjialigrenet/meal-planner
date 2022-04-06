@@ -56,7 +56,7 @@ class RecipeView(viewsets.ModelViewSet):
     parse_classes = [MultiPartParser, FormParser]
 
     def get_queryset(self):
-        queryset = Recipe.objects.all()
+        queryset = Recipe.objects.all().filter(user=self.request.user)
         query = self.request.query_params.get("query")
         if query:
             queryset = queryset.filter(
@@ -72,6 +72,7 @@ class MealView(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
 
 
+# TODO add user filter
 class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
     queryset = Ingredient.objects.all()

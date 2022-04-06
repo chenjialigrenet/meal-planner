@@ -8,20 +8,18 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
-    photo = serializers.SerializerMethodField()
+    photo_url = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'photo', 'date_joined']
+        fields = ['id', 'username', 'email', 'password', 'photo', 'photo_url', 'date_joined']
         extra_kwargs = {'password': {'write_only': True}}
     
-    def get_photo(self, instance):
-        #??
+    def get_photo_url(self, instance):
         if instance.photo:
             return "http://localhost:8000" + instance.photo.url
         else:
             return None
-        # return None 
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -85,7 +83,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ['id', 'name', 'unit']
+        fields = ['id', 'name', 'unit', 'user']
 
     # From frontend to Django
     def to_internal_value(self, data):
@@ -93,6 +91,10 @@ class IngredientSerializer(serializers.ModelSerializer):
             return data 
         else: # Default behaviour
             return super().to_internal_value(data)
+    
+    def create(self, validated_data):
+        validated_data["user"] = self.context['request'].user
+        return Ingredient.objects.create(**validated_data) 
 
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
@@ -120,7 +122,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     recipe_ingredients = RecipeIngredientSerializer(many=True)
     class Meta:
         model = Recipe
-        fields = ['id', 'title', 'summary', 'serves', 'cooking_temperature', 'cooking_time', 'prep_time', 'recipe_ingredients', 'instructions', 'photo', 'creation_date', 'difficulty']
+        fields = ['id', 'title', 'summary', 'serves', 'cooking_temperature', 'cooking_time', 'prep_time', 'recipe_ingredients', 'instructions', 'photo', 'creation_date', 'difficulty', 'user']
 
     def to_internal_value(self, data):
         if "recipe_ingredients"  in data and isinstance(data["recipe_ingredients"], str):
@@ -133,6 +135,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         recipe_ingredients = validated_data.pop("recipe_ingredients")
+        validated_data["user"] = self.context['request'].user
         recipe = Recipe.objects.create(**validated_data)
         for recipe_ingredient in recipe_ingredients:
             recipe_ingredient.recipe = recipe 

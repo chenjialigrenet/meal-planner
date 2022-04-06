@@ -13,7 +13,7 @@ class User(AbstractUser):
     # username = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     # password = models.CharField(max_length=200)
-    photo = models.ImageField(_("Photo"),upload_to=upload_to, null=True, blank=True, default='default_user.png')
+    photo = models.ImageField(_("Photo"), upload_to=upload_to, null=True, blank=True, default='default_user.png')
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -34,12 +34,10 @@ class Meal(models.Model):
     BREAKFAST = 1
     LUNCH = 2
     DINNER = 3
-    DESSERT = 4
     MEAL_CHOICES = [
        (BREAKFAST, ('Breakfast')),
        (LUNCH, ('Lunch')),
        (DINNER, ('Dinner')),
-       (DESSERT, ('Dessert/Snacks')),
    ]
     meal = models.PositiveSmallIntegerField(
         choices=MEAL_CHOICES,
@@ -66,7 +64,7 @@ class Meal(models.Model):
         choices=DAY_CHOICES,
         default=MONDAY,
     )
-    
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=200)
@@ -78,7 +76,7 @@ class Recipe(models.Model):
     instructions = models.TextField()
     photo = models.ImageField(_("Photo"), upload_to=upload_to, blank=True, null=True, default='default.png')
     creation_date = models.DateTimeField(auto_now_add=True)
-    
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
     BEGINNER = 1 
     EASY = 2
     NORMAL = 3
@@ -102,7 +100,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=200)
-
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
     PCS = 1
     LB = 2
     OZ = 3
@@ -143,7 +141,6 @@ class RecipeIngredient(models.Model):
     recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, related_name="recipe_ingredients")
     ingredient = models.ForeignKey("Ingredient", on_delete=models.CASCADE)
     quantity = models.FloatField(max_length=30, blank=True, null=True)
-
 
 
 
