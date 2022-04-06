@@ -34,7 +34,7 @@ class PlanView(viewsets.ModelViewSet):
         if query:
             queryset = queryset.filter(title__icontains=query).distinct()
         return queryset.order_by('id')
-
+    
 
 class CustomRecipePagination(pagination.PageNumberPagination):
     page_size = 5

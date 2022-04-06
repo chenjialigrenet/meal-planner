@@ -16,10 +16,12 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
     
     def get_photo(self, instance):
+        #??
         if instance.photo:
             return "http://localhost:8000" + instance.photo.url
         else:
-            return None 
+            return None
+        # return None 
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -170,7 +172,7 @@ class MealSerializer(serializers.ModelSerializer):
 
 class PlanSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(read_only=True)
-    meals = MealSerializer(many=True)
+    meals = MealSerializer(required=False, many=True)
     class Meta:
         model = Plan
         fields = ['id', 'title', 'creation_date', 'user', 'meals']
@@ -184,18 +186,18 @@ class PlanSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self, validated_data):
-            plan = Plan.objects.create(
-                title = validated_data["title"],
-                user = self.context['request'].user
-            )
-            for (day, day_label) in Meal.DAY_CHOICES:
-                for (meal, meal_label) in Meal.MEAL_CHOICES:
-                    recipe = Recipe.objects.order_by("?").first()
-                    meal = Meal.objects.create(
-                        plan = plan,
-                        day = day,
-                        meal = meal
-                    )
-                    meal.recipes.add(recipe)
-            return plan 
+        plan = Plan.objects.create(
+            title = validated_data["title"],
+            user = self.context['request'].user
+        )
+        for (day, day_label) in Meal.DAY_CHOICES:
+            for (meal, meal_label) in Meal.MEAL_CHOICES:
+                recipe = Recipe.objects.order_by("?").first()
+                meal = Meal.objects.create(
+                    plan = plan,
+                    day = day,
+                    meal = meal
+                )
+                meal.recipes.add(recipe)
+        return plan 
     

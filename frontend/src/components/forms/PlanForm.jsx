@@ -184,7 +184,6 @@ function PlanForm() {
 											<th>Breakfast</th>
 											<th>Lunch</th>
 											<th>Dinner</th>
-											<th>Dessert</th>
 										</tr>
 									</thead>
 									<tbody>
