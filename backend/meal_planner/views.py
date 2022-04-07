@@ -72,10 +72,12 @@ class MealView(viewsets.ModelViewSet):
     queryset = Meal.objects.all()
 
 
-# TODO add user filter
 class IngredientView(viewsets.ModelViewSet):
     serializer_class = IngredientSerializer
-    queryset = Ingredient.objects.all()
+    
+    def get_queryset(self):
+        queryset = Ingredient.objects.all().filter(user=self.request.user)
+        return queryset
 
 # CRUD example
 # # Show all ingredients and create new ingredient
