@@ -26,7 +26,7 @@ function PlanForm() {
 
 			const planData = response.data;
 			setFieldsValues(planData);
-			console.log('PLAN DATA', planData);
+			// console.log('PLAN DATA', planData);
 			// console.log('MEALS', response.data.meals);
 		} catch (err) {
 			console.log(err);
@@ -60,7 +60,7 @@ function PlanForm() {
 	};
 
 	async function loadRecipeOptions(searchQuery, loadedOptions) {
-		console.log('LOADED', loadedOptions);
+		// console.log('LOADED', loadedOptions);
 		const page = Math.floor(loadedOptions.length / 5) + 1;
 		const response = await axiosInstance.get(
 			`/recipes/?query=${searchQuery}&page=${page}`
