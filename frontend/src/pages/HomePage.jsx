@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './HomePage.css';
 
 function Home() {
-	const [plans, setPlans] = useState([]);
 	const [recipes, setRecipes] = useState([]);
 
 	const fetchIndexData = async () => {
@@ -22,7 +21,7 @@ function Home() {
 		try {
 			const response = await axiosInstance.get(`/plans/`);
 			// console.log('ALL PLANS', response.data.plans);
-			setPlans(response.data.plans);
+
 			setRecipes(recipesOfTheDay(response.data.plans));
 		} catch (err) {
 			console.log(err);
