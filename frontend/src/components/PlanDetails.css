@@ -3,6 +3,29 @@
 	margin-left: 1em;
 }
 
+Table {
+	margin-top: 1em;
+}
+
+thead {
+	text-align: center;
+}
+
 .block-container {
 	display: block;
+}
+
+.btn-update-plan,
+.btn-delete-plan {
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+.recipe-modal-fake-btn {
+	all: unset;
+	cursor: pointer;
+}
+
+.recipe-modal-fake-btn:hover {
+	color: green;
 }

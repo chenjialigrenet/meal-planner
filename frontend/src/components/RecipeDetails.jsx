@@ -144,7 +144,7 @@ function RecipeDetails() {
 								)}
 							</ul>
 						</div>
-						<span className="recipe block-container">
+						<span className="recipe block-container muted-text">
 							Created on {fields.creation_date.split('T')[0]}
 						</span>
 					</div>

@@ -85,16 +85,15 @@ function PlanDetails() {
 		<div className="PlanDetails">
 			<h4>
 				{fields.title} (ID: {params.planId})
-				<span style={{ marginLeft: '10px', cursor: 'pointer' }}>
+				<span className="btn-update-plan">
 					<FaEdit
 						onClick={() => {
 							navigate(`/plans/${params.planId}/update`);
 						}}
 					/>
 				</span>
-				<span>
+				<span className="btn-delete-plan">
 					<FaTimes
-						style={{ marginLeft: '10px', cursor: 'pointer' }}
 						onClick={() => {
 							deletePlan(params.planId);
 						}}
@@ -103,16 +102,12 @@ function PlanDetails() {
 			</h4>
 			{!isFetching && (
 				<div className="plan-container">
-					<span className="plan block-container">
+					<span className="plan block-container muted-text">
 						Created on {fields.creation_date.split('T')[0]}
 					</span>
 					<div>
 						<Table bordered>
-							<thead
-								style={{
-									textAlign: 'center',
-								}}
-							>
+							<thead>
 								<tr>
 									<th>Day</th>
 									<th>Breakfast</th>
@@ -139,10 +134,7 @@ function PlanDetails() {
 												) : (
 													<td key={uuidv4()}>
 														<button
-															style={{
-																all: 'unset',
-																cursor: 'pointer',
-															}}
+															className="recipe-modal-fake-btn"
 															onClick={() => {
 																setShownRecipe(
 																	meal

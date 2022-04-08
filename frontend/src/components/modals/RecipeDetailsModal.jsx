@@ -90,7 +90,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 								)}
 							</ul>
 						</div>
-						<div className="grey">
+						<div className="muted-text">
 							Created on {recipe.creation_date.split('T')[0]}
 						</div>
 					</div>
