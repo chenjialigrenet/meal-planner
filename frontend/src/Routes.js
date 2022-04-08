@@ -16,6 +16,7 @@ import PlanForm from './components/forms/PlanForm';
 // import Plans from './components/Plans';
 import PlanDetails from './components/PlanDetails';
 import RecipeDetails from './components/RecipeDetails';
+import GroceryPage from './pages/GroceryPage';
 
 function AppRoutes() {
 	return (
@@ -25,6 +26,7 @@ function AppRoutes() {
 			<Route exact path="/login" element={<LoginPage />} />
 			<Route exact path="/plan" element={<PlanPage />} />
 			<Route exact path="/recipe" element={<RecipePage />} />
+			<Route exact path="/grocery" element={<GroceryPage />} />
 			<Route exact path="/user" element={<UserPage />} />
 			<Route exact path="/user/update" element={<UserForm />} />
 			<Route

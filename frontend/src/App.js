@@ -81,6 +81,9 @@ function App() {
 									<LinkContainer to="/recipe">
 										<Nav.Link>Recipe</Nav.Link>
 									</LinkContainer>
+									<LinkContainer to="/grocery">
+										<Nav.Link>Grocery</Nav.Link>
+									</LinkContainer>
 									<LinkContainer to="/user">
 										<Nav.Link>Account</Nav.Link>
 									</LinkContainer>
