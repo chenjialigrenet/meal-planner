@@ -1,3 +1,4 @@
+from functools import partial
 from django.shortcuts import render
 from rest_framework import viewsets, pagination
 from rest_framework.response import Response
@@ -35,6 +36,17 @@ class PlanView(viewsets.ModelViewSet):
             queryset = queryset.filter(title__icontains=query).distinct()
         return queryset.order_by('id')
     
+# TODO
+class ActivatePlan(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request, plan_id):
+        serializer = UserSerializer(instance=request.user, data={'active_plan': plan_id}, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CustomRecipePagination(pagination.PageNumberPagination):
     page_size = 5

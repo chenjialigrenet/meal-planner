@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'photo', 'photo_url', 'date_joined']
+        fields = ['id', 'username', 'email', 'password', 'photo', 'photo_url', 'date_joined', 'active_plan']
         extra_kwargs = {'password': {'write_only': True}}
     
     def get_photo_url(self, instance):
@@ -36,6 +36,8 @@ class UserSerializer(serializers.ModelSerializer):
             instance.email = validated_data['email']
         if 'photo' in validated_data:
             instance.photo = validated_data['photo']
+        if 'active_plan' in validated_data:
+            instance.active_plan = validated_data['active_plan']
             
         instance.save()
         return instance

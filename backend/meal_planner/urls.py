@@ -15,6 +15,7 @@ router.register(r"ingredients", views.IngredientView, 'ingredient')
 urlpatterns = router.urls + [
     path('user/create/', views.UserCreate.as_view(), name='create_user'),
     path('user/update/', views.UserUpdate.as_view(), name='update_user'),
+    path('plans/<int:plan_id>/activate', views.ActivatePlan.as_view(), name="activate_plan"),
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),  # override sjwt stock token
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     # path('hello/', views.HelloWorld.as_view(), name="hello") # test

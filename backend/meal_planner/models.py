@@ -14,6 +14,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     # password = models.CharField(max_length=200)
     photo = models.ImageField(_("Photo"), upload_to=upload_to, null=True, blank=True, default='default_user.png')
+    active_plan = models.ForeignKey('Plan', on_delete=models.PROTECT, related_name='users', null=True, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
