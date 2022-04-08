@@ -5,7 +5,7 @@ import { useState } from 'react';
 // import axiosInstance from '../axiosApi';
 import { useNavigate } from 'react-router-dom';
 // import Select from 'react-select';
-import { FaEdit } from 'react-icons/fa';
+// import { FaEdit } from 'react-icons/fa';
 import RecipeForm from '../forms/RecipeForm';
 // import RecipeUpdateModal from './RecipeUpdateModal';
 
@@ -73,7 +73,7 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 					<Modal.Title id="contained-modal-title-vcenter">
 						{recipe.title} (ID: {recipe.id})
 					</Modal.Title>
-					<span style={{ marginLeft: '10px', marginRight: '10px' }}>
+					{/* <span style={{ marginLeft: '10px', marginRight: '10px' }}>
 						<FaEdit
 							// onClick={() => setShownRecipe(recipe)}
 							onClick={() => {
@@ -81,8 +81,9 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 								navigate(`/recipes/${recipe.id}/update`);
 							}}
 						/>
-					</span>
+					</span> */}
 					<Button
+						style={{ marginLeft: '20px' }}
 						size="sm"
 						variant="success"
 						onClick={() => {

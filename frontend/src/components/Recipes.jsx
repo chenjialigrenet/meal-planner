@@ -47,19 +47,19 @@ function Recipes() {
 	}, [searchQuery, currentPage]);
 
 	// DELETE one recipe
-	const deleteRecipe = async (id) => {
-		if (window.confirm('Are you sure to delete this recipe?')) {
-			try {
-				await axiosInstance.delete(`/recipes/${id}`);
-				const recipesLeft = recipes.filter(
-					(recipe) => id !== recipe.id
-				);
-				setRecipes(recipesLeft);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-	};
+	// const deleteRecipe = async (id) => {
+	// 	if (window.confirm('Are you sure to delete this recipe?')) {
+	// 		try {
+	// 			await axiosInstance.delete(`/recipes/${id}`);
+	// 			const recipesLeft = recipes.filter(
+	// 				(recipe) => id !== recipe.id
+	// 			);
+	// 			setRecipes(recipesLeft);
+	// 		} catch (err) {
+	// 			console.log(err);
+	// 		}
+	// 	}
+	// };
 
 	return (
 		<div className="Recipes">
@@ -90,7 +90,7 @@ function Recipes() {
 										</Col>
 										<Col md="10">
 											<div className="recipe-info">
-												<span className="btn-close-recipe">
+												{/* <span className="btn-close-recipe">
 													<FaTimes
 														onClick={() => {
 															deleteRecipe(
@@ -98,7 +98,7 @@ function Recipes() {
 															);
 														}}
 													/>
-												</span>
+												</span> */}
 												<Card.Title>
 													{recipe.title}
 												</Card.Title>

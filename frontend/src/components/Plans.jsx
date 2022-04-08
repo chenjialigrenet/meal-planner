@@ -3,7 +3,7 @@ import axiosInstance from '../axiosApi';
 import Card from 'react-bootstrap/Card';
 import Search from '../components/utilities/Search';
 import Pagination from './utilities/Pagination';
-import { FaTimes } from 'react-icons/fa';
+// import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import './Plans.css';
@@ -54,17 +54,17 @@ function Plans() {
 	}, [searchQuery, currentPage]);
 
 	// DELETE one plan
-	const deletePlan = async (id) => {
-		if (window.confirm('Are you sure to delete this plan?')) {
-			try {
-				await axiosInstance.delete(`/plans/${id}`);
-				const plansLeft = plans.filter((plan) => id !== plan.id);
-				setPlans(plansLeft);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-	};
+	// const deletePlan = async (id) => {
+	// 	if (window.confirm('Are you sure to delete this plan?')) {
+	// 		try {
+	// 			await axiosInstance.delete(`/plans/${id}`);
+	// 			const plansLeft = plans.filter((plan) => id !== plan.id);
+	// 			setPlans(plansLeft);
+	// 		} catch (err) {
+	// 			console.log(err);
+	// 		}
+	// 	}
+	// };
 
 	return (
 		<div className="Plans">
@@ -90,7 +90,7 @@ function Plans() {
 										>
 											{plan.title}
 										</Link>
-										<span
+										{/* <span
 											style={{
 												float: 'right',
 												cursor: 'pointer',
@@ -101,7 +101,7 @@ function Plans() {
 													deletePlan(plan.id);
 												}}
 											/>
-										</span>
+										</span> */}
 									</Card.Body>
 								</Card>
 							</motion.div>
