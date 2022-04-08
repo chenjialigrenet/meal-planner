@@ -5,3 +5,13 @@
 .grey {
 	color: grey;
 }
+
+.modal-body.flex-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.modal-img {
+	width: 10em;
+	margin-right: 1em;
+}

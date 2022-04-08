@@ -16,12 +16,13 @@ function UserPage() {
 
 			<div className="flex-container">
 				<img
+					className="user-img"
 					src={
 						currentUser.photo_url === null
 							? defaultProfilePhoto
 							: currentUser.photo_url
 					}
-					alt="profile_photo"
+					alt="profile_avatar"
 				/>
 
 				<ul>
