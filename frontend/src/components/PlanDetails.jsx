@@ -5,14 +5,16 @@ import useFormFields from '../lib/hooksLib';
 import { FaEdit, FaTimes } from 'react-icons/fa';
 import { Table } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
+import RecipeDetailsModal from './modals/RecipeDetailsModal';
 import './PlanDetails.css';
 
 function PlanDetails() {
 	const params = useParams();
 	const navigate = useNavigate();
-
 	// Axios fetching recipe data
 	const [isFetching, setIsFetching] = useState(true);
+	// Prepare for modal
+	const [shownRecipe, setShownRecipe] = useState(null);
 
 	// GET one plan
 	const fetchPlan = async () => {
@@ -136,7 +138,23 @@ function PlanDetails() {
 													<td key={uuidv4()}></td>
 												) : (
 													<td key={uuidv4()}>
-														{meal.recipes[0].title}
+														<button
+															style={{
+																all: 'unset',
+																cursor: 'pointer',
+															}}
+															onClick={() => {
+																setShownRecipe(
+																	meal
+																		.recipes[0]
+																);
+															}}
+														>
+															{
+																meal.recipes[0]
+																	.title
+															}
+														</button>
 													</td>
 												);
 											})}
@@ -147,6 +165,12 @@ function PlanDetails() {
 						</Table>
 					</div>
 				</div>
+			)}
+			{shownRecipe && (
+				<RecipeDetailsModal
+					onHide={() => setShownRecipe(null)}
+					recipe={shownRecipe}
+				/>
 			)}
 		</div>
 	);
