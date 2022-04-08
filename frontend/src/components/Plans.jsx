@@ -5,7 +5,9 @@ import Search from '../components/utilities/Search';
 import Pagination from './utilities/Pagination';
 // import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { useAppContext } from '../lib/contextLib';
 import './Plans.css';
 
 function Plans() {
@@ -14,18 +16,10 @@ function Plans() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-
-	//// Search bar
-	//// 1. Filter
-	// const [searchQuery, setSearchQuery] = useState('');
-	// const filteredPlans = plans.filter((plan) => {
-	// 	if (searchQuery === '') {
-	// 		return plan;
-	// 	} else {
-	// 		return plan.title.toLowerCase().includes(searchQuery);
-	// 	}
-	// });
-	//// 2. Fetch
+	const { currentUser } = useAppContext();
+	const [activePlanId, setActivePlanId] = useState(currentUser.active_plan);
+	// const navigate = useNavigate();
+	// Search bar using continuous fetch
 	const updateQuery = (query) => {
 		setSearchQuery(query);
 		setCurrentPage(1);
@@ -51,7 +45,7 @@ function Plans() {
 		};
 
 		fetchAllPlans();
-	}, [searchQuery, currentPage]);
+	}, [searchQuery, currentPage, activePlanId, currentUser]);
 
 	// DELETE one plan
 	// const deletePlan = async (id) => {
@@ -65,6 +59,20 @@ function Plans() {
 	// 		}
 	// 	}
 	// };
+
+	const activatePlan = async (planId) => {
+		try {
+			const response = await axiosInstance.put(
+				`plans/${planId}/activate`
+			);
+			const activePlanId = response.data.active_plan;
+			console.log('ACTIVE PLAN ID', activePlanId);
+			setActivePlanId(activePlanId);
+			// window.location.reload(false);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className="Plans">
@@ -82,7 +90,14 @@ function Plans() {
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
 							>
-								<Card className="plan-card">
+								<Card
+									className="plan-card"
+									style={
+										activePlanId === plan.id
+											? { backgroundColor: 'lightgrey' }
+											: { backgroundColor: 'white' }
+									}
+								>
 									<Card.Body style={{ position: 'relative' }}>
 										<Link
 											to={`/plans/${plan.id}`}
@@ -90,6 +105,20 @@ function Plans() {
 										>
 											{plan.title}
 										</Link>
+
+										{activePlanId === plan.id ? null : (
+											<Button
+												variant="outline-danger"
+												size="sm"
+												style={{ float: 'right' }}
+												onClick={() => {
+													activatePlan(plan.id);
+												}}
+											>
+												Activate
+											</Button>
+										)}
+
 										{/* <span
 											style={{
 												float: 'right',
