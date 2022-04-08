@@ -144,6 +144,8 @@ function Recipes() {
 												>
 													Details
 												</Button>
+												{/* TODO plan names, open plan */}
+												<div>In plans:</div>
 											</div>
 										</Col>
 									</Row>

@@ -380,7 +380,7 @@ function RecipeForm() {
 							/>
 						)}
 					</Form.Group>
-					{/* ?? */}
+
 					{isCreate === true && fields.recipe_ingredients.length > 0 && (
 						<Table responsive striped hover size="sm">
 							<thead>
@@ -442,6 +442,7 @@ function RecipeForm() {
 							</tbody>
 						</Table>
 					)}
+					{/* TODO add editor */}
 					<Form.Group controlId="instructions">
 						<Form.Label>Instructions</Form.Label>
 						<Form.Control
