@@ -7,3 +7,8 @@
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 600;
 }
+
+.recipes-of-the-day-card {
+	width: 50%;
+	margin: auto;
+}

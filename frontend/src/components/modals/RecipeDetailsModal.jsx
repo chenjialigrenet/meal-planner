@@ -1,6 +1,6 @@
 import { Modal, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import RecipeForm from '../forms/RecipeForm';
 import './RecipeDetailsModal.css';
 
@@ -21,20 +21,13 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-vcenter">
-						{recipe.title} (ID: {recipe.id})
+						<Link
+							to={`/recipes/${recipe.id}`}
+							className="recipe-modal-title"
+						>
+							{recipe.title} (ID: {recipe.id})
+						</Link>
 					</Modal.Title>
-
-					<Button
-						style={{ marginLeft: '20px' }}
-						size="sm"
-						variant="success"
-						onClick={() => {
-							setShownRecipe(recipe);
-							navigate(`/recipes/${recipe.id}`);
-						}}
-					>
-						Details
-					</Button>
 				</Modal.Header>
 				<Modal.Body className="modal-body flex-container">
 					<div className="modal-left">
@@ -95,13 +88,28 @@ const RecipeDetailsModal = ({ recipe, onHide }) => {
 						</div>
 					</div>
 					<div className="modal-right">
-						<img
-							className="modal-img"
-							src={recipe.photo}
-							alt={recipe.title}
-						/>
+						<Link to={`/recipes/${recipe.id}`}>
+							<img
+								className="modal-img"
+								src={recipe.photo}
+								alt={recipe.title}
+							/>
+						</Link>
 					</div>
 				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						style={{ marginLeft: '20px' }}
+						size="sm"
+						variant="success"
+						onClick={() => {
+							setShownRecipe(recipe);
+							navigate(`/recipes/${recipe.id}`);
+						}}
+					>
+						Details
+					</Button>
+				</Modal.Footer>
 			</Modal>
 
 			{shownRecipe && <RecipeForm recipe={shownRecipe} />}

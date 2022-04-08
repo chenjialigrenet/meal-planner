@@ -13,4 +13,9 @@
 
 .plan-link {
 	text-decoration: none;
+	color: black;
+}
+
+.plan-link:hover {
+	text-decoration: none;
 }

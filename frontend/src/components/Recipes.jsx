@@ -6,7 +6,7 @@ import RecipeDetailsModal from './modals/RecipeDetailsModal';
 // import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Row, Col, Card, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './Recipes.css';
 
 function Recipes() {
@@ -81,11 +81,15 @@ function Recipes() {
 									<Row>
 										<Col className="recipe-left" md="2">
 											<div className="recipe-photo">
-												<img
-													className="recipe-photo"
-													src={recipe.photo}
-													alt={recipe.id}
-												/>
+												<Link
+													to={`/recipes/${recipe.id}`}
+												>
+													<img
+														className="recipe-photo"
+														src={recipe.photo}
+														alt={recipe.id}
+													/>
+												</Link>
 											</div>
 										</Col>
 										<Col md="10">
@@ -100,7 +104,12 @@ function Recipes() {
 													/>
 												</span> */}
 												<Card.Title>
-													{recipe.title}
+													<Link
+														to={`/recipes/${recipe.id}`}
+														className="recipe-card-title"
+													>
+														{recipe.title}
+													</Link>
 												</Card.Title>
 
 												<div>

@@ -62,7 +62,7 @@ function Home() {
 			<div className="lander">
 				<h3>Recipes of the day (from plan: {activePlanId})</h3>
 				{recipes.map((recipe) => (
-					<Card key={uuidv4()}>
+					<Card className="recipes-of-the-day-card" key={uuidv4()}>
 						<Card.Header>
 							<button
 								className="recipe-modal-fake-btn"

@@ -9,6 +9,15 @@
 	margin-bottom: 1em;
 }
 
+.recipe-card-title {
+	text-decoration: none;
+	color: black;
+}
+
+.recipe-card-title:hover {
+	text-decoration: none;
+}
+
 .recipe-left {
 	background-color: lightgray;
 }

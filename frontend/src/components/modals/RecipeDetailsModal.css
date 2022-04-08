@@ -13,5 +13,13 @@
 
 .modal-img {
 	width: 10em;
-	margin-right: 1em;
+}
+
+.recipe-modal-title {
+	text-decoration: none;
+	color: black;
+}
+
+.recipe-modal-title:hover {
+	text-decoration: none;
 }
