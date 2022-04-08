@@ -65,14 +65,19 @@ function PlanDetails() {
 	const groupedMealsArray = Object.values(groupedMeals);
 	// console.log('GROUPED MEALS ARR', groupedMealsArray);
 	const daysOfWeek = [
+		'Sunday',
 		'Monday',
 		'Tuesday',
 		'Wednesday',
 		'Thursday',
 		'Friday',
 		'Saturday',
-		'Sunday',
 	];
+
+	// Prepare for active table row
+	const currentdate = new Date();
+	let currentWeekDay = currentdate.getDay();
+	// console.log('RECIPES OF THE DAY', groupedMealsArray[currentWeekDay]);
 
 	return (
 		<div className="PlanDetails">
@@ -103,7 +108,6 @@ function PlanDetails() {
 						<Table bordered>
 							<thead
 								style={{
-									backgroundColor: 'lightgrey',
 									textAlign: 'center',
 								}}
 							>
@@ -117,7 +121,14 @@ function PlanDetails() {
 							<tbody>
 								{groupedMealsArray.map((row, index) => {
 									return (
-										<tr key={daysOfWeek[index]}>
+										<tr
+											className={
+												index === currentWeekDay
+													? 'table-active'
+													: null
+											}
+											key={daysOfWeek[index]}
+										>
 											<td>{daysOfWeek[index]}</td>
 											{row.map((meal) => {
 												return meal.recipes[0] ===

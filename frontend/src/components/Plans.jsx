@@ -39,7 +39,7 @@ function Plans() {
 				const response = await axiosInstance.get(
 					`/plans/?query=${searchQuery}&page=${currentPage}`
 				);
-				// console.log(response.data);
+				// console.log('ALL PLANS', response.data.plans);
 				setPlans(response.data.plans);
 				setTotalPages(response.data.total_pages);
 				setIsFetching(false);
