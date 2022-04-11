@@ -14,15 +14,15 @@ function Home() {
 	// Prepare for modal
 	const [shownRecipe, setShownRecipe] = useState(null);
 
-	const fetchIndexData = async () => {
-		try {
-			// const data = await axiosInstance.get('hello/');
-			await axiosInstance.get('/');
-			// console.log(data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// const fetchIndexData = async () => {
+	// 	try {
+	// 		// const data = await axiosInstance.get('hello/');
+	// 		await axiosInstance.get('/');
+	// 		// console.log(data);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
 
 	// Fetch active plan
 	const fetchActivePlan = async () => {
@@ -37,7 +37,7 @@ function Home() {
 	};
 
 	useEffect(() => {
-		fetchIndexData();
+		// fetchIndexData();
 		fetchActivePlan();
 	}, []);
 
@@ -45,7 +45,7 @@ function Home() {
 	const currentdate = new Date();
 	let currentWeekDay = currentdate.getDay();
 
-	// Get recipesOfTheDay from all plans
+	// Get recipesOfTheDay
 	const recipesOfTheDay = (plan) => {
 		const recipes = [];
 		plan.meals.forEach((planDay) => {
@@ -53,7 +53,7 @@ function Home() {
 				planDay.recipes.forEach((recipe) => recipes.push(recipe));
 			}
 		});
-		console.log(recipes);
+		// console.log(recipes);
 		return recipes;
 	};
 

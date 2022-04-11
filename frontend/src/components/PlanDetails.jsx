@@ -67,13 +67,13 @@ function PlanDetails() {
 	const groupedMealsArray = Object.values(groupedMeals);
 	// console.log('GROUPED MEALS ARR', groupedMealsArray);
 	const daysOfWeek = [
-		'Sunday',
 		'Monday',
 		'Tuesday',
 		'Wednesday',
 		'Thursday',
 		'Friday',
 		'Saturday',
+		'Sunday',
 	];
 
 	// Prepare for active table row
@@ -120,7 +120,7 @@ function PlanDetails() {
 									return (
 										<tr
 											className={
-												index === currentWeekDay
+												index + 1 === currentWeekDay
 													? 'table-active'
 													: null
 											}
