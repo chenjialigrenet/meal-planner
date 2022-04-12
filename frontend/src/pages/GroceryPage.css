@@ -1,9 +1,13 @@
 .GroceryPage {
 	text-align: left;
 	padding-left: 1em;
-	display: flex;
 }
 
 .grocery-day-recipe-card {
 	margin-bottom: 1em;
+}
+
+.grocery-day,
+.grocery-week {
+	padding: 1em;
 }

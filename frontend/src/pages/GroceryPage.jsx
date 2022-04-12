@@ -3,14 +3,14 @@ import axiosInstance from '../axiosApi';
 import { useAppContext } from '../lib/contextLib';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegSquare, FaSquare } from 'react-icons/fa';
-
+import { Card, Tabs, Tab } from 'react-bootstrap';
 import './GroceryPage.css';
 
 function GroceryPage() {
 	const [groupedDayIngredients, setGroupedDayIngredients] = useState([]);
 	const [groupedWeekIngredients, setGroupedWeekIngredients] = useState([]);
 	const [selectedIndexes, setSelectedIndexes] = useState([]);
-	const [isSelected, setIsSelected] = useState(false);
+	const [tabKey, setTabKey] = useState('day');
 
 	// Get active plan from current user data
 	const { currentUser } = useAppContext();
@@ -114,8 +114,8 @@ function GroceryPage() {
 			setSelectedIndexes([...selectedIndexes, index]);
 		} else {
 			setSelectedIndexes(
-				selectedIndexes.filter((el) => {
-					return el !== index;
+				selectedIndexes.filter((selectedIndex) => {
+					return selectedIndex !== index;
 				})
 			);
 		}
@@ -123,42 +123,56 @@ function GroceryPage() {
 
 	return (
 		<div className="GroceryPage">
-			<div className="grocery-day col">
-				<h4>Grocery of the day</h4>
-				{groupedDayIngredients.map((ing, index) => {
-					return (
-						<div key={index}>
-							<span onClick={() => handleChangeIcon(index)}>
-								{selectedIndexes.includes(index) ? (
-									<FaSquare />
-								) : (
-									<FaRegSquare />
-								)}
-							</span>{' '}
-							{ing.ingredient.name}: {ing.quantity} (
-							{ing.ingredient.unit})
-						</div>
-					);
-				})}
-			</div>
-			<div className="grocery-week col">
-				<h4>Grocery of the week</h4>
-				{groupedWeekIngredients.map((ing, index) => {
-					return (
-						<div key={index}>
-							<span onClick={() => handleChangeIcon(index)}>
-								{selectedIndexes.includes(index) ? (
-									<FaSquare />
-								) : (
-									<FaRegSquare />
-								)}
-							</span>{' '}
-							{ing.ingredient.name}: {ing.quantity} (
-							{ing.ingredient.unit})
-						</div>
-					);
-				})}
-			</div>
+			<Tabs
+				activeKey={tabKey}
+				onSelect={(k) => setTabKey(k)}
+				className="mb-3"
+			>
+				<Tab eventKey="day" title="Day">
+					<Card className="grocery-day">
+						<Card.Title>Grocery of the day</Card.Title>
+						{groupedDayIngredients.map((ing, index) => {
+							return (
+								<div key={uuidv4()}>
+									<span
+										onClick={() => handleChangeIcon(index)}
+									>
+										{selectedIndexes.includes(index) ? (
+											<FaSquare />
+										) : (
+											<FaRegSquare />
+										)}
+									</span>{' '}
+									{ing.ingredient.name}: {ing.quantity} (
+									{ing.ingredient.unit})
+								</div>
+							);
+						})}
+					</Card>
+				</Tab>
+				<Tab eventKey="week" title="Week">
+					<Card className="grocery-week">
+						<Card.Title>Grocery of the week</Card.Title>
+						{groupedWeekIngredients.map((ing, index) => {
+							return (
+								<div key={uuidv4()}>
+									<span
+										onClick={() => handleChangeIcon(index)}
+									>
+										{selectedIndexes.includes(index) ? (
+											<FaSquare />
+										) : (
+											<FaRegSquare />
+										)}
+									</span>{' '}
+									{ing.ingredient.name}: {ing.quantity} (
+									{ing.ingredient.unit})
+								</div>
+							);
+						})}
+					</Card>
+				</Tab>
+			</Tabs>
 		</div>
 	);
 }
