@@ -3,7 +3,6 @@ import axiosInstance from '../axiosApi';
 import Pagination from './utilities/Pagination';
 import Search from './utilities/Search';
 import RecipeDetailsModal from './modals/RecipeDetailsModal';
-// import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
@@ -46,21 +45,6 @@ function Recipes() {
 		fetchRecipes();
 	}, [searchQuery, currentPage]);
 
-	// DELETE one recipe
-	// const deleteRecipe = async (id) => {
-	// 	if (window.confirm('Are you sure to delete this recipe?')) {
-	// 		try {
-	// 			await axiosInstance.delete(`/recipes/${id}`);
-	// 			const recipesLeft = recipes.filter(
-	// 				(recipe) => id !== recipe.id
-	// 			);
-	// 			setRecipes(recipesLeft);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	}
-	// };
-
 	return (
 		<div className="Recipes">
 			<Search searchQuery={searchQuery} setSearchQuery={updateQuery} />
@@ -94,15 +78,6 @@ function Recipes() {
 										</Col>
 										<Col md="10">
 											<div className="recipe-info">
-												{/* <span className="btn-close-recipe">
-													<FaTimes
-														onClick={() => {
-															deleteRecipe(
-																recipe.id
-															);
-														}}
-													/>
-												</span> */}
 												<Card.Title>
 													<Link
 														to={`/recipes/${recipe.id}`}
@@ -153,8 +128,6 @@ function Recipes() {
 												>
 													Details
 												</Button>
-												{/* TODO plan names, open plan */}
-												<div>In plans:</div>
 											</div>
 										</Col>
 									</Row>

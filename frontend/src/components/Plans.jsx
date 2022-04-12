@@ -3,9 +3,8 @@ import axiosInstance from '../axiosApi';
 import Card from 'react-bootstrap/Card';
 import Search from '../components/utilities/Search';
 import Pagination from './utilities/Pagination';
-// import { FaTimes } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { useAppContext } from '../lib/contextLib';
 import './Plans.css';
@@ -16,9 +15,9 @@ function Plans() {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const { currentUser } = useAppContext();
-	const [activePlanId, setActivePlanId] = useState(currentUser.active_plan);
-	// const navigate = useNavigate();
+	const { currentUser, setCurrentUser } = useAppContext();
+	const activePlanId = currentUser.active_plan;
+
 	// Search bar using continuous fetch
 	const updateQuery = (query) => {
 		setSearchQuery(query);
@@ -45,20 +44,7 @@ function Plans() {
 		};
 
 		fetchAllPlans();
-	}, [searchQuery, currentPage, activePlanId, currentUser]);
-
-	// DELETE one plan
-	// const deletePlan = async (id) => {
-	// 	if (window.confirm('Are you sure to delete this plan?')) {
-	// 		try {
-	// 			await axiosInstance.delete(`/plans/${id}`);
-	// 			const plansLeft = plans.filter((plan) => id !== plan.id);
-	// 			setPlans(plansLeft);
-	// 		} catch (err) {
-	// 			console.log(err);
-	// 		}
-	// 	}
-	// };
+	}, [searchQuery, currentPage, currentUser]);
 
 	const activatePlan = async (planId) => {
 		try {
@@ -66,9 +52,8 @@ function Plans() {
 				`plans/${planId}/activate`
 			);
 			const activePlanId = response.data.active_plan;
-			console.log('ACTIVE PLAN ID', activePlanId);
-			setActivePlanId(activePlanId);
-			// window.location.reload(false);
+			// console.log('ACTIVE PLAN ID', activePlanId);
+			setCurrentUser({ ...currentUser, active_plan: activePlanId });
 		} catch (err) {
 			console.log(err);
 		}
@@ -118,19 +103,6 @@ function Plans() {
 												Activate
 											</Button>
 										)}
-
-										{/* <span
-											style={{
-												float: 'right',
-												cursor: 'pointer',
-											}}
-										>
-											<FaTimes
-												onClick={() => {
-													deletePlan(plan.id);
-												}}
-											/>
-										</span> */}
 									</Card.Body>
 								</Card>
 							</motion.div>

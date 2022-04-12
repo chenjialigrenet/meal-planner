@@ -119,7 +119,6 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
 
         return recipe_ingredient
 
-
 class RecipeSerializer(serializers.ModelSerializer):
     recipe_ingredients = RecipeIngredientSerializer(many=True)
     class Meta:
