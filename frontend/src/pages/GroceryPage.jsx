@@ -109,13 +109,13 @@ function GroceryPage() {
 		fetchActivePlan();
 	}, []);
 
-	const handleChangeIcon = (index) => {
-		if (selectedIndexes.includes(index) === false) {
-			setSelectedIndexes([...selectedIndexes, index]);
+	const handleChangeIcon = (id) => {
+		if (selectedIndexes.includes(id) === false) {
+			setSelectedIndexes([...selectedIndexes, id]);
 		} else {
 			setSelectedIndexes(
 				selectedIndexes.filter((selectedIndex) => {
-					return selectedIndex !== index;
+					return selectedIndex !== id;
 				})
 			);
 		}
@@ -125,19 +125,26 @@ function GroceryPage() {
 		<div className="GroceryPage">
 			<Tabs
 				activeKey={tabKey}
-				onSelect={(k) => setTabKey(k)}
+				onSelect={(k) => {
+					setTabKey(k);
+					setSelectedIndexes([]);
+				}}
 				className="mb-3"
 			>
 				<Tab eventKey="day" title="Day">
 					<Card className="grocery-day">
 						<Card.Title>Grocery of the day</Card.Title>
-						{groupedDayIngredients.map((ing, index) => {
+						{groupedDayIngredients.map((ing) => {
 							return (
 								<div key={uuidv4()}>
 									<span
-										onClick={() => handleChangeIcon(index)}
+										onClick={() =>
+											handleChangeIcon(ing.ingredient.id)
+										}
 									>
-										{selectedIndexes.includes(index) ? (
+										{selectedIndexes.includes(
+											ing.ingredient.id
+										) ? (
 											<FaSquare />
 										) : (
 											<FaRegSquare />
@@ -153,13 +160,17 @@ function GroceryPage() {
 				<Tab eventKey="week" title="Week">
 					<Card className="grocery-week">
 						<Card.Title>Grocery of the week</Card.Title>
-						{groupedWeekIngredients.map((ing, index) => {
+						{groupedWeekIngredients.map((ing) => {
 							return (
 								<div key={uuidv4()}>
 									<span
-										onClick={() => handleChangeIcon(index)}
+										onClick={() =>
+											handleChangeIcon(ing.ingredient.id)
+										}
 									>
-										{selectedIndexes.includes(index) ? (
+										{selectedIndexes.includes(
+											ing.ingredient.id
+										) ? (
 											<FaSquare />
 										) : (
 											<FaRegSquare />
