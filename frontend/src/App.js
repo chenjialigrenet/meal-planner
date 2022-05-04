@@ -45,8 +45,8 @@ function App() {
 	}
 
 	function handleLogout() {
-		// TODO localStorage.removeItem('myCat'); no need to clear all
-		localStorage.clear();
+		localStorage.removeItem('access_token');
+		localStorage.removeItem('refresh_token');
 		userHasAuthenticated(false);
 		setCurrentUser(null);
 		// alert('Successfully logged out!');

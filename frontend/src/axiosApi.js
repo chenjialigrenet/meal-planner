@@ -72,6 +72,8 @@ axiosInstance.interceptors.response.use(
 						tokenParts.exp,
 						now
 					);
+					localStorage.removeItem('access_token');
+					localStorage.removeItem('refresh_token');
 					window.location.href = '/login/';
 				}
 			} else {
