@@ -73,18 +73,18 @@ Run `npm install` to install all the dependecies.
 This is my first project using two different programming languages with Django framework on the server side and ReactJs on the client side.
 
 -   Backend challenging points:
-    ... SQLite data modeling, with several many-to-many relations, tricky to handle nested data
-    ... First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
-    ... Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
+    * SQLite data modeling, with several many-to-many relations, tricky to handle nested data
+    * First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
+    * Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
 
 -   Frontend challanging points:
-    ... ReactJs with hooks (useState, useContext, useEffect)
-    ... Auth, token management/refresh
-    ... Image upload (also Pillow on the servser side)
-    ... Handle form data
-    ... Use React Select to dynamically fetch pulldown list data
-    ... Pagination
-    ... UI/UX
+    * ReactJs with hooks (useState, useContext, useEffect)
+    * Auth, token management/refresh
+    * Image upload (also Pillow on the servser side)
+    * Handle form data
+    * Use React Select to dynamically fetch pulldown list data
+    * Pagination
+    * UI/UX
 
 ## To be continued
 
@@ -96,3 +96,21 @@ This is my first project using two different programming languages with Django f
 -   Use css module to prevent css scope issues
 
 ## Some screen shots
+Plans list:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/1_planlist.png)
+Plan table with meals of a week:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/2_plan_table.png)
+Recipes list for inspiration:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/3_recipelist.png)
+Recipe preview modal:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/4_recipe_preview_modal.png)
+Recipe detail page (can update/delete recipe if logged use is the author):
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/5_recipe_details.png)
+Recipe update form:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/6_update_recipe_form.png)
+Grocery list:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/7_grocerylist.png)
+User account:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/8_user_account.png)
+User update:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/9_update_user_account.png)
