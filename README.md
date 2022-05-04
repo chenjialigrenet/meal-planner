@@ -50,6 +50,9 @@ Run `npm install` to install all the dependecies.
 
 -   Run `python3 manage.py runserver` inside backend/project5 for the backend server
 -   Run `npm start` for the client side server
+-   May signup a new account or login directly using this account:
+    `alice@email.com`
+    `12345678`
 
 ## Ports
 
@@ -66,3 +69,30 @@ Run `npm install` to install all the dependecies.
 ```
 
 ## Distinctiveness and Complexity
+
+This is my first project using two different programming languages with Django framework on the server side and ReactJs on the client side.
+
+-   Backend challenging points:
+    ... SQLite data modeling, with several many-to-many relations, tricky to handle nested data
+    ... First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
+    ... Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
+
+-   Frontend challanging points:
+    ... ReactJs with hooks (useState, useContext, useEffect)
+    ... Auth, token management/refresh
+    ... Image upload (also Pillow on the servser side)
+    ... Handle form data
+    ... Use React Select to dynamically fetch pulldown list data
+    ... Pagination
+    ... UI/UX
+
+## To be continued
+
+-   Improve error handling and form validations
+-   Complete different scenarios when update recipe
+-   Add editor to create recipe form
+-   Testing
+-   Landing page styling
+-   Use css module to prevent css scope issues
+
+## Some screen shots
