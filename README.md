@@ -81,7 +81,7 @@ This is my first project using two different programming languages with Django f
     * ReactJs with hooks (useState, useContext, useEffect)
     * Auth, token management/refresh
     * Image upload (also Pillow on the servser side)
-    * Handle form data
+    * Handle form input using custom hooks (hooksLib.jsx)
     * Use React Select to dynamically fetch pulldown list data
     * Pagination
     * UI/UX
