@@ -82,7 +82,7 @@ This is my first project using two different programming languages with Django f
     -   ReactJs with hooks (useState, useContext, useEffect)
     -   Auth, token management/refresh
     -   Image upload (also Pillow on the servser side)
-    -   Handle form data
+    -   Handle form input using custom hooks (hooksLib.jsx)
     -   Use React Select to dynamically fetch pulldown list data
     -   Pagination
     -   UI/UX
@@ -98,4 +98,21 @@ This is my first project using two different programming languages with Django f
 
 ## Some screen shots
 
-https://github.com/cligrenet/meal-planner/tree/main/screenshots
+Plans list:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/1_planlist.png)
+Plan table with meals of a week:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/2_plan_table.png)
+Recipes list for inspiration:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/3_recipelist.png)
+Recipe preview modal:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/4_recipe_preview_modal.png)
+Recipe detail page (can update/delete recipe if logged use is the author):
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/5_recipe_details.png)
+Recipe update form:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/6_update_recipe_form.png)
+Grocery list:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/7_grocerylist.png)
+User account:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/8_user_account.png)
+User update:
+![alt text](https://github.com/cligrenet/meal-planner/blob/main/screenshots/9_update_user_account.png)
