@@ -44,7 +44,7 @@ Since I used bootstrap/react-bootstrap, it can also be used on mobile devices.
 
 ## Installation
 
-Run `npm install` to install all the dependecies.
+Run `npm install` in the frontend folder to install all the dependecies.
 
 ## Usage
 
@@ -73,18 +73,19 @@ Run `npm install` to install all the dependecies.
 This is my first project using two different programming languages with Django framework on the server side and ReactJs on the client side.
 
 -   Backend challenging points:
-    ... SQLite data modeling, with several many-to-many relations, tricky to handle nested data
-    ... First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
-    ... Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
+
+    -   SQLite data modeling, with several many-to-many relations, tricky to handle nested data
+    -   First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
+    -   Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
 
 -   Frontend challanging points:
-    ... ReactJs with hooks (useState, useContext, useEffect)
-    ... Auth, token management/refresh
-    ... Image upload (also Pillow on the servser side)
-    ... Handle form data
-    ... Use React Select to dynamically fetch pulldown list data
-    ... Pagination
-    ... UI/UX
+    -   ReactJs with hooks (useState, useContext, useEffect)
+    -   Auth, token management/refresh
+    -   Image upload (also Pillow on the servser side)
+    -   Handle form data
+    -   Use React Select to dynamically fetch pulldown list data
+    -   Pagination
+    -   UI/UX
 
 ## To be continued
 
@@ -96,3 +97,5 @@ This is my first project using two different programming languages with Django f
 -   Use css module to prevent css scope issues
 
 ## Some screen shots
+
+https://github.com/cligrenet/meal-planner/tree/main/screenshots
