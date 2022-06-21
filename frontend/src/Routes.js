@@ -17,11 +17,18 @@ import PlanForm from './components/forms/PlanForm';
 import PlanDetails from './components/PlanDetails';
 import RecipeDetails from './components/RecipeDetails';
 import GroceryPage from './pages/GroceryPage';
+import { useAppContext } from './lib/contextLib';
 
 function AppRoutes() {
+	const { isAuthenticated } = useAppContext();
+
 	return (
 		<Routes>
-			<Route exact path="/" element={<HomePage />} />
+			{isAuthenticated ? (
+				<Route exact path="/" element={<HomePage />} />
+			) : (
+				<Route exact path="/" element={<LoginPage />} />
+			)}
 			<Route exact path="/signup" element={<SignupPage />} />
 			<Route exact path="/login" element={<LoginPage />} />
 			<Route exact path="/plan" element={<PlanPage />} />
@@ -29,11 +36,7 @@ function AppRoutes() {
 			<Route exact path="/grocery" element={<GroceryPage />} />
 			<Route exact path="/user" element={<UserPage />} />
 			<Route exact path="/user/update" element={<UserForm />} />
-			<Route
-				exact
-				path="/ingredients/create"
-				element={<IngredientForm />}
-			/>
+			<Route exact path="/ingredients/create" element={<IngredientForm />} />
 			<Route exact path="/ingredients" element={<Ingredients />} />
 
 			<Route exact path="/recipes/create" element={<RecipeForm />} />
