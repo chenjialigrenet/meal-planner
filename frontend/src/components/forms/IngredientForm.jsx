@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import useFormFields from '../../lib/hooksLib';
 import LoaderButton from '../utilities/LoaderButton';
 import axiosInstance from '../../axiosApi';
-import onError from '../../lib/errorLib';
 import './IngredientForm.css';
 
 function Ingredient() {
@@ -32,7 +31,7 @@ function Ingredient() {
 			setIsLoading(false);
 			navigate('/ingredients/');
 		} catch (err) {
-			onError(err);
+			console.log(err);
 			setIsLoading(false);
 		}
 	};
@@ -43,21 +42,11 @@ function Ingredient() {
 			<Form onSubmit={handleCreateIngredient}>
 				<Form.Group controlId="name">
 					<Form.Label>Ingredient</Form.Label>
-					<Form.Control
-						autoFocus
-						type="text"
-						value={fields.name}
-						onChange={handleFieldChange}
-						name="name"
-					/>
+					<Form.Control autoFocus type="text" value={fields.name} onChange={handleFieldChange} name="name" />
 				</Form.Group>
 				<Form.Group controlId="unit">
 					<Form.Label>Unit</Form.Label>
-					<Form.Select
-						value={fields.unit}
-						onChange={handleFieldChange}
-						name="unit"
-					>
+					<Form.Select value={fields.unit} onChange={handleFieldChange} name="unit">
 						<option value="piece">PCS - piece</option>
 						<option value="pound">LB - pound</option>
 						<option value="once">OZ - once</option>
@@ -74,11 +63,7 @@ function Ingredient() {
 						<option value="pinch">PN - pinch</option>
 					</Form.Select>
 				</Form.Group>
-				<LoaderButton
-					type="submit"
-					isLoading={isLoading}
-					disabled={!validateForm()}
-				>
+				<LoaderButton type="submit" isLoading={isLoading} disabled={!validateForm()}>
 					Add
 				</LoaderButton>
 			</Form>
