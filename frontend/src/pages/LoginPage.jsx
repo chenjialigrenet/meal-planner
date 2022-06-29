@@ -10,7 +10,7 @@ import './LoginPage.css';
 
 function Login() {
 	const navigate = useNavigate();
-	const { userHasAuthenticated } = useAppContext();
+	const { userHasAuthenticated, currentUser } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [loginFailed, setLoginFailed] = useState(false);
 	const [fields, handleFieldChange] = useFormFields({
@@ -19,8 +19,13 @@ function Login() {
 	});
 
 	useEffect(() => {
-		// TODO: check if user is already logged in and if so, redirect to /
-	}, []);
+		// Check if user is already logged in and if so, redirect to /
+		if (currentUser) {
+			navigate('/');
+		} else {
+			navigate('/login');
+		}
+	}, [currentUser, navigate]);
 
 	function validateForm() {
 		return fields.email.length > 0 && fields.password.length > 0;
