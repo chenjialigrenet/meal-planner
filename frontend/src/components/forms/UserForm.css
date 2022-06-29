@@ -2,3 +2,8 @@
 	text-align: left;
 	margin-left: 1em;
 }
+
+.user-profile-photo {
+	margin-top: 1em;
+	width: 5em;
+}

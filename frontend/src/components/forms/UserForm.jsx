@@ -25,15 +25,11 @@ function UserForm() {
 			if (fields.photo) {
 				formData.append('photo', fields.photo, fields.photo.name);
 			}
-			const response = await axiosInstance.put(
-				`/user/update/`,
-				formData,
-				{
-					headers: {
-						'content-type': 'multipart/form-data',
-					},
-				}
-			);
+			const response = await axiosInstance.put(`/user/update/`, formData, {
+				headers: {
+					'content-type': 'multipart/form-data',
+				},
+			});
 			setCurrentUser(response.data);
 			navigate(`/user`);
 		} catch (err) {
@@ -47,22 +43,12 @@ function UserForm() {
 			<Form onSubmit={handleUpdateUser}>
 				<Form.Group controlId="username">
 					<Form.Label>Username</Form.Label>
-					<Form.Control
-						type="text"
-						value={fields.username}
-						onChange={handleFieldChange}
-						name="username"
-					/>
+					<Form.Control type="text" value={fields.username} onChange={handleFieldChange} name="username" />
 				</Form.Group>
 
 				<Form.Group controlId="email">
 					<Form.Label>Email</Form.Label>
-					<Form.Control
-						type="email"
-						value={fields.email}
-						onChange={handleFieldChange}
-						name="email"
-					/>
+					<Form.Control type="email" value={fields.email} onChange={handleFieldChange} name="email" />
 				</Form.Group>
 
 				<Form.Group controlId="photo">
@@ -76,13 +62,9 @@ function UserForm() {
 					></input>
 					{(fields.photo || currentUser.photo_url) && (
 						<img
-							src={
-								fields.photo
-									? URL.createObjectURL(fields.photo)
-									: currentUser.photo_url
-							}
+							src={fields.photo ? URL.createObjectURL(fields.photo) : currentUser.photo_url}
 							alt="user-avatar"
-							style={{ marginTop: '1em', width: '5em' }}
+							className="user-profile-photo"
 						/>
 					)}
 				</Form.Group>
