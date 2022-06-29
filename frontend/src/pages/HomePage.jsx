@@ -11,56 +11,45 @@ function Home() {
 	// Get active plan from current user data
 	const { currentUser } = useAppContext();
 	const activePlanId = currentUser.active_plan;
+	const [activePlanTitle, setActivePlanTitle] = useState(null);
 	// Prepare for modal
 	const [shownRecipe, setShownRecipe] = useState(null);
-
-	// const fetchIndexData = async () => {
-	// 	try {
-	// 		// const data = await axiosInstance.get('hello/');
-	// 		await axiosInstance.get('/');
-	// 		// console.log(data);
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	}
-	// };
-
-	// Fetch active plan
-	const fetchActivePlan = async () => {
-		try {
-			const response = await axiosInstance.get(`/plans/${activePlanId}`);
-			// console.log('ACTIVE PLAN', response.data);
-
-			setRecipes(recipesOfTheDay(response.data));
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
-	useEffect(() => {
-		// fetchIndexData();
-		fetchActivePlan();
-	}, []);
-
 	// Prepare for active table row
 	const currentdate = new Date();
 	let currentWeekDay = currentdate.getDay();
 
-	// Get recipesOfTheDay
-	const recipesOfTheDay = (plan) => {
-		const recipes = [];
-		plan.meals.forEach((planDay) => {
-			if (planDay.day === currentWeekDay) {
-				planDay.recipes.forEach((recipe) => recipes.push(recipe));
+	useEffect(() => {
+		// Fetch active plan
+		const fetchActivePlan = async () => {
+			try {
+				const response = await axiosInstance.get(`/plans/${activePlanId}`);
+				// console.log('ACTIVE PLAN', response.data);
+				setRecipes(recipesOfTheDay(response.data));
+				setActivePlanTitle(response.data.title);
+			} catch (err) {
+				console.log(err);
 			}
-		});
-		// console.log(recipes);
-		return recipes;
-	};
+		};
+		fetchActivePlan();
+
+		// Get recipesOfTheDay
+		const recipesOfTheDay = (plan) => {
+			const recipes = [];
+			plan.meals.forEach((planDay) => {
+				if (planDay.day === currentWeekDay) {
+					planDay.recipes.forEach((recipe) => recipes.push(recipe));
+				}
+			});
+			// console.log(recipes);
+			return recipes;
+		};
+	}, [activePlanId, currentWeekDay]);
 
 	return (
 		<div className="Home">
 			<div className="lander">
-				<h3>Recipes of the day (from plan: {activePlanId})</h3>
+				<h3>Recipes of the day </h3>
+				<p>(from plan: {activePlanTitle})</p>
 				{recipes.map((recipe) => (
 					<Card className="recipes-of-the-day-card" key={uuidv4()}>
 						<Card.Header>
@@ -76,12 +65,7 @@ function Home() {
 					</Card>
 				))}
 			</div>
-			{shownRecipe && (
-				<RecipeDetailsModal
-					onHide={() => setShownRecipe(null)}
-					recipe={shownRecipe}
-				/>
-			)}
+			{shownRecipe && <RecipeDetailsModal onHide={() => setShownRecipe(null)} recipe={shownRecipe} />}
 		</div>
 	);
 }

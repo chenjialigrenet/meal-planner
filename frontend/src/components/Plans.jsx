@@ -25,13 +25,11 @@ function Plans() {
 	};
 
 	useEffect(() => {
-		// GET all plans
+		// GET all plans when page first renders
 		const fetchAllPlans = async () => {
 			setIsFetching(true);
 			try {
-				const response = await axiosInstance.get(
-					`/plans/?query=${searchQuery}&page=${currentPage}`
-				);
+				const response = await axiosInstance.get(`/plans/?query=${searchQuery}&page=${currentPage}`);
 				// console.log('ALL PLANS', response.data.plans);
 				setPlans(response.data.plans);
 				setTotalPages(response.data.total_pages);
@@ -46,11 +44,10 @@ function Plans() {
 		fetchAllPlans();
 	}, [searchQuery, currentPage, currentUser]);
 
+	// GET active plan
 	const activatePlan = async (planId) => {
 		try {
-			const response = await axiosInstance.put(
-				`plans/${planId}/activate`
-			);
+			const response = await axiosInstance.put(`plans/${planId}/activate`);
 			const activePlanId = response.data.active_plan;
 			// console.log('ACTIVE PLAN ID', activePlanId);
 			setCurrentUser({ ...currentUser, active_plan: activePlanId });
@@ -84,10 +81,7 @@ function Plans() {
 									}
 								>
 									<Card.Body style={{ position: 'relative' }}>
-										<Link
-											to={`/plans/${plan.id}`}
-											className="plan-link"
-										>
+										<Link to={`/plans/${plan.id}`} className="plan-link">
 											{plan.title}
 										</Link>
 
@@ -110,11 +104,7 @@ function Plans() {
 					</AnimatePresence>
 				)}
 				{!isFetching && (
-					<Pagination
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-						totalPages={totalPages}
-					/>
+					<Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
 				)}
 			</div>
 		</div>
