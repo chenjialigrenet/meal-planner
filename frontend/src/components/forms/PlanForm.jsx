@@ -17,34 +17,31 @@ function PlanForm() {
 	// Redirect
 	const navigate = useNavigate();
 
-	// GET one plan
-	const fetchPlan = async () => {
-		try {
-			const response = await axiosInstance.get(
-				`/plans/${params.planId}/`
-			);
-
-			const planData = response.data;
-			setFieldsValues(planData);
-			// console.log('PLAN DATA', planData);
-			// console.log('MEALS', response.data.meals);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] = useFormFields({
+		title: '',
+		id: null,
+		meals: [],
+	});
 
 	useEffect(() => {
+		// GET one plan when page first renders
+		const fetchPlan = async () => {
+			try {
+				const response = await axiosInstance.get(`/plans/${params.planId}/`);
+
+				const planData = response.data;
+				setFieldsValues(planData);
+				// console.log('PLAN DATA', planData);
+				// console.log('MEALS', response.data.meals);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
 		if (!isCreate) {
 			fetchPlan();
 		}
-	}, []);
-
-	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] =
-		useFormFields({
-			title: '',
-			id: null,
-			meals: [],
-		});
+	}, [isCreate, params.planId, setFieldsValues]);
 
 	// React Select with AsyncPagination
 	const prepareRecipeValue = (recipe) => {
@@ -53,25 +50,22 @@ function PlanForm() {
 		}
 
 		recipe.value = recipe.title;
-		recipe.label =
-			recipe.title[0].toUpperCase() + recipe.title.substring(1);
+		recipe.label = recipe.title[0].toUpperCase() + recipe.title.substring(1);
 
 		return recipe;
 	};
 
-	async function loadRecipeOptions(searchQuery, loadedOptions) {
+	const loadRecipeOptions = async (searchQuery, loadedOptions) => {
 		// console.log('LOADED', loadedOptions);
 		const page = Math.floor(loadedOptions.length / 5) + 1;
-		const response = await axiosInstance.get(
-			`/recipes/?query=${searchQuery}&page=${page}`
-		);
+		const response = await axiosInstance.get(`/recipes/?query=${searchQuery}&page=${page}`);
 		const recipeOptions = response.data.recipes;
 		recipeOptions.forEach(prepareRecipeValue);
 		return {
 			options: recipeOptions,
 			hasMore: page < response.data.total_pages,
 		};
-	}
+	};
 
 	const handleUpdateRecipe = (meal, selectedRecipe) => {
 		meal.recipes = [selectedRecipe];
@@ -130,34 +124,17 @@ function PlanForm() {
 	const groupedMealsArray = Object.values(groupedMeals);
 	// console.log('GROUPED MEALS', groupedMeals);
 
-	const daysOfWeek = [
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-		'Sunday',
-	];
+	const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 	return (
 		<div className="PlanForm">
-			<h3>
-				{isCreate
-					? 'Create Plan'
-					: `Update Plan (ID: ${params.planId} )`}
-			</h3>
+			<h3>{isCreate ? 'Create Plan' : `Update Plan (ID: ${params.planId} )`}</h3>
 			{
 				<Form onSubmit={isCreate ? handleCreatePlan : handleUpdatePlan}>
 					{isCreate ? (
 						<Form.Group controlId="title">
 							<Form.Label>Plan Title</Form.Label>
-							<Form.Control
-								type="text"
-								value={fields.title}
-								onChange={handleFieldChange}
-								name="title"
-							/>
+							<Form.Control type="text" value={fields.title} onChange={handleFieldChange} name="title" />
 						</Form.Group>
 					) : (
 						<>
@@ -192,45 +169,23 @@ function PlanForm() {
 												<tr key={daysOfWeek[index]}>
 													<td>{daysOfWeek[index]}</td>
 													{row.map((meal) => {
-														return meal
-															.recipes[0] ===
-															undefined ? (
+														return meal.recipes[0] === undefined ? (
 															<td key={uuidv4()}>
 																<AsyncPaginate
-																	value={prepareRecipeValue(
-																		meal
-																			.recipes[0]
-																	)}
-																	loadOptions={
-																		loadRecipeOptions
-																	}
-																	onChange={(
-																		recipe
-																	) =>
-																		handleUpdateRecipe(
-																			meal,
-																			recipe
-																		)
+																	value={prepareRecipeValue(meal.recipes[0])}
+																	loadOptions={loadRecipeOptions}
+																	onChange={(recipe) =>
+																		handleUpdateRecipe(meal, recipe)
 																	}
 																/>
 															</td>
 														) : (
 															<td key={uuidv4()}>
 																<AsyncPaginate
-																	value={prepareRecipeValue(
-																		meal
-																			.recipes[0]
-																	)}
-																	loadOptions={
-																		loadRecipeOptions
-																	}
-																	onChange={(
-																		recipe
-																	) =>
-																		handleUpdateRecipe(
-																			meal,
-																			recipe
-																		)
+																	value={prepareRecipeValue(meal.recipes[0])}
+																	loadOptions={loadRecipeOptions}
+																	onChange={(recipe) =>
+																		handleUpdateRecipe(meal, recipe)
 																	}
 																/>
 															</td>
@@ -244,11 +199,7 @@ function PlanForm() {
 							</Form.Group>
 						</>
 					)}
-					<LoaderButton
-						type="submit"
-						isLoading={isLoading}
-						// disabled={!validateForm()}
-					>
+					<LoaderButton type="submit" isLoading={isLoading}>
 						{isCreate ? 'Create' : 'Update'}
 					</LoaderButton>
 				</Form>
