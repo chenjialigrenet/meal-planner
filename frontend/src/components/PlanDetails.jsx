@@ -15,34 +15,31 @@ function PlanDetails() {
 	const [isFetching, setIsFetching] = useState(true);
 	// Prepare for modal
 	const [shownRecipe, setShownRecipe] = useState(null);
-
-	// GET one plan
-	const fetchPlan = async () => {
-		setIsFetching(true);
-		try {
-			const response = await axiosInstance.get(
-				`/plans/${params.planId}/`
-			);
-			const planData = response.data;
-			// console.log('PLAN DATA', planData);
-			setFieldsValues(planData);
-			setIsFetching(false);
-		} catch (err) {
-			console.log(err);
-			setIsFetching(false);
-		}
-	};
+	// Custom hook
+	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] = useFormFields({
+		id: null,
+		title: '',
+		meals: [],
+	});
 
 	useEffect(() => {
-		fetchPlan();
-	}, []);
+		// GET one plan when page first renders
+		const fetchPlan = async () => {
+			setIsFetching(true);
+			try {
+				const response = await axiosInstance.get(`/plans/${params.planId}/`);
+				const planData = response.data;
+				// console.log('PLAN DATA', planData);
+				setFieldsValues(planData);
+				setIsFetching(false);
+			} catch (err) {
+				console.log(err);
+				setIsFetching(false);
+			}
+		};
 
-	const [fields, handleFieldChange, changeFieldValue, setFieldsValues] =
-		useFormFields({
-			id: null,
-			title: '',
-			meals: [],
-		});
+		fetchPlan();
+	}, [params.planId, setFieldsValues]);
 
 	// DELETE one plan
 	const deletePlan = async (id) => {
@@ -66,15 +63,7 @@ function PlanDetails() {
 	});
 	const groupedMealsArray = Object.values(groupedMeals);
 	// console.log('GROUPED MEALS ARR', groupedMealsArray);
-	const daysOfWeek = [
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-		'Sunday',
-	];
+	const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 	// Prepare for active table row
 	const currentdate = new Date();
@@ -119,33 +108,22 @@ function PlanDetails() {
 								{groupedMealsArray.map((row, index) => {
 									return (
 										<tr
-											className={
-												index + 1 === currentWeekDay
-													? 'table-active'
-													: null
-											}
+											style={index + 1 === currentWeekDay ? { color: '#0d6efd' } : null}
 											key={daysOfWeek[index]}
 										>
 											<td>{daysOfWeek[index]}</td>
 											{row.map((meal) => {
-												return meal.recipes[0] ===
-													undefined ? (
+												return meal.recipes[0] === undefined ? (
 													<td key={uuidv4()}></td>
 												) : (
 													<td key={uuidv4()}>
 														<button
 															className="recipe-modal-fake-btn"
 															onClick={() => {
-																setShownRecipe(
-																	meal
-																		.recipes[0]
-																);
+																setShownRecipe(meal.recipes[0]);
 															}}
 														>
-															{
-																meal.recipes[0]
-																	.title
-															}
+															{meal.recipes[0].title}
 														</button>
 													</td>
 												);
@@ -158,12 +136,7 @@ function PlanDetails() {
 					</div>
 				</div>
 			)}
-			{shownRecipe && (
-				<RecipeDetailsModal
-					onHide={() => setShownRecipe(null)}
-					recipe={shownRecipe}
-				/>
-			)}
+			{shownRecipe && <RecipeDetailsModal onHide={() => setShownRecipe(null)} recipe={shownRecipe} />}
 		</div>
 	);
 }
