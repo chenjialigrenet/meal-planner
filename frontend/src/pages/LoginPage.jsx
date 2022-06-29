@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../lib/contextLib';
 import LoaderButton from '../components/utilities/LoaderButton';
-// import onError from '../lib/errorLib';
 import useFormFields from '../lib/hooksLib';
 import { useNavigate } from 'react-router-dom';
 import { Form, Alert } from 'react-bootstrap';
@@ -14,9 +13,6 @@ function Login() {
 	const { userHasAuthenticated, setCurrentUser } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [loginFailed, setLoginFailed] = useState(false);
-
-	// const [email, setEmail] = useState('');
-	// const [password, setPassword] = useState('');
 	const [fields, handleFieldChange] = useFormFields({
 		email: '',
 		password: '',
@@ -36,26 +32,20 @@ function Login() {
 		setLoginFailed(false);
 
 		try {
-			const response = await axiosInstance.post(
-				`${API_URL}/token/obtain/`,
-				{
-					email: fields.email,
-					password: fields.password,
-				}
-			);
+			const response = await axiosInstance.post(`${API_URL}/token/obtain/`, {
+				email: fields.email,
+				password: fields.password,
+			});
 
-			axiosInstance.defaults.headers['Authorization'] =
-				'JWT ' + response.data.access;
+			axiosInstance.defaults.headers['Authorization'] = 'JWT ' + response.data.access;
 			localStorage.setItem('access_token', response.data.access);
 			localStorage.setItem('refresh_token', response.data.refresh);
 
 			userHasAuthenticated(true);
-			// alert('Logged in');
 			// Redirect to Home on Login (useNavigate is a new version of useHistory)
 			navigate('/');
 		} catch (err) {
-			// alert(err.message);
-			// onError(err);
+			console.log(err);
 			setLoginFailed(true);
 			setIsLoading(false);
 		}
@@ -70,7 +60,6 @@ function Login() {
 						autoFocus
 						type="email"
 						value={fields.email}
-						// onChange={(e) => setEmail(e.target.value)}
 						onChange={handleFieldChange}
 						name="email"
 					/>
@@ -80,19 +69,14 @@ function Login() {
 					<Form.Control
 						type="password"
 						value={fields.password}
-						// onChange={(e) => setPassword(e.target.value)}
 						onChange={handleFieldChange}
 						name="password"
 					/>
 				</Form.Group>
-				<LoaderButton
-					type="submit"
-					isLoading={isLoading}
-					disabled={!validateForm()}
-				>
+				<LoaderButton type="submit" isLoading={isLoading} disabled={!validateForm()}>
 					Log in
 				</LoaderButton>
-				{loginFailed ? <Alert variant="danger">IT FAILED</Alert> : null}
+				{loginFailed ? <Alert variant="danger">It failed!</Alert> : null}
 			</Form>
 		</div>
 	);
