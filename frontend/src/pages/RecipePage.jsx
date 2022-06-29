@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import './RecipePage.css';
 import Recipes from '../components/Recipes';
 import { Row, Col } from 'react-bootstrap';
+import './RecipePage.css';
 
 function RecipePage() {
 	return (
@@ -20,11 +20,6 @@ function RecipePage() {
 					</div>
 				</Col>
 			</Row>
-
-			{/* <Link to="/ingredients">All Ingredients</Link>
-			<Link to="/ingredients/create">Add Ingredient</Link>
-			<Link to="/recipes">All Recipes</Link>
-			<Link to="/recipes/create">Create Recipe</Link> */}
 		</div>
 	);
 }
