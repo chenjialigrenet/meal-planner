@@ -4,14 +4,13 @@ import useFormFields from '../../lib/hooksLib';
 
 function ImageUploader() {
 	const [fields, handleFieldChange] = useFormFields({ photo: '' });
-	// const [image, setImage] = useState();
 	const [imageURL, setImageURL] = useState('');
 
 	useEffect(() => {
 		if (fields.photo === '') return;
 		const newImageUrl = URL.createObjectURL(fields.photo);
 		setImageURL(newImageUrl);
-	}, []);
+	}, [fields.photo]);
 
 	return (
 		<>
@@ -25,9 +24,7 @@ function ImageUploader() {
 					onChange={handleFieldChange}
 					name="photo"
 				/>
-				{imageURL && (
-					<img src={imageURL} alt="recipe_photo" height={100} />
-				)}
+				{imageURL && <img src={imageURL} alt="recipe_photo" height={100} />}
 			</Form.Group>
 		</>
 	);
