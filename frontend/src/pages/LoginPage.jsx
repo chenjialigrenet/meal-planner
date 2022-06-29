@@ -10,7 +10,7 @@ import './LoginPage.css';
 
 function Login() {
 	const navigate = useNavigate();
-	const { userHasAuthenticated, setCurrentUser } = useAppContext();
+	const { userHasAuthenticated } = useAppContext();
 	const [isLoading, setIsLoading] = useState(false);
 	const [loginFailed, setLoginFailed] = useState(false);
 	const [fields, handleFieldChange] = useFormFields({
