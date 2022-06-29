@@ -1,10 +1,9 @@
-// import { useState } from 'react';
 import { useAppContext } from '../../lib/contextLib';
 import { Form, Button } from 'react-bootstrap';
 import useFormFields from '../../lib/hooksLib';
-import './UserForm.css';
 import axiosInstance from '../../axiosApi';
 import { useNavigate } from 'react-router-dom';
+import './UserForm.css';
 
 function UserForm() {
 	const navigate = useNavigate();
