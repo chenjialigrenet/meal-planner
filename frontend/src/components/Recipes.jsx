@@ -28,9 +28,7 @@ function Recipes() {
 		const fetchRecipes = async () => {
 			setIsFetching(true);
 			try {
-				const response = await axiosInstance.get(
-					`/recipes/?query=${searchQuery}&page=${currentPage}`
-				);
+				const response = await axiosInstance.get(`/recipes/?query=${searchQuery}&page=${currentPage}`);
 				// console.log(response);
 				setRecipes(response.data.recipes);
 				setTotalPages(response.data.total_pages);
@@ -38,7 +36,7 @@ function Recipes() {
 			} catch (err) {
 				console.log(err);
 				setIsFetching(false);
-				//TODO ?? setHasFetchError(true)
+				//TODO setHasFetchError(true)
 			}
 		};
 
@@ -65,24 +63,15 @@ function Recipes() {
 									<Row>
 										<Col className="recipe-left" md="2">
 											<div className="recipe-photo">
-												<Link
-													to={`/recipes/${recipe.id}`}
-												>
-													<img
-														className="recipe-photo"
-														src={recipe.photo}
-														alt={recipe.id}
-													/>
+												<Link to={`/recipes/${recipe.id}`}>
+													<img className="recipe-photo" src={recipe.photo} alt={recipe.id} />
 												</Link>
 											</div>
 										</Col>
 										<Col md="10">
 											<div className="recipe-info">
 												<Card.Title>
-													<Link
-														to={`/recipes/${recipe.id}`}
-														className="recipe-card-title"
-													>
+													<Link to={`/recipes/${recipe.id}`} className="recipe-card-title">
 														{recipe.title}
 													</Link>
 												</Card.Title>
@@ -90,28 +79,20 @@ function Recipes() {
 												<div>
 													{recipe.summary}
 													<div>
-														Serves: {recipe.serves}{' '}
-														| Cooking temperature:{' '}
-														{
-															recipe.cooking_temperature
-														}
-														°C | Cooking time:{' '}
-														{recipe.cooking_time}{' '}
-														min | Prep time:{' '}
+														Serves: {recipe.serves} | Cooking temperature:{' '}
+														{recipe.cooking_temperature}
+														°C | Cooking time: {recipe.cooking_time} min | Prep time:{' '}
 														{recipe.prep_time} min
 													</div>
 													<div>
-														Difficulty:{' '}
-														{recipe.difficulty}
+														Difficulty: {recipe.difficulty}
 														/5
 													</div>
 												</div>
 												<Button
 													size="sm"
 													className="btn-recipe-preview"
-													onClick={() =>
-														setShownRecipe(recipe)
-													}
+													onClick={() => setShownRecipe(recipe)}
 												>
 													Preview
 												</Button>
@@ -121,9 +102,7 @@ function Recipes() {
 													className="btn-recipe-details"
 													onClick={() => {
 														setShownRecipe(recipe);
-														navigate(
-															`/recipes/${recipe.id}`
-														);
+														navigate(`/recipes/${recipe.id}`);
 													}}
 												>
 													Details
@@ -137,18 +116,9 @@ function Recipes() {
 					</AnimatePresence>
 				)}
 				{!isFetching && (
-					<Pagination
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-						totalPages={totalPages}
-					/>
+					<Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
 				)}
-				{shownRecipe && (
-					<RecipeDetailsModal
-						onHide={() => setShownRecipe(null)}
-						recipe={shownRecipe}
-					/>
-				)}
+				{shownRecipe && <RecipeDetailsModal onHide={() => setShownRecipe(null)} recipe={shownRecipe} />}
 			</div>
 		</div>
 	);
