@@ -11,103 +11,79 @@ function GroceryPage() {
 	const [groupedWeekIngredients, setGroupedWeekIngredients] = useState([]);
 	const [selectedIndexes, setSelectedIndexes] = useState([]);
 	const [tabKey, setTabKey] = useState('day');
-
 	// Get active plan from current user data
 	const { currentUser } = useAppContext();
 	const activePlanId = currentUser.active_plan;
-
 	// Prepare for active table row
 	const currentdate = new Date();
 	let currentWeekDay = currentdate.getDay();
 
-	// Get recipe_ingredients of the DAY
-	const recipeIngredientsOfTheDay = (plan) => {
-		const dayRecipeIngredients = [];
-		plan.meals.forEach((planDay) => {
-			if (planDay.day === currentWeekDay) {
-				planDay.recipes.forEach((recipe) =>
-					dayRecipeIngredients.push(...recipe.recipe_ingredients)
-				);
-			}
-		});
-		// console.log('RecipeIngredientsOfTheDay', dayRecipeIngredients);
-		return dayRecipeIngredients;
-	};
-
-	//Get recipe_ingredients of the WEEK
-	const recipeIngredientsOfTheWeek = (plan) => {
-		const weekRecipeIngredients = [];
-		plan.meals.forEach((planDay) => {
-			planDay.recipes.forEach((recipe) =>
-				weekRecipeIngredients.push(...recipe.recipe_ingredients)
-			);
-		});
-		// console.log('RecipeIngredientsOfTheWeek', weekRecipeIngredients.flat());
-		return weekRecipeIngredients;
-	};
-
-	// Fetch active plan
-	const fetchActivePlan = async () => {
-		try {
-			const response = await axiosInstance.get(`/plans/${activePlanId}`);
-			const activePlan = response.data;
-			// console.log('ACTIVE PLAN', activePlan);
-
-			const dayIngredients = recipeIngredientsOfTheDay(activePlan);
-			const weekIngredients = recipeIngredientsOfTheWeek(activePlan);
-
-			//// DAY
-			const groupedDayIngredients = {};
-			dayIngredients.forEach((ingredient) => {
-				if (!groupedDayIngredients[ingredient.ingredient.id]) {
-					groupedDayIngredients[ingredient.ingredient.id] = {
-						ingredient: ingredient.ingredient,
-						quantity: 0,
-					};
-				}
-
-				groupedDayIngredients[ingredient.ingredient.id].quantity +=
-					ingredient.quantity;
-			});
-
-			// const groupedIngredients = ingredients.reduce(
-			// 	(groupedIngredients, ing) => {
-			// 		if (!groupedIngredients[ing.ingredient.id]) {
-			// 			groupedIngredients[ing.ingredient.id] = {
-			// 				ingredient: ing.ingredient,
-			// 				quantity: 0,
-			// 			};
-			// 		}
-			// 		groupedIngredients[ing.ingredient.id].quantity +=
-			// 			ing.quantity;
-			// 		return groupedIngredients;
-			// 	},
-			// 	{}
-			// );
-			setGroupedDayIngredients(Object.values(groupedDayIngredients));
-
-			//// WEEK
-			const groupedWeekIngredients = {};
-			weekIngredients.forEach((ing) => {
-				if (!groupedWeekIngredients[ing.ingredient.id]) {
-					groupedWeekIngredients[ing.ingredient.id] = {
-						ingredient: ing.ingredient,
-						quantity: 0,
-					};
-				}
-
-				groupedWeekIngredients[ing.ingredient.id].quantity +=
-					ing.quantity;
-			});
-			setGroupedWeekIngredients(Object.values(groupedWeekIngredients));
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
 	useEffect(() => {
+		// Get recipe_ingredients of the DAY
+		const recipeIngredientsOfTheDay = (plan) => {
+			const dayRecipeIngredients = [];
+			plan.meals.forEach((planDay) => {
+				if (planDay.day === currentWeekDay) {
+					planDay.recipes.forEach((recipe) => dayRecipeIngredients.push(...recipe.recipe_ingredients));
+				}
+			});
+			// console.log('RecipeIngredientsOfTheDay', dayRecipeIngredients);
+			return dayRecipeIngredients;
+		};
+
+		//Get recipe_ingredients of the WEEK
+		const recipeIngredientsOfTheWeek = (plan) => {
+			const weekRecipeIngredients = [];
+			plan.meals.forEach((planDay) => {
+				planDay.recipes.forEach((recipe) => weekRecipeIngredients.push(...recipe.recipe_ingredients));
+			});
+			// console.log('RecipeIngredientsOfTheWeek', weekRecipeIngredients.flat());
+			return weekRecipeIngredients;
+		};
+
+		// Fetch active plan
+		const fetchActivePlan = async () => {
+			try {
+				const response = await axiosInstance.get(`/plans/${activePlanId}`);
+				const activePlan = response.data;
+				// console.log('ACTIVE PLAN', activePlan);
+
+				const dayIngredients = recipeIngredientsOfTheDay(activePlan);
+				const weekIngredients = recipeIngredientsOfTheWeek(activePlan);
+
+				//// DAY
+				const groupedDayIngredients = {};
+				dayIngredients.forEach((ingredient) => {
+					if (!groupedDayIngredients[ingredient.ingredient.id]) {
+						groupedDayIngredients[ingredient.ingredient.id] = {
+							ingredient: ingredient.ingredient,
+							quantity: 0,
+						};
+					}
+					groupedDayIngredients[ingredient.ingredient.id].quantity += ingredient.quantity;
+				});
+
+				setGroupedDayIngredients(Object.values(groupedDayIngredients));
+
+				//// WEEK
+				const groupedWeekIngredients = {};
+				weekIngredients.forEach((ing) => {
+					if (!groupedWeekIngredients[ing.ingredient.id]) {
+						groupedWeekIngredients[ing.ingredient.id] = {
+							ingredient: ing.ingredient,
+							quantity: 0,
+						};
+					}
+					groupedWeekIngredients[ing.ingredient.id].quantity += ing.quantity;
+				});
+				setGroupedWeekIngredients(Object.values(groupedWeekIngredients));
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
 		fetchActivePlan();
-	}, []);
+	}, [activePlanId, currentWeekDay]);
 
 	const handleChangeIcon = (id) => {
 		if (selectedIndexes.includes(id) === false) {
@@ -116,7 +92,7 @@ function GroceryPage() {
 			setSelectedIndexes(
 				selectedIndexes.filter((selectedIndex) => {
 					return selectedIndex !== id;
-				})
+				}),
 			);
 		}
 	};
@@ -137,21 +113,10 @@ function GroceryPage() {
 						{groupedDayIngredients.map((ing) => {
 							return (
 								<div key={uuidv4()}>
-									<span
-										onClick={() =>
-											handleChangeIcon(ing.ingredient.id)
-										}
-									>
-										{selectedIndexes.includes(
-											ing.ingredient.id
-										) ? (
-											<FaSquare />
-										) : (
-											<FaRegSquare />
-										)}
+									<span onClick={() => handleChangeIcon(ing.ingredient.id)}>
+										{selectedIndexes.includes(ing.ingredient.id) ? <FaSquare /> : <FaRegSquare />}
 									</span>{' '}
-									{ing.ingredient.name}: {ing.quantity} (
-									{ing.ingredient.unit})
+									{ing.ingredient.name}: {ing.quantity} ({ing.ingredient.unit})
 								</div>
 							);
 						})}
@@ -163,21 +128,10 @@ function GroceryPage() {
 						{groupedWeekIngredients.map((ing) => {
 							return (
 								<div key={uuidv4()}>
-									<span
-										onClick={() =>
-											handleChangeIcon(ing.ingredient.id)
-										}
-									>
-										{selectedIndexes.includes(
-											ing.ingredient.id
-										) ? (
-											<FaSquare />
-										) : (
-											<FaRegSquare />
-										)}
+									<span onClick={() => handleChangeIcon(ing.ingredient.id)}>
+										{selectedIndexes.includes(ing.ingredient.id) ? <FaSquare /> : <FaRegSquare />}
 									</span>{' '}
-									{ing.ingredient.name}: {ing.quantity} (
-									{ing.ingredient.unit})
+									{ing.ingredient.name}: {ing.quantity} ({ing.ingredient.unit})
 								</div>
 							);
 						})}
