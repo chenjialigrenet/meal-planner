@@ -37,7 +37,7 @@ function Plans() {
 			} catch (err) {
 				console.log(err);
 				setIsFetching(false);
-				//TODO ?? setHasFetchError(true)
+				//TODO setHasFetchError(true)
 			}
 		};
 
@@ -74,11 +74,7 @@ function Plans() {
 							>
 								<Card
 									className="plan-card"
-									style={
-										activePlanId === plan.id
-											? { backgroundColor: 'lightgrey' }
-											: { backgroundColor: 'white' }
-									}
+									style={activePlanId === plan.id ? { border: '1.5px solid #0d6efd' } : {}}
 								>
 									<Card.Body style={{ position: 'relative' }}>
 										<Link to={`/plans/${plan.id}`} className="plan-link">
