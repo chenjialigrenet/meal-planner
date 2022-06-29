@@ -1,4 +1,3 @@
-import React from 'react';
 import './Search.css';
 
 function Search({ searchQuery, setSearchQuery }) {
@@ -18,10 +17,7 @@ function Search({ searchQuery, setSearchQuery }) {
 				name="searchQuery"
 			/>
 			{searchQuery && (
-				<span
-					className="search__clear"
-					onClick={() => setSearchQuery('')}
-				>
+				<span className="search__clear" onClick={() => setSearchQuery('')}>
 					x
 				</span>
 			)}
