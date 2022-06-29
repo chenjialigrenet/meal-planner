@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import LoaderButton from '../components/utilities/LoaderButton';
 import { useAppContext } from '../lib/contextLib';
 import useFormFields from '../lib/hooksLib';
-import onError from '../lib/errorLib';
 import axiosInstance from '../axiosApi';
 import './SignupPage.css';
 
@@ -47,7 +46,7 @@ function Signup() {
 			userHasAuthenticated(true);
 			navigate('/');
 		} catch (err) {
-			onError(err);
+			console.log(err);
 			setIsLoading(false);
 		}
 	}
@@ -67,12 +66,7 @@ function Signup() {
 				</Form.Group>
 				<Form.Group controlId="email">
 					<Form.Label>Email</Form.Label>
-					<Form.Control
-						type="email"
-						value={fields.email}
-						onChange={handleFieldChange}
-						name="email"
-					/>
+					<Form.Control type="email" value={fields.email} onChange={handleFieldChange} name="email" />
 				</Form.Group>
 				<Form.Group controlId="password">
 					<Form.Label>Password</Form.Label>
@@ -94,20 +88,14 @@ function Signup() {
 						name="confirmPassword"
 					/>
 				</Form.Group>
-				<LoaderButton
-					type="submit"
-					isLoading={isLoading}
-					disabled={!validateForm()}
-				>
+				<LoaderButton type="submit" isLoading={isLoading} disabled={!validateForm()}>
 					Sign up
 				</LoaderButton>
 			</Form>
 		);
 	}
 
-	return (
-		<div className="Signup">{newUser === null ? renderForm() : null}</div>
-	);
+	return <div className="Signup">{newUser === null ? renderForm() : null}</div>;
 }
 
 export default Signup;
