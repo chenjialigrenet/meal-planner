@@ -1,0 +1,5 @@
+The following dependencies need to be installed before running the server:
+
+- Django REST Framework: (https://www.django-rest-framework.org/)
+- Django CORS Headers: (https://pypi.org/project/django-cors-headers/)
+- DRF simple JWT: (https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
