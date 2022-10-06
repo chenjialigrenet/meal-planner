@@ -4,26 +4,26 @@
 
 ### What is it?
 
-It is a meal planner for household weekly meal planning, eating smarter and reducing time or food waste.
+This is a meal planner project for household weekly meal planning. I want to eat smarter, reduce time wastes on food shopping and preparation.
 
 ### Why I did this?
 
-The most asked question in our house is probably "What should we eat tonight?"
-As a member of a mordern over-working family, I should not scrach my head so hard every time I open the fridge door. There are so many things inside, but what to prepare for dinner is still too difficult as a question.
+The most frequently asked question in our family is probably "What should we eat tonight?"
+As a member of a mordern double-working family, I should not scrach my head so hard every time I open the fridge door. There are so many things inside, but what to prepare for dinner is still too difficult a question.
 Digging out expired dairy products from the bottom of the fridge, throwing away mushy spinach or rotten bell pepers makes me feel guilty.
-We deserve fresh quality (more balanced) food but ordering delivery can be a huge expense if it becomes a daily behaviour.
-How can I get more organized, optimize grocery shopping and food preparation time while limiting wastes and enjoying more my life without all kinds of hustles ? That's why I've chosen this project.
+We deserve fresh and balanced food and ordering delivery can be a huge expense if it becomes a daily routine.
+How can I get more organized, optimize grocery shopping and food preparation time while limiting wastes and enjoying more my life without all kinds of hustles ? Here comes this project.
 
 ### Technically
 
-It is a web application designed and implemented with Python and Javascript, using Django as server side framework and React as client side library.
-Since I used bootstrap/react-bootstrap, it can also be used on mobile devices.
+It is a web application designed and implemented with Python and Javascript, using Django as server side framework and ReactJS as client side library.
+Since I have chosen bootstrap for the styling, this application is also mobile compatible.
 
 ## Prerequisites
 
--   [Node.js](https://nodejs.org/en/)
 -   [Python3](https://www.python.org/downloads/)
 -   [Django](https://www.djangoproject.com/)
+-   [Node.js](https://nodejs.org/en/)
 -   [React.js](https://reactjs.org/)
 
 ## Dependencies
@@ -31,7 +31,6 @@ Since I used bootstrap/react-bootstrap, it can also be used on mobile devices.
 -   [Django REST Framework](https://www.django-rest-framework.org/)
 -   [Django CORS Headers](https://pypi.org/project/django-cors-headers/)
 -   [DRF simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
--   [npm](https://www.npmjs.com/)
 -   [React Router v6](https://reactrouter.com/)
 -   [Axios](https://axios-http.com/)
 -   [Bootstrap](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
@@ -42,15 +41,11 @@ Since I used bootstrap/react-bootstrap, it can also be used on mobile devices.
 -   [Framer-motion](https://www.framer.com/motion/)
 -   [Uuid](https://www.npmjs.com/package/uuid)
 
-## Installation
-
-Run `npm install` in the frontend folder to install all the dependecies.
-
 ## Usage
 
--   Run `python3 manage.py runserver` inside backend/project5 for the backend server
--   Run `npm start` for the client side server
--   May signup a new account or login directly using this account:
+-   Run `python3 manage.py runserver` inside backend folder to launch the server
+-   Run `npm start` inside frontend folder to launch the front end
+-   If you want to see the result with pre-loaded data, you can log in using this account:
     `alice@email.com`
     `12345678`
 
@@ -70,30 +65,30 @@ Run `npm install` in the frontend folder to install all the dependecies.
 
 ## Distinctiveness and Complexity
 
-This is my first project using two different programming languages with Django framework on the server side and ReactJs on the client side.
+This is a fullstack project using two different programming languages with Django framework (python) on the server side and ReactJS (javascript) on the client side.
 
--   Backend challenging points:
+-   Backend challenges:
 
     -   SQLite data modeling, with several many-to-many relations, tricky to handle nested data
     -   First time using Django framework, a bit overwhelmed by the Django REST Framework, CORS Headers and auth using simple JWT
     -   Serializer is a new concept to me who only used MERN stack before (full stack JavaScript)
 
--   Frontend challanging points:
-    -   ReactJs with hooks (useState, useContext, useEffect)
-    -   Auth, token management/refresh
-    -   Image upload (also Pillow on the servser side)
+-   Frontend challanges:
+    -   ReactJS with hooks and context API
+    -   Authentication setting up and token management/refresh
+    -   Image upload front and back(Pillow)
     -   Handle form input using custom hooks (hooksLib.jsx)
     -   Use React Select to dynamically fetch pulldown list data
     -   Pagination
-    -   UI/UX
+    -   UI/UX design
 
 ## To be continued
 
 -   Improve error handling and form validations
 -   Complete different scenarios when update recipe
--   Add editor to create recipe form
--   Testing
--   Landing page styling
+-   Implement text editor for recipe form creation
+-   Add unit testing/integration testing
+-   Style landing page
 -   Use css module to prevent css scope issues
 
 ## Some screen shots
