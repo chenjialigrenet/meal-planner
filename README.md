@@ -2,6 +2,8 @@
 
 ## About
 
+[Video demo](https://youtu.be/TA1nXeYJL0c)
+
 ### What is it?
 
 This is a meal planner project for household weekly meal planning. I want to eat smarter, reduce time wastes on food shopping and preparation.
